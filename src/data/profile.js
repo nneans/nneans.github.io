@@ -2,25 +2,25 @@
 export const profile = {
     name: "강민균",
     role: "Data Scientist & Developer",
-    // bio: "데이터와 AI로 복잡한 금융/사회 문제를 해결합니다.", // 요청에 따라 삭제
+    // bio: "데이터와 AI로 복잡한 금융/사회 문제를 해결합니다.",
     email: "nneans33@gmail.com",
     github: "https://github.com/nneans",
 
-    // 학력
+    // Education (Updated to English)
     education: [
         {
-            school: "부산대학교",
-            major: "통계학과 학사",
-            period: "2022.03 ~ 2026.02" // 졸업예정일 확인 필요하면 수정
+            school: "Pusan National University",
+            major: "B.S. in Statistics",
+            period: "2022.03 ~ 2026.02"
         },
         {
-            school: "부산대학교 산업공학과",
-            major: "빅데이터분석엔지니어링 연구실 (학석통합)",
-            period: "2026.03 ~ (예정)"
+            school: "Pusan National University",
+            major: "Dept. of Industrial Engineering, BAE Lab (Integrated M.S. & Ph.D.)",
+            period: "2026.03 ~ (Expected)"
         }
     ],
 
-    // 수상 실적: 실제 수상한 내역만 기재 + 참가 경험은 선택적으로 'Experience'나 프로젝트 설명에 녹이는 것 추천
+    // Awards
     awards: [
         {
             title: "지산학 산업 데이터 공모전",
@@ -37,12 +37,12 @@ export const profile = {
         {
             title: "대학생 창업 아이디어 경진대회",
             award: "장려상",
-            organizer: "부산광역시", // 주최 기관 정확하게 수정 필요시 요청
+            organizer: "부산광역시",
             date: "2025.10"
         }
     ],
 
-    // 기술 스택/관심사: React 제외, Time Series/BPM 등 데이터/연구 중심
+    // Skills
     skills: [
         "Time Series Analysis",
         "Process Mining (BPM)",
