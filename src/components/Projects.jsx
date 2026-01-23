@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Github, X, Download, Play, ExternalLink } from 'lucide-react'
+import { Github, X, Download, Play, ExternalLink, Mail, Award, BookOpen, User } from 'lucide-react'
 import MinoWorkflow from './MinoWorkflow'
 import { projects } from '../data/projects'
+import { profile } from '../data/profile'
 import './BentoGrid.css'
 
 function Projects() {
@@ -18,33 +19,116 @@ function Projects() {
         document.body.style.overflow = 'auto'
     }
 
+    // Animation Variants
+    const containerConfig = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    }
+
+    const itemConfig = {
+        hidden: { opacity: 0, y: 20 },
+        show: { opacity: 1, y: 0 }
+    }
+
     return (
-        <section id="projects" className="section">
+        <section id="portfolio" className="section" style={{ paddingTop: '2rem' }}>
             <div className="container">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    className="bento-grid"
+                    variants={containerConfig}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, margin: "-100px" }}
                 >
-                    <h2 className="section-title">
-                        Selected <span className="text-accent">Works</span>
-                    </h2>
-                    <p className="section-subtitle">
-                        데이터와 AI로 문제를 해결한 주요 프로젝트들입니다.
-                    </p>
-                </motion.div>
+                    {/* --- SPECIAL TILE 1: PROFILE --- */}
+                    <motion.article
+                        className="bento-card large profile-card"
+                        variants={itemConfig}
+                    >
+                        <div className="bento-content profile-content">
+                            <div className="profile-header">
+                                <div className="profile-avatar">👨‍💻</div>
+                                <div>
+                                    <h2 className="profile-name">{profile.name}</h2>
+                                    <p className="profile-role">{profile.role}</p>
+                                </div>
+                            </div>
+                            <p className="profile-bio">{profile.bio}</p>
 
-                <div className="bento-grid">
-                    {projects.map((project, index) => (
+                            <div className="profile-education">
+                                {profile.education.map((edu, i) => (
+                                    <div key={i} className="edu-item">
+                                        <BookOpen size={14} className="text-accent" />
+                                        <span>{edu.school} {edu.major}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="profile-links">
+                                <a href={profile.github} target="_blank" rel="noreferrer" className="icon-btn">
+                                    <Github size={20} />
+                                </a>
+                                <a href={`mailto:${profile.email}`} className="icon-btn">
+                                    <Mail size={20} />
+                                </a>
+                            </div>
+                        </div>
+                    </motion.article>
+
+                    {/* --- SPECIAL TILE 2: AWARDS --- */}
+                    <motion.article
+                        className="bento-card medium awards-card"
+                        variants={itemConfig}
+                    >
+                        <div className="bento-content awards-content">
+                            <div className="card-header">
+                                <Award className="text-accent" size={24} />
+                                <h3>Honors & Awards</h3>
+                            </div>
+                            <div className="awards-list">
+                                {profile.awards.map((award, i) => (
+                                    <div key={i} className="award-item">
+                                        <span className="award-date">{award.date}</span>
+                                        <div className="award-info">
+                                            <span className="award-title">{award.title}</span>
+                                            <span className="award-name">{award.award}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.article>
+
+                    {/* --- SPECIAL TILE 3: SKILLS --- */}
+                    <motion.article
+                        className="bento-card medium skills-card"
+                        variants={itemConfig}
+                    >
+                        <div className="bento-image-wrapper skill-bg-anim"></div>
+                        <div className="bento-content centered">
+                            <h3 className="bento-title" style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>
+                                Tech Stack
+                            </h3>
+                            <div className="bento-tech-stack justify-center">
+                                {profile.skills.map(skill => (
+                                    <span key={skill} className="tech-pill large">{skill}</span>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.article>
+
+                    {/* --- PROJECT TILES --- */}
+                    {projects.map((project) => (
                         <motion.article
                             key={project.id}
                             className={`bento-card ${project.bentoSize || 'small'}`}
                             onClick={() => openModal(project)}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            variants={itemConfig}
                             whileHover={{ scale: 1.02 }}
                         >
                             <div className="bento-image-wrapper">
@@ -73,7 +157,7 @@ function Projects() {
                             </div>
                         </motion.article>
                     ))}
-                </div>
+                </motion.div>
             </div>
 
             {/* Modal */}
@@ -176,7 +260,6 @@ function Projects() {
                                     )}
                                 </div>
 
-                                {/* Interactive Demo Embed (Mino specific) */}
                                 {selectedProject.hasDemo && selectedProject.demoUrl && (
                                     <div className="demo-section-container">
                                         <h4 className="demo-title">
@@ -192,7 +275,6 @@ function Projects() {
                                     </div>
                                 )}
 
-                                {/* Mino Workflow Diagram */}
                                 {selectedProject.title === 'Mino' && <MinoWorkflow />}
                             </div>
                         </motion.div>
