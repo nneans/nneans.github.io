@@ -1,32 +1,38 @@
 import minoDashboard from '../assets/mino-dashboard.png'
 import kbForForeigner from '../assets/kb-for-foreigner.png'
-import pnuEmptyClass from '../assets/pnu-empty-class.png'
-// minoLogo check
+// import pnuEmptyClass from '../assets/pnu-empty-class.png' // Removed
 
 export const projects = [
-    // 0. PNU 빈 강의실
+    // 0. Mino (Bento Highlight) - Moved to top as primary project
     {
-        id: 'pnu-empty-class',
+        id: 'mino',
         type: 'Personal Project',
-        title: 'PNU 빈 강의실',
-        subtitle: '부산대학교 빈 강의실 실시간 조회 서비스',
-        shortDesc: '부산대 캠퍼스의 빈 강의실을 실시간으로 조회하고 시간표를 확인하는 웹 서비스',
-        fullDesc: `부산대학교 학생들을 위해 개발한 빈 강의실 조회 및 시간표 확인 서비스입니다.
-        
-🎯 핵심 기능:
-• 건물별/강의실별 실시간 빈 강의실 현황 조회
-• 직관적인 시각적 시간표 제공 (1시간 단위 블록)
-• 건물/강의실 검색 및 즐겨찾기 기능
-• 다크 모드 기반의 깔끔한 UI/UX
+        title: 'Mino',
+        subtitle: 'AI Personal Finance Assistant',
+        shortDesc: 'Gmail 결제 알림을 AI가 자동 분석하는 지능형 가계부',
+        fullDesc: `Gmail 결제 알림을 자동으로 수집하여 AI가 소비 내역을 분석하고 분류하는 지능형 가계부입니다.
+
+🎯 주요 기능:
+• Gmail 결제 알림 자동 수집 및 파싱
+• LLM 기반 소비 내역 자동 분류 (Gemini, GPT, Claude, Ollama 지원)
+• Kakao Map 연동 소비 동선 지도 시각화
+• 월별 예산 관리 및 통계 대시보드
+• AI 채팅 기반 재무 상담
 
 🛠️ 기술적 특징:
-• Python(Pandas)을 이용한 대용량 수강편람 데이터 전처리 파이프라인 구축
-• 복잡한 시간표 데이터를 효율적으로 시각화하는 React 컴포넌트 구현
-• 반응형 디자인으로 모바일/PC 환경 최적화`,
-        tech: ['React', 'Python', 'Pandas', 'Vite'],
-        image: pnuEmptyClass,
-        period: '2026.01 ~ 진행중',
-        bentoSize: 'large', // 2x2 or large 2x1
+• Electron + React로 크로스플랫폼 데스크톱 앱 구현
+• Flask 백엔드로 안정적인 API 서버
+• SQLite로 로컬 데이터 저장 (개인정보 보호)
+• 다양한 LLM 지원 (OpenAI, Anthropic, Google, Ollama 등)`,
+        tech: ['React', 'Electron', 'Flask', 'LLM', 'Kakao Map', 'SQLite'],
+        github: 'https://github.com/nneans/mino-v4',
+        appDownload: '/Mino-1.0.0-arm64.dmg',
+        demoUrl: 'https://mino-frontend.vercel.app',
+        emoji: '💰',
+        image: minoDashboard,
+        period: '2025.12 ~ 진행중',
+        hasDemo: true,
+        bentoSize: 'hero',
     },
 
     // 1. KB AI Challenge
@@ -58,42 +64,10 @@ export const projects = [
         image: kbForForeigner,
         pptFile: '/kb-ai-challenge.pptx',
         period: '2025.06 ~ 2025.08',
-        bentoSize: 'medium', // 2x1
+        bentoSize: 'medium',
     },
 
-    // 2. Mino (Bento Highlight)
-    {
-        id: 'mino',
-        type: 'Personal Project',
-        title: 'Mino',
-        subtitle: 'AI Personal Finance Assistant',
-        shortDesc: 'Gmail 결제 알림을 AI가 자동 분석하는 지능형 가계부',
-        fullDesc: `Gmail 결제 알림을 자동으로 수집하여 AI가 소비 내역을 분석하고 분류하는 지능형 가계부입니다.
-
-🎯 주요 기능:
-• Gmail 결제 알림 자동 수집 및 파싱
-• LLM 기반 소비 내역 자동 분류 (Gemini, GPT, Claude, Ollama 지원)
-• Kakao Map 연동 소비 동선 지도 시각화
-• 월별 예산 관리 및 통계 대시보드
-• AI 채팅 기반 재무 상담
-
-🛠️ 기술적 특징:
-• Electron + React로 크로스플랫폼 데스크톱 앱 구현
-• Flask 백엔드로 안정적인 API 서버
-• SQLite로 로컬 데이터 저장 (개인정보 보호)
-• 다양한 LLM 지원 (OpenAI, Anthropic, Google, Ollama 등)`,
-        tech: ['React', 'Electron', 'Flask', 'LLM', 'Kakao Map', 'SQLite'],
-        github: 'https://github.com/nneans/mino-v4',
-        appDownload: '/Mino-1.0.0-arm64.dmg',
-        demoUrl: 'https://mino-frontend.vercel.app',
-        emoji: '💰',
-        image: minoDashboard,
-        period: '2025.12 ~ 진행중',
-        hasDemo: true,
-        bentoSize: 'hero', // Custom large size
-    },
-
-    // 3. 동서발전 풍력 발전량 예측 (예심 + 본선)
+    // 2. 동서발전 풍력 발전량 예측 (예심 + 본선)
     {
         id: 'wind-power',
         type: 'Competition',
@@ -109,7 +83,7 @@ export const projects = [
         bentoSize: 'small',
     },
 
-    // 4. 비짓부산패스 Plus+
+    // 3. 비짓부산패스 Plus+
     {
         id: 'visit-busan',
         type: 'Competition',
@@ -143,7 +117,7 @@ export const projects = [
         bentoSize: 'medium',
     },
 
-    // 5. 한식 레시피 정량 분석
+    // 4. 한식 레시피 정량 분석
     {
         id: 'korean-recipe',
         type: 'Research',
@@ -158,7 +132,7 @@ export const projects = [
         bentoSize: 'small',
     },
 
-    // 6. 지산학 산업 데이터 공모전 - 영업압박도지수
+    // 5. 지산학 산업 데이터 공모전 - 영업압박도지수
     {
         id: 'busan-index',
         type: 'Competition',
@@ -172,7 +146,7 @@ export const projects = [
         bentoSize: 'small',
     },
 
-    // 7. LG전자 프로세스 마이닝
+    // 6. LG전자 프로세스 마이닝
     {
         id: 'lg-pm',
         type: 'Research',
@@ -187,7 +161,7 @@ BAE LAB에서 진행 중인 연구입니다.`,
         bentoSize: 'small',
     },
 
-    // 8. DB손해보험
+    // 7. DB손해보험
     {
         id: 'db-ins',
         type: 'Competition',
