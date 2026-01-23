@@ -1,0 +1,229 @@
+
+/* Bento Grid Layout */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+@media (min-width: 768px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(200px, auto);
+    }
+}
+
+/* Card Sizes */
+.bento-card {
+    background: rgba(30, 30, 30, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bento-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(100, 108, 255, 0.3);
+    z-index: 10;
+}
+
+.bento-card.hero {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.bento-card.large {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.bento-card.medium {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+/* Desktop spans */
+@media (min-width: 1024px) {
+    .bento-card.hero {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+    .bento-card.large {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+    .bento-card.medium {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+    .bento-card.small {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+}
+
+/* Card Content - Image Area */
+.bento-image-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.bento-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    filter: brightness(0.7);
+}
+
+.bento-card:hover .bento-image-wrapper img {
+    transform: scale(1.1);
+    filter: brightness(0.5);
+}
+
+.bento-emoji-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+}
+
+/* Card Content - Text Area */
+.bento-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0) 90%);
+    opacity: 1; /* Always visible for accessibility, or adjust */
+}
+
+/* For small cards, make content fill */
+.bento-card.small .bento-content {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: rgba(0,0,0,0.4);
+}
+.bento-card.small:hover .bento-content {
+    background: rgba(0,0,0,0.7);
+}
+
+.bento-type {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #646cff; /* Vivid Purple/Blue */
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: rgba(0,0,0,0.5);
+    padding: 2px 8px;
+    border-radius: 12px;
+    align-self: flex-start;
+}
+
+.bento-card.small .bento-type {
+    align-self: center;
+}
+
+.bento-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.bento-card.small .bento-title {
+    font-size: 1.2rem;
+}
+
+.bento-desc {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.bento-tech-stack {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tech-pill {
+    font-size: 0.7rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px 8px;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+    color: #eee;
+}
+
+/* Modal Enhancements */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: #1a1a1a;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    border-radius: 24px;
+    overflow-y: auto;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Typography Enhancements */
+.text-gradient {
+    background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

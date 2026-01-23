@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 public/*.dmg
 public/*.pptx
+.vercel
