@@ -1,0 +1,185 @@
+/* Main Content - List Layout */
+.main-content {
+    flex: 1;
+    max-width: 900px;
+    /* Limit width for better readability in list view */
+}
+
+/* Tabs - Minimalist */
+.content-header {
+    margin-bottom: 3rem;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+    border-bottom: 2px solid #f1f5f9;
+    position: static;
+}
+
+.tabs {
+    display: flex;
+    gap: 2rem;
+}
+
+.tab-btn {
+    padding: 0.5rem 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text-tertiary);
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+    border-radius: 0;
+}
+
+.tab-btn.active {
+    color: var(--color-text-primary);
+    font-weight: 700;
+    background: transparent;
+    box-shadow: none;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-text-primary);
+}
+
+/* Projects List - No Boxes */
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    /* Spacing handled by padding/border */
+}
+
+.project-row {
+    display: flex;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: all 0.2s;
+    align-items: flex-start;
+    background: transparent;
+}
+
+.project-row:first-child {
+    padding-top: 0;
+}
+
+.project-row:hover .project-title h3 {
+    color: var(--color-accent-primary);
+}
+
+.project-row:hover .row-image img,
+.project-row:hover .row-image .placeholder {
+    transform: scale(1.03);
+}
+
+/* Row Image - Left Side */
+.row-image {
+    width: 180px;
+    height: 120px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.row-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.row-image .placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background: #f1f5f9;
+    transition: transform 0.4s ease;
+}
+
+/* Row Content - Right Side */
+.row-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.project-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.2rem;
+}
+
+.project-type {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-accent-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.project-title h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-text-primary);
+    transition: color 0.2s;
+}
+
+.project-desc {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.row-tags {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.row-tags span {
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+}
+
+.row-tags span::before {
+    content: '#';
+    margin-right: 1px;
+    opacity: 0.6;
+}
+
+/* Clean Modal Refinements (Reuse existing structure but clean up styles) */
+/* ... keeping modal styles but ensuring they match the clean vibe ... */
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .project-row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .row-image {
+        width: 100%;
+        height: 200px;
+    }
+}

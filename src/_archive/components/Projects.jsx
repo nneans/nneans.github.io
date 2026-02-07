@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Github, X, Download, Play, ExternalLink, Mail, Award, BookOpen, User } from 'lucide-react'
 import MinoWorkflow from './MinoWorkflow'
+import MinoInstallGuide from './MinoInstallGuide'
 import { projects } from '../data/projects'
 import { profile } from '../data/profile'
 import './BentoGrid.css'
@@ -276,6 +277,7 @@ function Projects() {
                                 )}
 
                                 {selectedProject.title === 'Mino' && <MinoWorkflow />}
+                                {selectedProject.title === 'Mino' && <MinoInstallGuide />}
                             </div>
                         </motion.div>
                     </motion.div>

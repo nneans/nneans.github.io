@@ -1,6 +1,15 @@
 # 강민균 Portfolio
 
-개인 포트폴리오 웹사이트 - React + Vite로 제작
+개인 포트폴리오 웹사이트 - React + Vite + Three.js로 제작
+
+## ✨ 특징
+
+- 🎨 **3D 인터랙티브 그래프**: Three.js로 구현한 프로젝트 아카이브
+- 📱 **완벽한 반응형**: 모바일, 태블릿, 데스크톱 최적화
+- ⚡ **성능 최적화**: 코드 스플리팅, Lazy Loading
+- ♿ **접근성**: ARIA 레이블, 키보드 네비게이션
+- 🔍 **SEO 최적화**: sitemap, robots.txt, Open Graph 메타 태그
+- 🎯 **프린트 지원**: 인쇄 시 최적화된 레이아웃
 
 ## 🚀 시작하기
 
@@ -39,72 +48,132 @@ vercel --prod
 
 ## ✏️ 커스터마이징
 
-### 개인 정보 수정
-- `src/components/Hero.jsx` - 이름, 타이틀, 소개글
-- `src/components/About.jsx` - 자기소개, 연구 관심사
-- `src/components/Contact.jsx` - 이메일, 소셜 링크
-- `src/components/Experience.jsx` - 학력, 경력
-
-### 프로젝트 추가
-`src/components/Projects.jsx`의 `projects` 배열에 추가:
+### 1. 개인 정보 수정
+`src/data/profile.js` 파일에서 모든 정보 관리:
 ```javascript
-{
-  type: 'Research Project',
-  title: '프로젝트 제목',
-  description: '프로젝트 설명...',
-  tech: ['Python', 'PyTorch'],
-  github: 'https://github.com/...',
-  demo: 'https://demo.com',
+export const profile = {
+  name: '강민균',
+  university: 'Pusan National University',
+  education: [...],
+  researchInterests: [...],
+  // ...
 }
 ```
 
-### 논문 추가 (석사 입학 후)
-`src/components/Publications.jsx`의 `publications` 배열에 추가:
+### 2. 이미지 교체
+```bash
+# 프로필 이미지
+/public/profile.png (120x120 권장)
+
+# 파비콘
+/public/favicon.png (32x32)
+
+# OG 이미지 (소셜 미디어 공유)
+/public/og-image.png (1200x630)
+```
+
+### 3. SEO 설정
+`index.html`에서 메타 태그 수정:
+- 타이틀, 설명 변경
+- OG 이미지 URL 업데이트
+- 도메인 주소 변경
+
+`public/sitemap.xml`에서 배포된 도메인으로 URL 업데이트
+
+### 4. 프로젝트 추가
+`src/data/profile.js`의 배열에 추가:
+
+**연구 프로젝트:**
 ```javascript
-{
-  type: 'Conference Paper',
-  title: '논문 제목',
-  authors: '저자1, 저자2, ...',
-  venue: '학회명, 년도',
-  links: {
-    paper: 'https://...',
-    code: 'https://github.com/...',
+researchExperience: [
+  {
+    title: '프로젝트 제목',
+    subtitle: '부제목',
+    affiliation: '소속 기관',
+    period: '2024.01 - 2024.12',
+    role: '역할',
+    description: '프로젝트 설명...',
+    tech: ['Python', 'PyTorch'],
+    links: [{ name: 'GitHub', url: 'https://...' }],
   }
-}
+]
+```
+
+**대회:**
+```javascript
+competitions: [
+  {
+    title: '대회명',
+    affiliation: '주최 기관',
+    period: '2024.01',
+    role: '수상 내역',
+    description: '설명...',
+  }
+]
 ```
 
 ## 🛠 기술 스택
 
 - **Frontend**: React 19, Vite
-- **Styling**: Vanilla CSS (Design System)
-- **Fonts**: Inter, JetBrains Mono (Google Fonts)
+- **3D Graphics**: Three.js, @react-three/fiber, @react-three/drei
+- **Styling**: Vanilla CSS (모바일 반응형)
+- **Icons**: lucide-react
 - **Deploy**: Vercel
+- **Performance**: Code Splitting, Lazy Loading, Suspense
 
 ## 📁 프로젝트 구조
 
 ```
 portfolio/
 ├── public/
+│   ├── profile.png         # 프로필 이미지
+│   ├── favicon.png         # 파비콘
+│   ├── og-image.png        # OG 이미지
+│   ├── robots.txt          # 검색엔진 크롤러
+│   └── sitemap.xml         # 사이트맵
 ├── src/
 │   ├── components/
-│   │   ├── Header.jsx
-│   │   ├── Hero.jsx
-│   │   ├── About.jsx
-│   │   ├── Projects.jsx
-│   │   ├── Skills.jsx
-│   │   ├── Publications.jsx
-│   │   ├── Experience.jsx
-│   │   ├── Contact.jsx
-│   │   └── Footer.jsx
+│   │   ├── ProjectGraph.jsx      # 3D 그래프
+│   │   ├── ProjectModal.jsx      # 프로젝트 상세 모달
+│   │   ├── LoadingSpinner.jsx    # 로딩 컴포넌트
+│   │   └── ...
+│   ├── data/
+│   │   └── profile.js            # 모든 개인 정보
 │   ├── App.jsx
-│   ├── App.css
-│   ├── index.css
+│   ├── App.css                   # 반응형 스타일
 │   └── main.jsx
-├── index.html
-├── vercel.json
+├── index.html                    # SEO 메타 태그
+├── vite.config.js                # 성능 최적화 설정
 └── package.json
 ```
+
+## 🎯 성능 최적화
+
+- ✅ **코드 스플리팅**: React, Three.js 벤더 청크 분리
+- ✅ **Lazy Loading**: 이미지 지연 로딩
+- ✅ **Suspense**: 3D 그래프 비동기 로딩
+- ✅ **Minification**: Terser를 통한 최소화
+- ✅ **Tree Shaking**: 사용하지 않는 코드 제거
+
+## 📱 반응형 디자인
+
+- Desktop: 1024px+
+- Tablet: 768px - 1023px
+- Mobile: < 768px
+- Small Mobile: < 480px
+
+## ♿ 접근성
+
+- ARIA 레이블 지원
+- 키보드 네비게이션
+- 고대비 모드 지원
+- 모션 감소 옵션 (`prefers-reduced-motion`)
+- 스크린 리더 호환
 
 ## 📝 라이선스
 
 MIT License
+
+---
+
+Made with ❤️ by 강민균

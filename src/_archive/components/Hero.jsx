@@ -85,18 +85,9 @@ function Hero() {
                                     transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
                                 />
                             </div>
-                            <div className="code-snippet">
-                                <pre>
-                                    <code>
-                                        {`const future = await AI.predict({
-  data: financial_history,
-  goal: "freedom"
-});`}
-                                    </code>
-                                </pre>
-                            </div>
+
                         </div>
-                        <div className="visual-tag">Mino AI v4.0</div>
+
                     </motion.div>
                 </div>
             </div>
