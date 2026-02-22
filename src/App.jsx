@@ -3,6 +3,7 @@ import './App.css'
 import { profile } from './data/profile'
 import ProjectGraph from './components/ProjectGraph'
 import ProjectModal from './components/ProjectModal'
+import LikeButton from './components/LikeButton'
 import { Github, Mail, MapPin } from 'lucide-react';
 
 const ProjectCard = ({ project, isAward, simple }) => (
@@ -60,15 +61,18 @@ function App() {
       </nav>
 
       <div className="main-layout">
-        {/* Left Sidebar - Profile */}
         <aside className="sidebar">
-          <div className="profile-image">
-            <img
-              src="/profile.png"
-              alt={`${profile.name} profile`}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              loading="lazy"
-            />
+          <div className="relative inline-block w-[160px] mb-4">
+            <div className="profile-image" style={{ marginBottom: 0 }}>
+              <img
+                src="/profile.png"
+                alt={`${profile.name} profile`}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                loading="lazy"
+              />
+            </div>
+            {/* Attached Like Button */}
+            <LikeButton />
           </div>
 
           <h3 className="sidebar-name">{profile.name}</h3>
@@ -216,7 +220,6 @@ function App() {
         />
       )}
 
-      {/* Footer Removed */}
     </div>
   )
 }
