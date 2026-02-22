@@ -52,7 +52,7 @@ function App() {
       {/* Top Navigation */}
       <nav className="top-nav" aria-label="Main navigation">
         <a href="#about" aria-label="Go to homepage section">Homepage</a>
-        <a href="#awards" aria-label="Go to honors and awards section">Honors & Awards</a>
+        <a href="#awards" aria-label="Go to awards section">Awards</a>
         {profile.publications && profile.publications.length > 0 && (
           <a href="#publications" aria-label="Go to publications section">Publications</a>
         )}
@@ -76,7 +76,6 @@ function App() {
 
 
 
-          {/* Education in Sidebar */}
           <div className="sidebar-education">
             {profile.education.map((edu, i) => (
               <div key={i} className="sidebar-edu-item">
@@ -135,50 +134,47 @@ function App() {
               Hi, I'm {profile.name} :)
             </h1>
             {profile.tagline && (
-              <p className="intro-tagline">{profile.tagline}</p>
+              <h2 className="intro-tagline">{profile.tagline}</h2>
             )}
+            {profile.bioLine2 && (
+              <p className="intro-bio">{profile.bioLine2}</p>
+            )}
+            {profile.bioLine1 && (
+              <p className="intro-bio">{profile.bioLine1}</p>
+            )}
+            {profile.internships && profile.internships.map((intern, i) => (
+              <p key={i} className="intro-bio">{intern.company}, {intern.location} ({intern.period})</p>
+            ))}
           </section>
 
-          {/* News Section */}
-          {profile.news && profile.news.length > 0 && (
-            <section id="news" className="section">
-              <h2 className="section-title">News</h2>
-              <ul className="news-list">
-                {profile.news.map((item, i) => (
-                  <li key={i}>
-                    <span className="news-date">{item.date}:</span>
-                    <span className="news-emoji">{item.emoji}</span>
-                    {item.link ? (
-                      <a href={item.link} target="_blank" rel="noreferrer">{item.content}</a>
-                    ) : (
-                      <span>{item.content}</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+
 
           {/* 1. Honors & Awards */}
           {profile.competitions && profile.competitions.length > 0 && (
             <section id="awards" className="section">
-              <h2 className="section-title">Honors & Awards</h2>
+              <h2 className="section-title">Awards</h2>
               <div className="awards-list-simple">
-                {profile.competitions.map((project, i) => (
+                {profile.competitions.filter(p => !p.hideInList).map((project, i) => (
                   <div key={i} className="award-simple-item">
                     <span className="award-date">{project.period}</span>
                     <span className="award-content">
                       {project.affiliation} · {project.title} · <strong>{project.role}</strong>
-                      {project.description && ` - ${project.description}`}
-                      {project.links && project.links.length > 0 && (
-                        <a href={project.links[0].url} target="_blank" rel="noreferrer" className="award-link">↗</a>
-                      )}
                     </span>
                   </div>
                 ))}
               </div>
             </section>
           )}
+
+          {/* 3. Project Archive */}
+          <section id="archive" className="section">
+            <h2 className="section-title">Archive</h2>
+            <ProjectGraph
+              profiles={profile}
+              onNodeClick={setSelectedProject}
+              selectedProject={selectedProject}
+            />
+          </section>
 
           {/* 2. Publications (논문 나오면 표시) */}
           {profile.publications && profile.publications.length > 0 && (
@@ -208,30 +204,7 @@ function App() {
             </section>
           )}
 
-          {/* 3. Project Archive */}
-          <section id="archive" className="section">
-            <h2 className="section-title">Project Archive</h2>
 
-            <ProjectGraph
-              profiles={profile}
-              onNodeClick={setSelectedProject}
-              selectedProject={selectedProject}
-            />
-          </section>
-
-          {/* Internships - Optional */}
-          {profile.internships && profile.internships.length > 0 && (
-            <section id="internships" className="section">
-              <h2 className="section-title">Internships</h2>
-              <ul className="internship-list">
-                {profile.internships.map((intern, i) => (
-                  <li key={i}>
-                    <span className="intern-period">{intern.period}</span>, {intern.company}, {intern.location}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
         </main>
       </div>
 

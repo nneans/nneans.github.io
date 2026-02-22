@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import { Github, Download } from 'lucide-react'
+import SlideCarousel from './SlideCarousel'
 
 const ProjectModal = ({ project, onClose }) => {
     useEffect(() => {
         if (project) {
-            // body에 overflow hidden 추가 (스크롤 방지)
             document.body.style.overflow = 'hidden'
         }
-
-        // 클린업: 모달이 닫힐 때
         return () => {
             document.body.style.overflow = 'auto'
         }
@@ -16,7 +15,6 @@ const ProjectModal = ({ project, onClose }) => {
     if (!project) return null
 
     const handleOverlayClick = (e) => {
-        // overlay를 직접 클릭했을 때만 닫기
         if (e.target === e.currentTarget) {
             onClose?.()
         }
@@ -32,13 +30,14 @@ const ProjectModal = ({ project, onClose }) => {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                backdropFilter: 'blur(8px)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 zIndex: 9999,
                 pointerEvents: 'auto',
-                animation: 'fadeIn 0.2s ease-out',
+                animation: 'fadeIn 0.25s ease-out',
             }}
         >
             <div
@@ -46,221 +45,240 @@ const ProjectModal = ({ project, onClose }) => {
                 onClick={e => e.stopPropagation()}
                 style={{
                     position: 'relative',
-                    backgroundColor: 'white',
-                    borderRadius: '12px',
-                    maxWidth: '600px',
-                    maxHeight: '80vh',
+                    background: 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
+                    borderRadius: '16px',
+                    width: '90%',
+                    maxWidth: '940px',
+                    maxHeight: '90vh',
                     overflowY: 'auto',
-                    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+                    boxShadow: '0 25px 80px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.1)',
                     pointerEvents: 'auto',
-                    animation: 'slideUp 0.3s ease-out',
+                    animation: 'slideUp 0.35s ease-out',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
                 }}
             >
+                {/* 닫기 버튼 */}
                 <button
                     className="modal-close"
                     onClick={onClose}
                     style={{
                         position: 'absolute',
-                        top: '16px',
-                        right: '16px',
-                        background: 'none',
+                        top: '20px',
+                        right: '20px',
+                        background: 'rgba(0, 0, 0, 0.05)',
                         border: 'none',
-                        fontSize: '28px',
+                        fontSize: '24px',
                         cursor: 'pointer',
-                        color: '#999',
+                        color: '#64748b',
                         zIndex: 10000,
-                        width: '36px',
-                        height: '36px',
+                        width: '44px',
+                        height: '44px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        borderRadius: '6px',
+                        borderRadius: '10px',
                         transition: 'all 0.2s ease',
                     }}
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#f0f0f0'
-                        e.currentTarget.style.color = '#333'
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.1)'
+                        e.currentTarget.style.color = '#1e293b'
+                        e.currentTarget.style.transform = 'scale(1.05)'
                     }}
                     onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent'
-                        e.currentTarget.style.color = '#999'
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.05)'
+                        e.currentTarget.style.color = '#64748b'
+                        e.currentTarget.style.transform = 'scale(1)'
                     }}
                 >
                     ✕
                 </button>
 
-                <div style={{ padding: '32px 32px 24px 32px' }}>
-                    {/* 제목 */}
+                <div style={{ padding: '44px 52px 40px 52px' }}>
+                    {/* 메인 제목 (긴 프로젝트명) */}
                     <h2 style={{
                         marginTop: 0,
-                        marginBottom: '8px',
-                        fontSize: '1.8rem',
+                        marginBottom: '12px',
+                        fontSize: '2.25rem',
                         fontWeight: '700',
-                        color: '#1f2937',
-                        fontFamily: '"Segoe UI", -apple-system, sans-serif',
+                        color: '#111827',
+                        fontFamily: "'Nanum Pen Script', cursive",
+                        lineHeight: '1.4',
+                        letterSpacing: '-0.3px',
                     }}>
                         {project.title}
                     </h2>
 
-                    {/* 부제목 */}
-                    {project.subtitle && (
-                        <p style={{
-                            fontSize: '1rem',
-                            color: '#6b7280',
-                            margin: '0 0 16px 0',
-                            fontFamily: '"Segoe UI", -apple-system, sans-serif',
-                        }}>
-                            {project.subtitle}
-                        </p>
-                    )}
-
-                    {/* 메타 정보 */}
+                    {/* 메타 정보 (주최측 / 날짜 / 수상) */}
                     <div style={{
-                        fontSize: '0.95rem',
-                        color: '#6b7280',
-                        marginBottom: '20px',
-                        paddingBottom: '16px',
-                        borderBottom: '1px solid #e5e7eb',
-                        fontFamily: '"Segoe UI", -apple-system, sans-serif',
+                        fontSize: '1.4rem',
+                        color: '#94a3b8',
+                        marginBottom: '24px',
+                        paddingBottom: '20px',
+                        borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+                        fontFamily: "'Nanum Pen Script', cursive",
+                        fontWeight: '400',
+                        lineHeight: '1.5',
                     }}>
                         {project.affiliation && (
+                            <span>{project.affiliation}</span>
+                        )}
+                        {project.affiliation && project.period && (
+                            <span style={{ margin: '0 8px', color: '#cbd5e1' }}>/</span>
+                        )}
+                        {project.period && (
+                            <span>{project.period}</span>
+                        )}
+                        {project.role && (
                             <>
-                                <span style={{ fontWeight: '500' }}>{project.affiliation}</span>
-                                <span style={{ margin: '0 8px' }}>·</span>
+                                <span style={{ margin: '0 8px', color: '#cbd5e1' }}>/</span>
+                                <span>{project.role}</span>
                             </>
                         )}
-                        <span>{project.period}</span>
+                        {project.subtitle && (
+                            <>
+                                <br />
+                                <span style={{ color: '#b0b8c4', fontSize: '1.3rem' }}>{project.subtitle}</span>
+                                {project.tech && project.tech.length > 0 && (
+                                    <span style={{ marginLeft: '12px' }}>
+                                        {project.tech.map((t, i) => (
+                                            <span
+                                                key={i}
+                                                style={{
+                                                    fontSize: '1.1rem',
+                                                    color: '#94a3b8',
+                                                    fontFamily: "'Nanum Pen Script', cursive",
+                                                    fontWeight: '400',
+                                                    marginRight: '8px',
+                                                }}
+                                            >
+                                                #{t}
+                                            </span>
+                                        ))}
+                                    </span>
+                                )}
+                            </>
+                        )}
                     </div>
 
                     {/* 설명 */}
                     {project.description && (
                         <p style={{
-                            lineHeight: '1.7',
-                            color: '#4b5563',
-                            marginBottom: '20px',
-                            fontSize: '0.95rem',
-                            fontFamily: '"Segoe UI", -apple-system, sans-serif',
+                            lineHeight: '1.8',
+                            color: '#475569',
+                            marginBottom: '28px',
+                            paddingBottom: '28px',
+                            borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+                            fontSize: '1.25rem',
+                            fontFamily: "'Nanum Pen Script', cursive",
+                            whiteSpace: 'pre-wrap',
                         }}>
                             {project.description}
                         </p>
                     )}
 
-                    {/* 기술 스택 */}
-                    {project.tech && project.tech.length > 0 && (
+                    {/* 기술 스택 - 인라인 태그 (박스 없이) */}
+
+
+                    {/* 발표자료 슬라이드 또는 프로젝트 이미지 캐러셀 */}
+                    {project.slides ? (
                         <div style={{
+                            marginRight: '0px',
                             marginBottom: '20px',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                            border: '1px solid rgba(0,0,0,0.05)'
                         }}>
-                            <p style={{
-                                fontSize: '0.85rem',
-                                fontWeight: '600',
-                                color: '#6b7280',
-                                marginBottom: '8px',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.5px',
-                            }}>
-                                Technologies
-                            </p>
-                            <div style={{
-                                display: 'flex',
-                                gap: '8px',
-                                flexWrap: 'wrap',
-                            }}>
-                                {project.tech.map((t, i) => (
-                                    <span
-                                        key={i}
-                                        style={{
-                                            backgroundColor: '#f3f4f6',
-                                            padding: '6px 12px',
-                                            borderRadius: '20px',
-                                            fontSize: '0.85rem',
-                                            color: '#4b5563',
-                                            border: '1px solid #e5e7eb',
-                                        }}
-                                    >
-                                        {t}
-                                    </span>
-                                ))}
-                            </div>
+                            <SlideCarousel
+                                slides={Array.from({ length: project.slides.count }, (_, i) => `${project.slides.folder}slide-${i + 1}.png`)}
+                                title={project.title}
+                            />
+                        </div>
+                    ) : project.images ? (
+                        <div style={{
+                            marginRight: '0px',
+                            marginBottom: '20px',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                            border: '1px solid rgba(0,0,0,0.05)'
+                        }}>
+                            <SlideCarousel slides={project.images} title={project.title} />
+                        </div>
+                    ) : null}
+
+                    {/* 다운로드 링크 */}
+                    {project.download && (
+                        <div style={{ marginBottom: '16px' }}>
+                            <a
+                                href={project.download.url}
+                                download
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    textDecoration: 'none',
+                                    color: '#64748b',
+                                    fontSize: '1.1rem',
+                                    fontWeight: '500',
+                                    cursor: 'pointer',
+                                    transition: 'color 0.2s ease',
+                                    fontFamily: "'Nanum Pen Script', cursive",
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.color = '#334155'
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.color = '#64748b'
+                                }}
+                            >
+                                <Download size={18} /> {project.download.name}
+                            </a>
                         </div>
                     )}
 
-                    {/* 링크 및 자료 */}
-                    <div style={{
-                        display: 'flex',
-                        gap: '10px',
-                        flexWrap: 'wrap',
-                        paddingTop: '16px',
-                        borderTop: '1px solid #e5e7eb',
-                    }}>
-                        {project.materials?.map((m, i) => (
-                            <a
-                                key={`material-${i}`}
-                                href={m.url}
-                                target="_blank"
-                                rel="noreferrer"
-                                style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '6px',
-                                    padding: '8px 14px',
-                                    backgroundColor: '#f3f4f6',
-                                    border: '1px solid #d1d5db',
-                                    borderRadius: '6px',
-                                    textDecoration: 'none',
-                                    color: '#4b5563',
-                                    fontSize: '0.9rem',
-                                    fontWeight: '500',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s ease',
-                                    fontFamily: '"Segoe UI", -apple-system, sans-serif',
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.backgroundColor = '#e5e7eb'
-                                    e.currentTarget.style.borderColor = '#9ca3af'
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.backgroundColor = '#f3f4f6'
-                                    e.currentTarget.style.borderColor = '#d1d5db'
-                                }}
-                            >
-                                📄 {m.name}
-                            </a>
-                        ))}
-                        {project.links?.map((l, i) => (
-                            <a
-                                key={`link-${i}`}
-                                href={l.url}
-                                target="_blank"
-                                rel="noreferrer"
-                                style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '6px',
-                                    padding: '8px 14px',
-                                    backgroundColor: '#dbeafe',
-                                    border: '1px solid #93c5fd',
-                                    borderRadius: '6px',
-                                    textDecoration: 'none',
-                                    color: '#1e40af',
-                                    fontSize: '0.9rem',
-                                    fontWeight: '500',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s ease',
-                                    fontFamily: '"Segoe UI", -apple-system, sans-serif',
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.backgroundColor = '#bfdbfe'
-                                    e.currentTarget.style.borderColor = '#60a5fa'
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.backgroundColor = '#dbeafe'
-                                    e.currentTarget.style.borderColor = '#93c5fd'
-                                }}
-                            >
-                                🔗 {l.name}
-                            </a>
-                        ))}
-                    </div>
+                    {/* 링크 (materials 제외, links만 표시) */}
+                    {project.links?.length > 0 && (
+                        <div style={{
+                            display: 'flex',
+                            gap: '16px',
+                            flexWrap: 'wrap',
+                            paddingTop: '20px',
+                            borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+                        }}>
+                            {project.links.map((l, i) => {
+                                const isGithub = l.name.toLowerCase().includes('github') || l.name.toLowerCase().includes('homepage') || l.url.includes('github')
+                                return (
+                                    <a
+                                        key={`link-${i}`}
+                                        href={l.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        style={{
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            gap: '6px',
+                                            textDecoration: 'none',
+                                            color: '#64748b',
+                                            fontSize: '1.4rem',
+                                            fontWeight: '500',
+                                            cursor: 'pointer',
+                                            transition: 'color 0.2s ease',
+                                            fontFamily: "'Nanum Pen Script', cursive",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.color = '#334155'
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.color = '#64748b'
+                                        }}
+                                    >
+                                        {isGithub ? <Github size={18} /> : '🔗'} {l.name}
+                                    </a>
+                                )
+                            })}
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -276,33 +294,34 @@ const ProjectModal = ({ project, onClose }) => {
                 
                 @keyframes slideUp {
                     from {
-                        transform: translateY(20px);
+                        transform: translateY(30px) scale(0.97);
                         opacity: 0;
                     }
                     to {
-                        transform: translateY(0);
+                        transform: translateY(0) scale(1);
                         opacity: 1;
                     }
                 }
                 
                 .modal-content::-webkit-scrollbar {
-                    width: 6px;
+                    width: 8px;
                 }
                 
                 .modal-content::-webkit-scrollbar-track {
                     background: #f1f5f9;
+                    border-radius: 4px;
                 }
                 
                 .modal-content::-webkit-scrollbar-thumb {
                     background: #cbd5e1;
-                    border-radius: 3px;
+                    border-radius: 4px;
                 }
                 
                 .modal-content::-webkit-scrollbar-thumb:hover {
                     background: #94a3b8;
                 }
             `}</style>
-        </div>
+        </div >
     )
 }
 

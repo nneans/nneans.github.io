@@ -50,8 +50,8 @@ const CameraRig = ({ targetPosition, isResetting, onFinish, onResetFinish }) => 
             controls.target.lerp(new THREE.Vector3(...targetPosition), 6 * delta)
             controls.update()
 
-            // 거리 1.5 이하로 들어오면 도착 처리 (팝업 확실하게 열기)
-            if (!arrivedRef.current && camera.position.distanceTo(targetCamPos) < 1.5) {
+            // 거리 2.0 이하로 들어오면 도착 처리 (적절한 속도로 팝업 열기)
+            if (!arrivedRef.current && camera.position.distanceTo(targetCamPos) < 2.0) {
                 arrivedRef.current = true
                 onFinish?.()
             }
@@ -144,21 +144,21 @@ const ProjectNode = ({ project, position, colors, index, onClick, allPositions }
             </mesh>
 
             {/* 라벨 */}
-            <Html distanceFactor={12} position={[0, nodeSize + 0.7, 0]} center style={{ pointerEvents: 'none' }}>
-                <div style={{ opacity: hovered ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: 'none' }}>
+            <Html distanceFactor={12} position={[0, nodeSize + 0.5, 0]} center style={{ pointerEvents: 'none' }}>
+                <div style={{ opacity: hovered ? 1 : 0, transition: 'opacity 0.15s', pointerEvents: 'none' }}>
                     <div style={{
-                        background: 'rgba(255,255,255,0.97)',
-                        padding: '10px 14px',
-                        borderRadius: '8px',
-                        fontSize: '12px',
+                        background: 'rgba(255,255,255,0.95)',
+                        padding: '8px 14px',
+                        borderRadius: '6px',
+                        fontSize: '13px',
                         fontWeight: '600',
-                        color: '#1e293b',
-                        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                        color: '#334155',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                         whiteSpace: 'nowrap',
-                        fontFamily: '"Segoe UI", -apple-system, sans-serif',
-                        borderLeft: `3px solid ${colors.primary}`,
+                        fontFamily: "'Nanum Pen Script', cursive",
+                        borderLeft: `2px solid ${colors.primary}`,
                     }}>
-                        {project.title.length > 32 ? project.title.slice(0, 32) + '...' : project.title}
+                        {project.graphLabel || (project.title.length > 20 ? project.title.slice(0, 20) + '...' : project.title)}
                     </div>
                 </div>
             </Html>
@@ -239,7 +239,7 @@ const ProjectArchive = ({ profiles, onNodeClick, selectedProject }) => {
             ref={canvasRef}
             style={{
                 width: '100%',
-                height: '400px',
+                height: '270px',
                 borderRadius: '12px',
                 overflow: 'hidden',
                 position: 'relative',

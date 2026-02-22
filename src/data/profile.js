@@ -3,7 +3,9 @@ export const profile = {
     name: "MinGyun Kang",
     nameKo: "강민균",
     role: "M.S. Student",
-    tagline: "Interested in Time Series Analysis & Process Mining",
+    tagline: "Interested in Process Mining & Time Series Analysis",
+    bioLine1: "Undergraduate Student at BAE LAB (2025.08 - )",
+    bioLine2: "Integrated B.S.-M.S. program at BAE LAB (2026.03 - )",
     affiliation: "Graduate School of Data Science",
     university: "Pusan National University",
     lab: "BAE LAB",
@@ -59,6 +61,7 @@ export const profile = {
     researchExperience: [
         {
             title: "LG전자 프로세스 마이닝",
+            graphLabel: "LG전자 프로세스 마이닝",
             subtitle: "고객 사용 패턴 기반 개인화 서비스 연구",
             affiliation: "BAE LAB",
             period: "2026.01 ~ ing",
@@ -74,21 +77,20 @@ export const profile = {
     // 2. Industry Projects (산학 협력)
     industryProjects: [
         {
-            title: "보험 해지 고객 인터뷰 텍스트 마이닝을 통한 6대 핵심 페르소나 정의 및 이탈 방지 전략 수립",
-            subtitle: "삼성생명 산학협력",
-            affiliation: "삼성생명",
-            period: "2025",
-            description: `• 데이터 전처리 및 복구: 엑셀 내 불규칙하게 분산된 인터뷰 텍스트 데이터를 행 병합 로직을 통해 정제하고 분석 가능한 형태로 표준화
-• 고객 페르소나 체계화: 10여 개의 세부 해지 사유를 비즈니스 관점에서 6개의 핵심 페르소나(긴급 유동성 확보형, 비용절감 갈아타기형 등)로 재구조화
-• 해지 고민 기간 정량 분석: 텍스트 형태의 고민 기간 정보를 수치 데이터(Day 단위)로 변환하여 페르소나별 의사결정 속도 차이 규명
-• 텍스트 마이닝 (NLP): KoNLPy(Okt)를 활용한 형태소 분석 및 워드클라우드 시각화로 페르소나별 핵심 키워드 도출`,
-            insights: [
-                "데이터 기반의 차별화된 타겟팅: '갈아타기형'은 평균 69일간 고민하는 신중한 성향인 반면, '가치투자형'은 즉각적으로 해지하는 특성을 발견하여 각기 다른 골든타임 제안",
-                "VOC의 시각화: 막연한 고객의 불만을 키워드 중심의 워드클라우드로 시각화하여, 실무진이 해지 원인을 직관적으로 파악할 수 있도록 지원"
-            ],
-            tech: ["Python", "KoNLPy", "Text Mining", "NLP", "Data Visualization", "Pandas"],
+            title: "K-Recipe2Vec",
+            graphLabel: "K-Recipe2Vec",
+            subtitle: "임베딩 모델 기반 한식 대체 식재료 추천 시스템",
+            affiliation: "(주)웨이브앤바이브",
+            period: "2025.10 ~ 2025.12",
+            description: "Word2Vec과 Doc2Vec을 활용하여 한식 레시피 데이터를 학습하고, 사용자가 가진 재료와 요리의 문맥을 고려하여 최적의 대체 식재료를 추천하는 시스템입니다. (주)웨이브앤바이브의 RMR 솔루션을 위해 개발되었으며, 기존 레시피 데이터베이스를 활용하여 대체 레시피를 자동으로 도출하는 것을 목표로 했습니다.",
+            tech: ["NLP", "Word2Vec", "Doc2Vec"],
+            slides: { folder: "/slides/k-recipe2vec/", count: 32 },
+            download: { name: "PPT Download", url: "/ppt/k-recipe2vec.pdf" },
             materials: [],
-            links: []
+            links: [
+                { name: "GitHub", url: "https://github.com/nneans/k-recipe2vec" },
+                { name: "Homepage", url: "https://nneans.github.io/k-recipe2vec/" }
+            ]
         }
     ],
 
@@ -96,25 +98,31 @@ export const profile = {
     personalProjects: [
         {
             title: "Mino",
+            graphLabel: "Mino",
             subtitle: "개인 자산/소비 관리 애플리케이션",
             affiliation: "Personal",
-            period: "2025.11 ~ 2026.01",
-            description: "Gmail 파싱을 통해 결제 내역을 자동으로 불러오고, 카카오맵 API를 활용하여 소비 장소를 지도에 시각화해주는 스마트 가계부",
-            tech: ["React Native", "TypeScript", "Node.js", "LLM API", "KakaoMap API"],
-            materials: [],
-            links: []
-        },
-        {
-            title: "K-Recipe2Vec",
-            subtitle: "임베딩 모델 기반 한식 대체 식재료 추천 시스템",
-            affiliation: "(주)웨이브엔바이브",
-            period: "2025.10 ~ 2025.12",
-            description: "Doc2Vec과 Word2Vec을 활용하여 한식 레시피 데이터를 학습하고, 사용자가 가진 재료에 맞춰 최적의 대체 재료를 추천",
-            tech: ["NLP", "Word2Vec", "Doc2Vec", "Streamlit", "Python"],
+            period: "2025.11 ~ 2026.02",
+            description: "금융 결제 내역을 자동으로 수집하고, 소비 장소를 지도에 시각화하여 개인의 소비 패턴을 한눈에 파악할 수 있는 스마트 가계부입니다.",
+            tech: ["React Native", "SQLite"],
+            images: ["/projects/mino.png"],
             materials: [],
             links: [
-                { name: "GitHub", url: "https://github.com/nneans/k-recipe2vec" },
-                { name: "Live Demo", url: "https://k-recipe2vec-nneans.streamlit.app" }
+                { name: "GitHub", url: "https://github.com/nneans/Mino" },
+                { name: "Homepage", url: "https://nneans.github.io/Mino/" }
+            ]
+        },
+        {
+            title: "OurLog",
+            graphLabel: "OurLog",
+            subtitle: "함께 기록하는 키치한 감성의 여행 공유 플랫폼",
+            affiliation: "Personal",
+            period: "2026.02 ~ 2026.02",
+            description: "가족, 친구와 함께 여행 기록을 실시간으로 공유하고 사진과 지도를 남길 수 있는 웹 애플리케이션입니다. RLS 정책을 이용한 보안과 Supabase RPC를 이용한 트랜잭션 등 데이터베이스 통신 기술을 익히고, Framer Motion을 활용해 매력적인 키치 스타일의 UI/UX를 구현했습니다.",
+            tech: ["React", "Vite", "Supabase", "Tailwind CSS", "Framer Motion"],
+            images: [],
+            materials: [],
+            links: [
+                { name: "GitHub", url: "https://github.com/nneans/OurLog" }
             ]
         }
     ],
@@ -122,11 +130,30 @@ export const profile = {
     // 4. Honors & Awards (공모전)
     competitions: [
         {
+            title: "KB AI Challenge",
+            graphLabel: "KB AI Challenge",
+            subtitle: "외국인 고객을 위한 음성인식 챗봇",
+            affiliation: "KB국민은행",
+            period: "2025.06 ~ 2025.08",
+            hideInList: true,
+            description: "OpenAI Whisper와 Meta NLLB 모델을 활용하여 다국어 음성 인식 및 번역 기능을 갖춘 외국인 전용 챗봇 서비스입니다. KB국민은행의 대출 상품 및 FAQ 데이터를 MuPDF와 Tesseract OCR로 전처리하고, Ko-SBERT 기반의 RAG 시스템을 구축하였습니다.",
+            tech: ["Whisper", "NLLB", "RAG", "Ko-SBERT", "Qdrant", "OCR"],
+            slides: { folder: "/slides/kb-ai/", count: 19 },
+            download: { name: "PPT Download", url: "/ppt/kb-ai.pdf" },
+            materials: [],
+            links: [
+                { name: "GitHub", url: "https://github.com/nneans/KB_AI_Challenge" },
+                { name: "Homepage", url: "https://nneans-kb-ai-challenge.hf.space" }
+            ]
+        },
+        {
             title: "공공데이터 기반 무자녀 가구 맞춤형 가족지원 정책 제안",
+            graphLabel: "가족정책 아이디어",
             subtitle: "제1회 공공데이터 활용 가족정책 아이디어 공모전",
             affiliation: "한국건강가정진흥원",
             role: "장려상",
             period: "2024.11",
+            description: "저출산 심화에 따른 무자녀 신혼부부의 급증과 가족센터 이용률 저하 현상을 KOSIS 및 가족서비스 통계 데이터로 분석한 후 , 이를 바탕으로 유자녀 중심 정책의 사각지대를 해소하기 위한 심리·체험형 가족 지원 정책을 기획하였습니다.",
             tech: ["Public Data Analysis", "Data Visualization"],
             materials: [
                 "KOSIS 신혼부부 통계 및 가족서비스 통계데이터를 활용한 다차원 분석 수행",
@@ -135,39 +162,35 @@ export const profile = {
         },
         {
             title: "부산광역시 영업압박도지수 개발",
+            graphLabel: "지산학 산업 데이터",
             subtitle: "부산대학교 지산학 산업 데이터 공모전",
             affiliation: "부산대학교",
             role: "우수상",
             period: "2025.11",
+            description: "부산시 내 폐업리스크에 대해 선제적으로 대응할 수 있도록 공시지가, 카드 매출액, 유동인구 등의 부산시 데이터를 수집한 후 이를 바탕으로 릿지 회귀를 통해 영업압박도지수를 개발하였습니다.",
             tech: ["Public Data Analysis", "Data Visualization"],
+            slides: { folder: "/slides/jisanhak/", count: 30 },
+            download: { name: "PPT Download", url: "/ppt/jisanhak.pdf" },
             materials: [
                 "지역별 상권 경쟁 강도를 수치화한 '영업압박도' 지수 산출 모델 개발",
                 "공공데이터 기반 부산시 주요 상권 밀집도 및 폐업률, 공시지가 분석"
             ]
         },
         {
-            title: "시계열 기반 풍력 발전량 예측 모델 개발",
+            title: "풍력 발전량 예측 공모전",
+            graphLabel: "풍력 발전량 예측",
             subtitle: "B.D.A x 동서발전 x 60Hz 데이터 공모전",
             affiliation: "B.D.A x 동서발전 x 60Hz",
             role: "장려상",
             period: "2025.12",
+            description: "풍속의 비선형성, 난류 강도, 공기 밀도 등 물리적 특성을 반영한 파생 변수와 시차 변수를 생성해 데이터 패턴을 구체화한 후, LightGBM과 XGBoost 기반의 '시간대별 동적 가중 앙상블' 전략을 통해 시간대 및 발전량 구간별로 모델을 최적화하여 예측 정확도를 높였습니다.",
             tech: ["Time Series", "Machine Learning", "Feature Engineering"],
+            slides: { folder: "/slides/wind-power/", count: 21 },
+            download: { name: "PPT Download", url: "/ppt/wind-power.pdf" },
             materials: [
                 "시계열 데이터 분석을 통한 풍력 발전량의 변동성 및 패턴 예측",
                 "공기 밀도, 유효 풍속 등 물리 기반 파생변수 생성을 통한 예측 정확도 향상",
                 "XGBoost, LightGBM 모델을 활용한 전력 발전량 최적화 알고리즘 구현"
-            ]
-        },
-        {
-            title: "금융 AI 기반 신용평가 모델 개발",
-            subtitle: "KB AI Challenge 2024",
-            affiliation: "KB국민은행",
-            role: null,
-            period: "2024.09",
-            tech: ["Machine Learning", "Finance AI", "Data Analysis"],
-            materials: [
-                "금융 데이터 기반 신용평가 예측 모델 구현",
-                "다양한 ML 알고리즘을 활용한 신용도 분류 및 리스크 분석"
             ]
         }
     ],
