@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보훈 의료 접근성 개선 MCLP 분석 대시보드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --bg-color: #fbfbfa;
+            --panel-bg: #f4f3ed;
+            --border-color: #e3e1d6;
+            --text-primary: #1c1c19;
+            --text-secondary: #6e6e66;
+            --accent-color: #435b75;
+            --accent-gradient: linear-gradient(135deg, #435b75, #5f7a98);
+            --success-color: #557962;
+            --warning-color: #bf813b;
+            --danger-color: #ad4f51;
+        }
+        * {
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 420px;
+            background-color: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
+        }
+        .sidebar-header {
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+        h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+            line-height: 1.3;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+        .scenario-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .btn {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: var(--text-secondary);
+        }
+        .btn.active {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(67, 91, 117, 0.2);
+            font-weight: 600;
+        }
+        .stats-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .text-accent {
+            color: var(--accent-color);
+            font-size: 26px;
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-gradient);
+            border-radius: 3px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .demand-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .demand-details > div {
+            display: flex;
+            align-items: center;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .dot-covered { background-color: var(--accent-color); }
+        .dot-uncovered { background-color: var(--danger-color); }
+        .detail-label {
+            color: var(--text-secondary);
+            margin-right: 4px;
+        }
+        .detail-val {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .facility-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            height: 130px;
+            min-height: 130px;
+            overflow-y: auto;
+            padding: 6px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+        .candidate-list {
+            height: 170px;
+            min-height: 170px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 4px;
+            background: #ffffff;
+        }
+        .empty-state-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            color: var(--text-secondary);
+            font-size: 12px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+        .sidebar::-webkit-scrollbar, .facility-list::-webkit-scrollbar, .candidate-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar::-webkit-scrollbar-track, .facility-list::-webkit-scrollbar-track, .candidate-list::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.02);
+        }
+        .sidebar::-webkit-scrollbar-thumb, .facility-list::-webkit-scrollbar-thumb, .candidate-list::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 3px;
+        }
+        .sidebar::-webkit-scrollbar-thumb:hover, .facility-list::-webkit-scrollbar-thumb:hover, .candidate-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.3);
+        }
+        .facility-item {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .facility-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .facility-addr {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .badge {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            width: fit-content;
+        }
+        .badge-new {
+            background: rgba(85, 121, 98, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(85, 121, 98, 0.25);
+        }
+        .badge-danger {
+            background: rgba(173, 79, 81, 0.1);
+            color: var(--danger-color);
+            border: 1px solid rgba(173, 79, 81, 0.25);
+        }
+        .badge-current {
+            background: rgba(191, 129, 59, 0.1);
+            color: #bf813b;
+            border: 1px solid rgba(191, 129, 59, 0.25);
+        }
+        .badge-public-selected {
+            background: rgba(67, 91, 117, 0.1);
+            color: var(--accent-color);
+            border: 1px solid rgba(67, 91, 117, 0.25);
+        }
+        .badge-public-candidate {
+            background: rgba(127, 140, 141, 0.1);
+            color: #7f8c8d;
+            border: 1px solid rgba(127, 140, 141, 0.25);
+        }
+        .badge-lime {
+            background: rgba(142, 212, 163, 0.1);
+            color: #40916c;
+            border: 1px solid rgba(142, 212, 163, 0.25);
+        }
+        .badge-warning {
+            background: rgba(191, 129, 59, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(191, 129, 59, 0.25);
+        }
+        .sigungu-detail {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 13px;
+            height: auto;
+            overflow: visible;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+        }
+        .placeholder-text {
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.5;
+            padding: 10px;
+        }
+        .detail-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        #map {
+            flex: 1;
+            height: 100%;
+            background-color: #fbfbfa;
+        }
+        .leaflet-popup-content-wrapper {
+            background-color: var(--panel-bg) !important;
+            color: var(--text-primary) !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .leaflet-popup-tip {
+            background-color: var(--panel-bg) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .hospital-marker { width:28px; height:28px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); display:flex; align-items:center; justify-content:center; border:2px solid #fff; box-shadow:0 2px 7px rgba(16,42,67,.32); }
+        .hospital-marker > span { transform:rotate(45deg); color:#fff; font-weight:700; font-size:12px; line-height:1; }
+        .hospital-marker.base { background:#243b53; }
+        .hospital-marker.selected { background:#00857a; }
+        .candidate-row { padding:8px 10px; border-bottom:1px solid var(--border-color); font-size:12px; line-height:1.4; display:flex; justify-content:space-between; align-items:center; }
+        .candidate-row:last-child { border-bottom:0; }
+        .candidate-info { display:flex; flex-direction:column; gap:2px; }
+        .candidate-name { font-weight:600; color:var(--text-primary); }
+        .candidate-sub { font-size:11px; color:var(--text-secondary); }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column-reverse;
+                height: 100vh;
+                height: 100dvh;
+            }
+            #map {
+                height: 45vh;
+                width: 100%;
+                flex: none;
+            }
+            .sidebar {
+                width: 100%;
+                height: 55vh;
+                border-right: none;
+                border-top: 1px solid var(--border-color);
+                padding: 16px;
+            }
+            h1 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">BOHUN MEDICAL</div>
+            <h1>보훈 의료 접근성 개선 대시보드</h1>
+            <p class="subtitle">MCLP 기반 위탁병원 최적 입지 분석</p>
+        </div>
+
+        <div class="section-title">지도 표출 모드 선택</div>
+        <div style="display:flex;gap:8px;padding:4px 0 10px;">
+            <button id="btn-mode-coverage" class="btn active" style="flex:1;text-align:center;padding:10px 8px;">60분 의료 커버리지</button>
+            <button id="btn-mode-grid" class="btn" style="flex:1;text-align:center;padding:10px 8px;">5km 격자 인구밀집도</button>
+        </div>
+
+        <div class="section-title">분석 시나리오 선택</div>
+        <div class="scenario-buttons" style="padding:14px 16px;">
+            <label for="facility-slider" style="font-weight:700;display:flex;justify-content:space-between;align-items:baseline;">
+                <span>신규 준보훈병원 격상 수</span><strong id="facility-slider-value" style="font-size:24px;color:var(--accent-color);">0개</strong>
+            </label>
+            <input id="facility-slider" type="range" min="0" max="20" value="0" step="1" style="width:100%;accent-color:var(--accent-color);">
+            <div style="display:flex;justify-content:space-between;color:var(--text-secondary);font-size:11px;margin-top:3px;"><span>기존 병원만</span><span>20개</span></div>
+            <p style="font-size:11px;color:var(--text-secondary);line-height:1.5;margin:10px 0 0;">선정 기준: 기존 보훈병원에서 60분 밖에 있는 수요 중, 추가 병원으로 커버되는 보훈대상자 수를 최대화합니다. 병원 진료의 질·비용·수용능력은 아직 반영하지 않은 1차 입지 후보입니다.</p>
+        </div>
+        
+        <div class="section-title">주요 접근성 통계 (60분 기준)</div>
+        <div class="stats-panel">
+            <div class="stat-card">
+                <span class="stat-label">총 보훈대상자 수요</span>
+                <span class="stat-value" id="stat-total-demand">567,557 명</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">의료 서비스 커버율</span>
+                <div style="display: flex; align-items: baseline; justify-content: space-between;">
+                    <span class="stat-value text-accent" id="stat-coverage-rate">75.4%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="stat-progress" style="width: 75.4%;"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">커버 및 미커버 수요</span>
+                <div class="demand-details">
+                    <div>
+                        <span class="dot dot-covered"></span>
+                        <span class="detail-label">커버:</span>
+                        <span class="detail-val" id="stat-covered-demand">427,672 명</span>
+                    </div>
+                    <div>
+                        <span class="dot dot-uncovered"></span>
+                        <span class="detail-label">미커버:</span>
+                        <span class="detail-val" id="stat-uncovered-demand">139,885 명</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title" id="facilities-title">신규 추가 지정 위탁병원 목록</div>
+        <div class="facility-list" id="facility-list">
+            <!-- Dynamic list of facilities -->
+        </div>
+
+        <div class="section-title">격상 검토 대상 병원 전체 목록 (<span id="candidate-count">0</span>개)</div>
+        <div class="candidate-list" id="candidate-list"></div>
+
+        <div class="section-title">선택 영역 상세 정보</div>
+        <div class="sigungu-detail" id="sigungu-detail">
+            <p class="placeholder-text">지도의 영역을 클릭하면 상세 정보가 표시됩니다.</p>
+        </div>
+    </div>
+    
+    <div id="map"></div>
+    
+    <script src="geojson_data.js"></script>
+    <script src="mclp_simulator_data.js"></script>
+    <script>
+        const map = L.map('map').setView([36.269, 127.896], 7.5);
+
+        // 마커 전용 pane: z-index 620
+        map.createPane('hospitalPane');
+        map.getPane('hospitalPane').style.zIndex = 620;
+        map.getPane('hospitalPane').style.pointerEvents = 'none';
+        map.getPane('popupPane').style.zIndex = 700;
+        map.getPane('popupPane').style.pointerEvents = 'auto';
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+        let activeCoveredDistricts = new Set();
+        let activeSigunguStats = {};
+        let hospitalMarkers = [];
+        let geojsonLayer = null;
+        let gridLayerGroup = L.layerGroup();
+        let currentMapMode = 'coverage'; // 'coverage' or 'grid'
+
+        function getColorForCoverage(rate) {
+            if (rate >= 0.99) return '#3a9d68'; // 99% - 100% (Green)
+            if (rate >= 0.85) return '#70b382'; // 85% - 99% (Light Green)
+            if (rate >= 0.70) return '#a2c99d'; // 70% - 85% (Lime Green)
+            if (rate >= 0.50) return '#ebd382'; // 50% - 70% (Yellow-Orange)
+            if (rate >= 0.30) return '#f4a261'; // 30% - 50% (Orange)
+            if (rate > 0.0) return '#e76f51';  // 1% - 30% (Light Red)
+            return '#d9535f';                  // 0% (Red)
+        }
+
+        function getBorderColorForCoverage(rate) {
+            if (rate >= 0.99) return '#26734d';
+            if (rate >= 0.85) return '#3a875a';
+            if (rate >= 0.70) return '#6d9e68';
+            if (rate >= 0.50) return '#cca434';
+            if (rate >= 0.30) return '#d77c38';
+            if (rate > 0.0) return '#c44528';
+            return '#a83c47';
+        }
+
+        function getColorForGridDemand(demand) {
+            if (demand >= 1200) return '#4a001f'; // Extreme High (Dark Crimson)
+            if (demand >= 600)  return '#8b0000'; // Very High (Dark Red)
+            if (demand >= 250)  return '#d9381e'; // High (Red)
+            if (demand >= 120)  return '#e67e22'; // Medium-High (Orange)
+            if (demand >= 50)   return '#f1c40f'; // Medium (Yellow)
+            return '#f9e79f';                     // Low (Light Yellow)
+        }
+
+        function getStyle(feature) {
+            const props = feature.properties || {};
+            const districtKey = `${props['시도'] || props['sgg_sido'] || ''}|${props['시군구'] || props['sgg_nm'] || ''}`;
+            const stats = activeSigunguStats[districtKey];
+            
+            let rate = 0;
+            if (stats && stats.total > 0) {
+                rate = stats.covered / stats.total;
+            }
+            
+            return {
+                fillColor: getColorForCoverage(rate),
+                weight: 1,
+                opacity: 0.8,
+                color: getBorderColorForCoverage(rate),
+                fillOpacity: 0.5
+            };
+        }
+
+        let selectedFeature = null;
+
+        function updateSigunguDetail(feature) {
+            if (!feature) return;
+            try {
+                const props = feature.properties;
+                const detailDiv = document.getElementById('sigungu-detail');
+
+                const sido = props['시도'] || props['sgg_sido'] || '';
+                const sgg = props['시군구'] || props['sgg_nm'] || '';
+                const key = `${sido}|${sgg}`;
+                
+                const stats = activeSigunguStats[key];
+                const titleText = (sido + ' ' + sgg).trim();
+                
+                if (!stats || stats.total === 0) {
+                    detailDiv.innerHTML =
+                        '<div class="detail-title">' + titleText + '</div>' +
+                        '<div class="detail-row"><span class="detail-label">시군구 수요</span><span class="detail-val">0 명</span></div>' +
+                        '<p class="placeholder-text">이 지역은 집계구 기준 보훈 수요가 없거나 제외된 지역입니다.</p>';
+                    return;
+                }
+
+                const demandVal = stats.total.toLocaleString();
+                const rateVal = (stats.covered / stats.total * 100);
+                const avgTime = (stats.sumTime / stats.total).toFixed(1);
+                const maxTime = stats.maxTime.toFixed(1);
+                
+                let badgeClass = 'badge-danger';
+                let scCover = `${rateVal.toFixed(1)}% 커버 (사각지대 존재)`;
+                if (rateVal >= 99) {
+                    badgeClass = 'badge-new';
+                    scCover = '100% 완전 커버';
+                } else if (rateVal >= 80) {
+                    badgeClass = 'badge-lime';
+                    scCover = `${rateVal.toFixed(1)}% 커버`;
+                } else if (rateVal >= 50) {
+                    badgeClass = 'badge-warning';
+                    scCover = `${rateVal.toFixed(1)}% 커버 (취약)`;
+                }
+
+                detailDiv.innerHTML =
+                    '<div class="detail-title">' + titleText + '</div>' +
+                    '<div class="detail-row"><span class="detail-label">시군구 총 수요</span><span class="detail-val">' + demandVal + ' 명</span></div>' +
+                    '<div class="detail-row"><span class="detail-label">평균 이동시간 (가중)</span><span class="detail-val">' + avgTime + ' 분</span></div>' +
+                    '<div class="detail-row"><span class="detail-label">최대 이동시간 (사각지대)</span><span class="detail-val">' + maxTime + ' 분</span></div>' +
+                    '<div class="detail-row"><span class="detail-label">의료 접근성 (60분 기준)</span>' +
+                        '<span class="badge ' + badgeClass + '">' + scCover + '</span></div>';
+            } catch(err) {
+                console.error('sigungu update error:', err);
+            }
+        }
+
+        function updateGridDetail(gridCell) {
+            const detailDiv = document.getElementById('sigungu-detail');
+            let levelBadge = 'badge-lime';
+            let levelText = '보통 밀집';
+            if (gridCell.demand >= 1200) { levelBadge = 'badge-danger'; levelText = '극심한 밀집 (상위 3%)'; }
+            else if (gridCell.demand >= 600) { levelBadge = 'badge-warning'; levelText = '매우 높음 (상위 10%)'; }
+            else if (gridCell.demand >= 250) { levelBadge = 'badge-public-selected'; levelText = '높음'; }
+
+            detailDiv.innerHTML =
+                '<div class="detail-title">5km 공간 격자 셀 정보</div>' +
+                '<div class="detail-row"><span class="detail-label">격자 내 보훈 인구</span><span class="detail-val">' + gridCell.demand.toLocaleString() + ' 명</span></div>' +
+                '<div class="detail-row"><span class="detail-label">포함 읍면동 수</span><span class="detail-val">' + gridCell.emdCount + ' 개</span></div>' +
+                '<div class="detail-row"><span class="detail-label">인구 밀집도 등급</span>' +
+                    '<span class="badge ' + levelBadge + '">' + levelText + '</span></div>';
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: (e) => {
+                    const l = e.target;
+                    l.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.55 });
+                    l.bringToFront();
+                },
+                mouseout: (e) => {
+                    if (geojsonLayer) geojsonLayer.resetStyle(e.target);
+                },
+                click: (e) => {
+                    selectedFeature = feature;
+                    updateSigunguDetail(feature);
+                }
+            });
+        }
+
+        function buildGridLayer() {
+            gridLayerGroup.clearLayers();
+            if (!MCLP_SIMULATOR_DATA.gridData) return;
+
+            MCLP_SIMULATOR_DATA.gridData.forEach(cell => {
+                const rect = L.rectangle(cell.bounds, {
+                    color: '#444444',
+                    weight: 0.5,
+                    fillColor: getColorForGridDemand(cell.demand),
+                    fillOpacity: 0.65
+                });
+                
+                rect.bindTooltip(
+                    `<b>5km 공간 격자</b><br>보훈대상자: <b>${cell.demand.toLocaleString()}명</b><br>읍면동 수: ${cell.emdCount}개`,
+                    { direction: 'top', offset: [0, -4] }
+                );
+
+                rect.on('click', () => {
+                    updateGridDetail(cell);
+                });
+
+                rect.on('mouseover', (e) => {
+                    e.target.setStyle({ weight: 1.5, fillOpacity: 0.85 });
+                });
+
+                rect.on('mouseout', (e) => {
+                    e.target.setStyle({ weight: 0.5, fillOpacity: 0.65 });
+                });
+
+                gridLayerGroup.addLayer(rect);
+            });
+        }
+
+        function updateMarkers() {
+            hospitalMarkers.forEach(m => map.removeLayer(m));
+            hospitalMarkers = [];
+            
+            const slider = document.getElementById('facility-slider');
+            const scenario = MCLP_SIMULATOR_DATA.scenarios[Number(slider.value)];
+            
+            const base = MCLP_SIMULATOR_DATA.baseHospitals;
+            base.forEach(fac => {
+                const marker = L.marker([fac.lat, fac.lon], { 
+                    icon: L.divIcon({ 
+                        className: '', 
+                        html: '<span class="hospital-marker base"><span>B</span></span>', 
+                        iconSize: [28, 28], 
+                        iconAnchor: [14, 27], 
+                        popupAnchor: [0, -25] 
+                    }), 
+                    pane: 'hospitalPane' 
+                }).addTo(map);
+                marker.bindTooltip(`<b>${fac.name}</b><br><span style="font-size:11px">기존 보훈병원</span>`, { direction: 'top', offset: [0, -6] });
+                marker.bindPopup(`<div style="font-family:inherit;padding:2px 4px;min-width:160px"><b>${fac.name}</b><br><span style="font-size:11px;color:#243b53">기존 보훈병원</span></div>`);
+                hospitalMarkers.push(marker);
+            });
+            
+            scenario.selected.forEach((fac, i) => {
+                const marker = L.marker([fac.lat, fac.lon], { 
+                    icon: L.divIcon({ 
+                        className: '', 
+                        html: `<span class="hospital-marker selected"><span>${i + 1}</span></span>`, 
+                        iconSize: [28, 28], 
+                        iconAnchor: [14, 27], 
+                        popupAnchor: [0, -25] 
+                    }), 
+                    pane: 'hospitalPane' 
+                }).addTo(map);
+                marker.bindTooltip(`<b>${fac.name}</b><br><span style="font-size:11px">추천 격상 ${i + 1}순위</span>`, { direction: 'top', offset: [0, -6] });
+                marker.bindPopup(`<div style="font-family:inherit;padding:2px 4px;min-width:160px"><b>${fac.name}</b><br><span style="font-size:11px;color:#00857a">신규 준보훈병원 추천</span><br><span style="font-size:10px">${fac.sido} ${fac.sigungu}<br>종별: ${fac.kind}</span></div>`);
+                hospitalMarkers.push(marker);
+            });
+        }
+
+        function setMapMode(mode) {
+            currentMapMode = mode;
+            const btnCov = document.getElementById('btn-mode-coverage');
+            const btnGrid = document.getElementById('btn-mode-grid');
+
+            if (mode === 'coverage') {
+                btnCov.classList.add('active');
+                btnGrid.classList.remove('active');
+                map.removeLayer(gridLayerGroup);
+                if (geojsonLayer) geojsonLayer.addTo(map);
+            } else {
+                btnGrid.classList.add('active');
+                btnCov.classList.remove('active');
+                if (geojsonLayer) map.removeLayer(geojsonLayer);
+                gridLayerGroup.addTo(map);
+            }
+        }
+
+        function initMap() {
+            geojsonLayer = L.geoJSON(sigunguData, {
+                style: getStyle,
+                onEachFeature: onEachFeature
+            }).addTo(map);
+
+            buildGridLayer();
+            updateMarkers();
+
+            document.getElementById('btn-mode-coverage').addEventListener('click', () => setMapMode('coverage'));
+            document.getElementById('btn-mode-grid').addEventListener('click', () => setMapMode('grid'));
+        }
+
+        function initSimulatorDashboard() {
+            const slider = document.getElementById('facility-slider');
+            const total = MCLP_SIMULATOR_DATA.meta.totalDemand;
+            const totalNode = document.getElementById('stat-total-demand');
+            totalNode.innerText = total.toLocaleString() + ' 명';
+
+            function renderScenario() {
+                const scenario = MCLP_SIMULATOR_DATA.scenarios[Number(slider.value)];
+                
+                const coveredEmdIndices = new Set(scenario.coveredDistricts);
+                const sigunguStats = {};
+                
+                MCLP_SIMULATOR_DATA.districts.forEach((d, idx) => {
+                    const key = `${d.sido}|${d.sigungu}`;
+                    if (!sigunguStats[key]) {
+                        sigunguStats[key] = { total: 0, covered: 0, sumTime: 0, maxTime: 0, count: 0 };
+                    }
+                    sigunguStats[key].total += d.demand;
+                    sigunguStats[key].count += 1;
+                    const duration = scenario.durations[idx];
+                    if (coveredEmdIndices.has(idx)) {
+                        sigunguStats[key].covered += d.demand;
+                    }
+                    sigunguStats[key].sumTime += duration * d.demand;
+                    if (duration > sigunguStats[key].maxTime) {
+                        sigunguStats[key].maxTime = duration;
+                    }
+                });
+                
+                activeSigunguStats = sigunguStats;
+                
+                document.getElementById('facility-slider-value').innerText = scenario.p + '개';
+                document.getElementById('stat-covered-demand').innerText = scenario.coveredDemand.toLocaleString() + ' 명';
+                document.getElementById('stat-uncovered-demand').innerText = (total - scenario.coveredDemand).toLocaleString() + ' 명';
+                document.getElementById('stat-coverage-rate').innerText = scenario.coverageRate + '%';
+                document.getElementById('stat-progress').style.width = scenario.coverageRate + '%';
+                document.getElementById('facilities-title').innerText = '추천 준보훈병원 목록';
+                
+                const list = document.getElementById('facility-list');
+                list.innerHTML = scenario.selected.length ? scenario.selected.map((fac, i) => `
+                    <div class="facility-item">
+                        <div class="facility-name">${i + 1}. ${fac.name}</div>
+                        <div class="facility-addr">${fac.address || fac.sido + ' ' + fac.sigungu}</div>
+                        <span class="badge badge-public-selected" style="margin-top:4px;">${fac.kind}</span>
+                    </div>`).join('') : '<div class="empty-state-card">기존 보훈병원 7개 운영 중 (신규 지정 0개)</div>';
+                
+                document.getElementById('candidate-count').innerText = MCLP_SIMULATOR_DATA.candidates.length;
+                document.getElementById('candidate-list').innerHTML = MCLP_SIMULATOR_DATA.candidates.map((fac, i) => `
+                    <div class="candidate-row">
+                        <div class="candidate-info">
+                            <span class="candidate-name">${i + 1}. ${fac.name}</span>
+                            <span class="candidate-sub">${fac.address || fac.sido + ' ' + fac.sigungu}</span>
+                        </div>
+                        <span class="badge badge-public-candidate">${fac.kind}</span>
+                    </div>`).join('');
+                
+                if (geojsonLayer) geojsonLayer.setStyle(getStyle);
+                updateMarkers();
+                if (selectedFeature && currentMapMode === 'coverage') {
+                    updateSigunguDetail(selectedFeature);
+                }
+            }
+            slider.addEventListener('input', renderScenario);
+            renderScenario();
+        }
+
+        initMap();
+        initSimulatorDashboard();
+    </script>
+</body>
+</html>
