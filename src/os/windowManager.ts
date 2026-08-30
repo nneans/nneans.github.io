@@ -305,8 +305,22 @@ export class WindowManager {
     button.type = "button";
     button.textContent = label;
     button.setAttribute("aria-label", ariaLabel);
+    let handledFromTouch = false;
+
+    button.addEventListener("pointerdown", (event) => event.stopPropagation());
+    button.addEventListener("pointerup", (event) => {
+      if (!this.isMobileViewport() || event.pointerType === "mouse") return;
+      handledFromTouch = true;
+      event.preventDefault();
+      event.stopPropagation();
+      action();
+    });
     button.addEventListener("click", (event) => {
       event.stopPropagation();
+      if (handledFromTouch) {
+        handledFromTouch = false;
+        return;
+      }
       action();
     });
     return button;

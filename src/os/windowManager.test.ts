@@ -98,6 +98,20 @@ describe("WindowManager and taskbar synchronization", () => {
     expect(manager.state.windows[0]).toMatchObject({ x: 0, y: 0, width: 390, height: 810, isMaximized: true });
   });
 
+  it("responds to mobile taps on minimize and close controls", () => {
+    setViewport(390, 844);
+    const id = manager.openWindow("about");
+    const windowElement = layer.querySelector<HTMLElement>(`[data-window-id="${id}"]`);
+    const minimize = windowElement?.querySelector<HTMLButtonElement>('[aria-label^="Minimize"]');
+    minimize?.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerType: "touch" }));
+    expect(manager.state.windows[0]?.isMinimized).toBe(true);
+
+    manager.restoreWindow(id);
+    const close = windowElement?.querySelector<HTMLButtonElement>('[aria-label^="Close"]');
+    close?.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerType: "touch" }));
+    expect(manager.state.windows).toHaveLength(0);
+  });
+
   it("closes all windows during a reset", () => {
     manager.openWindow("about");
     manager.openWindow("workArchive");
