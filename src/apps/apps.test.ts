@@ -307,7 +307,7 @@ describe("interactive application registry", () => {
       (button) => button.textContent === "Presentations",
     );
 
-    presentations?.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerType: "touch" }));
+    presentations?.click();
 
     expect(app.querySelector(".explorer-address")?.textContent).toContain("Presentations");
     Object.defineProperty(window, "innerWidth", { configurable: true, value: originalWidth });

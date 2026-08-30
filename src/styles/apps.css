@@ -1854,6 +1854,7 @@
   flex-direction: column;
   gap: 3px;
   padding: 9px;
+  overflow: hidden;
   opacity: 0;
   background: linear-gradient(transparent 20%, rgb(0 0 128 / 88%));
   color: #fff;
@@ -1872,12 +1873,19 @@
 }
 
 .time-travel-card-overlay span {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   font-weight: 700;
   line-height: 1.15;
 }
 
 .time-travel-card-overlay small {
   color: #d5d5ff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 9px;
   text-transform: uppercase;
 }
@@ -2110,6 +2118,23 @@
 
   .time-travel-photo-row[data-photo-count="1"] .time-travel-gallery-card {
     max-width: calc((100% - 12px) / 3);
+  }
+
+  .time-travel-card-overlay {
+    gap: 2px;
+    padding: 6px;
+  }
+
+  .time-travel-card-overlay strong {
+    font-size: 9px;
+  }
+
+  .time-travel-card-overlay span {
+    font-size: 10px;
+  }
+
+  .time-travel-card-overlay small {
+    font-size: 8px;
   }
 
   .time-travel-viewer__details {

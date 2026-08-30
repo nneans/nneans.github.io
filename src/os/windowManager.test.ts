@@ -112,6 +112,21 @@ describe("WindowManager and taskbar synchronization", () => {
     expect(manager.state.windows).toHaveLength(0);
   });
 
+  it("activates application buttons with one mobile tap", () => {
+    setViewport(390, 844);
+    const id = manager.openWindow("timeTravel");
+    const app = layer.querySelector<HTMLElement>(`[data-window-id="${id}"] .time-travel-app`);
+    const travel = [...(app?.querySelectorAll<HTMLButtonElement>(".time-travel-filters button") ?? [])]
+      .find((button) => button.textContent === "Travel");
+
+    travel?.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerType: "touch" }));
+    expect(app?.querySelector(".app-status")?.textContent).toContain("Travel");
+
+    const photo = app?.querySelector<HTMLButtonElement>(".time-travel-gallery-card");
+    photo?.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerType: "touch" }));
+    expect(app?.querySelector(".time-travel-lightbox")?.hasAttribute("hidden")).toBe(false);
+  });
+
   it("closes all windows during a reset", () => {
     manager.openWindow("about");
     manager.openWindow("workArchive");

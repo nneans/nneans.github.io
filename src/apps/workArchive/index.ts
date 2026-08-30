@@ -222,20 +222,9 @@ export function renderWorkArchive(): HTMLElement {
     select: () => void,
     open: () => void,
   ): void => {
-    let openedFromTouch = false;
-
-    button.addEventListener("pointerup", (event) => {
-      if (!isMobileViewport() || event.pointerType === "mouse") return;
-      openedFromTouch = true;
-      open();
-    });
     button.addEventListener("click", () => {
       if (!isMobileViewport()) {
         select();
-        return;
-      }
-      if (openedFromTouch) {
-        openedFromTouch = false;
         return;
       }
       open();
