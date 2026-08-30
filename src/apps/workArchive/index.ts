@@ -1,8 +1,10 @@
 import { portfolio, type Project, type ProjectPreview } from "../../config/portfolio";
+import { osConfig } from "../../config/os";
 import { appShell, element, externalLink, menuBar } from "../shared/dom";
 import { workArchiveFolders, type WorkArchiveFolder } from "./folders";
 
 const archiveRoot = "C:\\Mingyun\\Work Archive";
+const isMobileViewport = (): boolean => window.innerWidth <= osConfig.mobileBreakpoint;
 
 function renderDocumentPreview(
   project: Project,
@@ -215,6 +217,32 @@ export function renderWorkArchive(): HTMLElement {
     return button;
   };
 
+  const connectFolderButton = (
+    button: HTMLButtonElement,
+    select: () => void,
+    open: () => void,
+  ): void => {
+    let openedFromTouch = false;
+
+    button.addEventListener("pointerup", (event) => {
+      if (!isMobileViewport() || event.pointerType === "mouse") return;
+      openedFromTouch = true;
+      open();
+    });
+    button.addEventListener("click", () => {
+      if (!isMobileViewport()) {
+        select();
+        return;
+      }
+      if (openedFromTouch) {
+        openedFromTouch = false;
+        return;
+      }
+      open();
+    });
+    button.addEventListener("dblclick", open);
+  };
+
   const projectsFor = (folder: WorkArchiveFolder): Project[] =>
     folder.projectIds
       .map((id) => portfolio.projects.find((project) => project.id === id))
@@ -303,14 +331,14 @@ export function renderWorkArchive(): HTMLElement {
       const button = createArchiveButton(folder.label);
       button.dataset.folderId = folder.id;
       button.setAttribute("aria-selected", String(index === 0));
-      button.addEventListener("click", () => {
-        setSelection(button);
-        replacePreview(renderFolderSummary(folder));
-      });
-      button.addEventListener("dblclick", () => {
+      const openFolder = (): void => {
         folderPath = [folder];
         renderFolder(folder);
-      });
+      };
+      connectFolderButton(button, () => {
+        setSelection(button);
+        replacePreview(renderFolderSummary(folder));
+      }, openFolder);
       folders.append(button);
     });
 
@@ -334,14 +362,14 @@ export function renderWorkArchive(): HTMLElement {
       const button = createArchiveButton(childFolder.label);
       button.dataset.folderId = childFolder.id;
       button.setAttribute("aria-selected", String(index === 0));
-      button.addEventListener("click", () => {
-        setSelection(button);
-        replacePreview(renderFolderSummary(childFolder));
-      });
-      button.addEventListener("dblclick", () => {
+      const openFolder = (): void => {
         folderPath.push(childFolder);
         renderFolder(childFolder);
-      });
+      };
+      connectFolderButton(button, () => {
+        setSelection(button);
+        replacePreview(renderFolderSummary(childFolder));
+      }, openFolder);
       folders.append(button);
     });
 

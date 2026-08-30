@@ -298,4 +298,18 @@ describe("interactive application registry", () => {
     expect(app.querySelector(".archive-viewer-page")?.textContent).toBe("1 / 18");
     expect(app.querySelector(".app-status")?.textContent).toBe("2 object(s)");
   });
+
+  it("opens Work Archive folders with one mobile tap", () => {
+    const originalWidth = window.innerWidth;
+    Object.defineProperty(window, "innerWidth", { configurable: true, value: 390 });
+    const app = renderWorkArchive();
+    const presentations = [...app.querySelectorAll<HTMLButtonElement>(".project-folder")].find(
+      (button) => button.textContent === "Presentations",
+    );
+
+    presentations?.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerType: "touch" }));
+
+    expect(app.querySelector(".explorer-address")?.textContent).toContain("Presentations");
+    Object.defineProperty(window, "innerWidth", { configurable: true, value: originalWidth });
+  });
 });
