@@ -16,6 +16,18 @@ interface GalleryFrame {
 }
 
 const filters: MemoryFilter[] = ["All", "Travel", "Conference", "Field Trip", "Event"];
+const layoutRatios: Record<TimeTravelPhoto["layout"], number> = {
+  standard: 4 / 3,
+  wide: 16 / 10,
+  tall: 3 / 4,
+  large: 5 / 4,
+};
+
+function thumbnailSrc(source: string): string {
+  return source
+    .replace("/assets/time-travel/", "/assets/time-travel/thumbs/")
+    .replace(/\.(jpe?g|png)$/i, ".webp");
+}
 
 export function renderTimeTravel(): HTMLElement {
   const app = appShell("time-travel-app");
@@ -27,6 +39,17 @@ export function renderTimeTravel(): HTMLElement {
   const status = element("footer", "app-status sunken");
   let selectedFilter: MemoryFilter = "All";
   let openFrameKey: string | undefined;
+  const imageObserver = "IntersectionObserver" in window
+    ? new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const image = entry.target as HTMLImageElement;
+        const source = image.dataset.src;
+        if (source) image.src = source;
+        observer.unobserve(image);
+      });
+    }, { root: gallery, rootMargin: "300px 0px" })
+    : undefined;
 
   lightbox.hidden = true;
   lightbox.setAttribute("role", "dialog");
@@ -76,6 +99,7 @@ export function renderTimeTravel(): HTMLElement {
 
     const photoStage = element("div", "time-travel-viewer__stage sunken");
     const image = element("img");
+    image.decoding = "async";
     image.src = frame.photo.src;
     image.alt = frame.photo.alt;
     photoStage.append(image);
@@ -127,6 +151,7 @@ export function renderTimeTravel(): HTMLElement {
   function renderGallery(): void {
     const frames = visibleFrames();
     const years = [...new Set(frames.map((frame) => frame.photo.date.slice(0, 4)))];
+    imageObserver?.disconnect();
     gallery.replaceChildren();
 
     if (!frames.length) {
@@ -157,6 +182,7 @@ export function renderTimeTravel(): HTMLElement {
         rowFrames.forEach((frame) => {
           const card = element("button", "time-travel-gallery-card raised");
           card.classList.add(`time-travel-gallery-card--${frame.photo.layout ?? "standard"}`);
+          card.style.setProperty("--time-travel-photo-ratio", String(layoutRatios[frame.photo.layout]));
           card.type = "button";
           card.dataset.entryId = frame.entry.id;
           card.dataset.frameKey = frame.key;
@@ -164,13 +190,18 @@ export function renderTimeTravel(): HTMLElement {
           const image = element("img");
           image.alt = frame.photo.alt;
           image.loading = "lazy";
+          image.decoding = "async";
+          image.dataset.src = thumbnailSrc(frame.photo.src);
           const applyPhotoRatio = (): void => {
             if (!image.naturalWidth || !image.naturalHeight) return;
             card.style.setProperty("--time-travel-photo-ratio", String(image.naturalWidth / image.naturalHeight));
           };
           image.addEventListener("load", applyPhotoRatio, { once: true });
-          image.src = frame.photo.src;
-          if (image.complete) applyPhotoRatio();
+          if (imageObserver) imageObserver.observe(image);
+          else {
+            const source = image.dataset.src;
+            if (source) image.src = source;
+          }
           const overlay = element("span", "time-travel-card-overlay");
           overlay.append(
             element("strong", undefined, frame.photo.date),
@@ -195,6 +226,7 @@ export function renderTimeTravel(): HTMLElement {
   lightbox.addEventListener("click", (event) => {
     if (event.target === lightbox) closeLightbox();
   });
+  app.addEventListener("app:dispose", () => imageObserver?.disconnect(), { once: true });
   app.addEventListener("keydown", (event) => {
     if (lightbox.hidden || !openFrameKey) return;
     if (event.key === "Escape") closeLightbox();

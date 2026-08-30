@@ -81,6 +81,23 @@ describe("WindowManager and taskbar synchronization", () => {
     });
   });
 
+  it("opens and restores windows at the usable viewport size on mobile", () => {
+    setViewport(390, 844);
+    const id = manager.openWindow("workArchive");
+
+    expect(manager.state.windows[0]).toMatchObject({
+      x: 0,
+      y: 0,
+      width: 390,
+      height: 810,
+      isMaximized: true,
+    });
+
+    manager.minimizeWindow(id);
+    manager.restoreWindow(id);
+    expect(manager.state.windows[0]).toMatchObject({ x: 0, y: 0, width: 390, height: 810, isMaximized: true });
+  });
+
   it("closes all windows during a reset", () => {
     manager.openWindow("about");
     manager.openWindow("workArchive");

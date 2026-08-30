@@ -80,7 +80,10 @@ export class WindowManager {
 
     this.instanceCount += 1;
     const id = `${appId}-${this.instanceCount}`;
-    const bounds = this.getOpeningBounds(app.defaultWidth, app.defaultHeight);
+    const isMobile = this.isMobileViewport();
+    const bounds = isMobile
+      ? this.maximizedBounds()
+      : this.getOpeningBounds(app.defaultWidth, app.defaultHeight);
     const state: WindowState = {
       id,
       appId,
@@ -90,7 +93,7 @@ export class WindowManager {
       zIndex: ++this.state.highestZIndex,
       isOpen: true,
       isMinimized: false,
-      isMaximized: false,
+      isMaximized: isMobile,
     };
 
     const element = this.createWindowElement(state, app.render());
@@ -128,6 +131,12 @@ export class WindowManager {
     const element = this.getElement(windowId);
     if (!state || !element) return;
     state.isMinimized = false;
+    if (this.isMobileViewport()) {
+      Object.assign(state, this.maximizedBounds());
+      state.isMaximized = true;
+      state.previousBounds = undefined;
+      this.applyBounds(state, element);
+    }
     element.classList.remove("is-minimized");
     element.removeAttribute("aria-hidden");
     this.focusWindow(windowId);
@@ -136,6 +145,14 @@ export class WindowManager {
   maximizeWindow(windowId: string): void {
     const state = this.getWindow(windowId);
     if (!state) return;
+    if (this.isMobileViewport()) {
+      Object.assign(state, this.maximizedBounds());
+      state.previousBounds = undefined;
+      state.isMaximized = true;
+      this.applyBounds(state);
+      this.focusWindow(windowId);
+      return;
+    }
     if (state.isMaximized && state.previousBounds) {
       Object.assign(state, state.previousBounds);
       state.previousBounds = undefined;
@@ -324,7 +341,11 @@ export class WindowManager {
 
   private handleResize(): void {
     this.state.windows.forEach((state) => {
-      if (state.isMaximized) Object.assign(state, this.maximizedBounds());
+      if (this.isMobileViewport()) {
+        Object.assign(state, this.maximizedBounds());
+        state.isMaximized = true;
+        state.previousBounds = undefined;
+      } else if (state.isMaximized) Object.assign(state, this.maximizedBounds());
       else Object.assign(state, this.clampBounds(state));
       this.applyBounds(state);
     });
@@ -350,6 +371,10 @@ export class WindowManager {
     element.style.width = `${state.width}px`;
     element.style.height = `${state.height}px`;
     element.style.zIndex = String(state.zIndex);
+  }
+
+  private isMobileViewport(): boolean {
+    return window.innerWidth <= osConfig.mobileBreakpoint;
   }
 
   private getWindow(windowId: string): WindowState | undefined {

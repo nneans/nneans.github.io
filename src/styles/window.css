@@ -141,6 +141,13 @@
     height: 28px;
     flex-basis: 28px;
     cursor: default;
+    touch-action: manipulation;
+  }
+
+  .window-control {
+    width: 26px;
+    height: 24px;
+    font-size: 15px;
   }
 
   .task-button {
