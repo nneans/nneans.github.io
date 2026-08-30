@@ -1,0 +1,174 @@
+body {
+  overflow: hidden;
+  background: var(--desktop-bg);
+  color: #000;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  user-select: none;
+}
+
+.desktop {
+  position: fixed;
+  inset: 0 0 var(--taskbar-height);
+  overflow: hidden;
+  background: var(--desktop-bg);
+}
+
+.desktop-icons {
+  position: absolute;
+  inset: 8px;
+}
+
+.desktop-icon {
+  position: absolute;
+  display: flex;
+  width: 84px;
+  min-height: 78px;
+  padding: 2px;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  text-align: center;
+  touch-action: manipulation;
+}
+
+.desktop-icon__image {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.desktop-icon__label {
+  padding: 1px 3px;
+  line-height: 1.15;
+  text-shadow: 1px 1px #000;
+  pointer-events: none;
+}
+
+.desktop-icon[aria-selected="true"] .desktop-icon__label {
+  background: var(--selection);
+  outline: 1px dotted #fff;
+}
+
+.desktop-icon.is-dragging {
+  z-index: 10;
+  opacity: 0.72;
+}
+
+.desktop-icon.is-drop-target .desktop-icon__image {
+  outline: 2px dotted #fff;
+  outline-offset: 3px;
+}
+
+.desktop-signature {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  color: rgb(255 255 255 / 60%);
+  font-size: 11px;
+  text-shadow: 1px 1px rgb(0 0 0 / 35%);
+}
+
+.desktop-hit-counter {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px;
+  background: var(--surface);
+}
+
+.desktop-hit-counter__button {
+  min-width: 55px;
+  height: 27px;
+  padding-inline: 8px;
+  color: var(--active-title);
+  font-weight: 700;
+}
+
+.desktop-hit-counter__button:disabled {
+  color: #006000;
+  text-shadow: 1px 1px var(--highlight);
+}
+
+.desktop-hit-counter__digits {
+  display: grid;
+  min-width: 72px;
+  height: 27px;
+  padding: 3px 6px 2px;
+  place-items: center;
+  background: #050505;
+  color: #39ff71;
+  font: 16px/1 var(--font-ui);
+  letter-spacing: 2px;
+  text-shadow: 0 0 4px rgb(57 255 113 / 70%);
+}
+
+.desktop-hit-counter__notice {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  display: grid;
+  width: 205px;
+  gap: 3px;
+  padding: 7px 9px;
+  background: var(--surface);
+  color: #000;
+  line-height: 1.25;
+}
+
+.desktop-hit-counter__notice[hidden] {
+  display: none;
+}
+
+.desktop-hit-counter__notice strong {
+  color: var(--active-title);
+}
+
+.desktop-hit-counter__notice span {
+  font-size: 10px;
+}
+
+@media (max-width: 760px) {
+  .desktop {
+    overflow-y: auto;
+  }
+
+  .desktop-icons {
+    top: 55px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-content: start;
+    gap: 10px 2px;
+  }
+
+  .desktop-icon {
+    position: static;
+    width: auto;
+    min-width: 0;
+    min-height: 82px;
+  }
+
+  .desktop-signature {
+    display: none;
+  }
+
+  .desktop-hit-counter {
+    top: 8px;
+    right: 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .desktop-icons {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

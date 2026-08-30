@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "NeoDunggeunmo Pro";
+  src: url("/assets/fonts/neodgm-pro.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --desktop-bg: #008080;
+  --surface: #c0c0c0;
+  --surface-light: #dfdfdf;
+  --highlight: #ffffff;
+  --shadow: #808080;
+  --deep-shadow: #404040;
+  --dark-shadow: #000000;
+  --active-title: #000080;
+  --inactive-title: #808080;
+  --selection: #000080;
+  --taskbar-height: 34px;
+  --font-ui: "NeoDunggeunmo Pro", sans-serif;
+  --z-desktop: 1;
+  --z-window-base: 100;
+  --z-taskbar: 10000;
+  --z-menu: 10010;
+  --z-overlay: 20000;
+}

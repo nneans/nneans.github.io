@@ -1,0 +1,17 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "mingyun-os-hit-counter",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-30",
+  "vars": {
+    "ALLOWED_ORIGINS": "https://nneans.github.io,http://localhost:5173"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mingyun-os-hits",
+      "database_id": "a693fd66-27d5-442e-98cc-417eb6946e13",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

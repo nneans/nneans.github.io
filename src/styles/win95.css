@@ -1,0 +1,25 @@
+.raised {
+  border: 2px solid;
+  border-color: var(--highlight) var(--deep-shadow) var(--deep-shadow) var(--highlight);
+  box-shadow: inset 1px 1px var(--surface-light), inset -1px -1px var(--shadow);
+}
+
+.sunken,
+.raised:active {
+  border-color: var(--shadow) var(--highlight) var(--highlight) var(--shadow);
+  box-shadow: inset 1px 1px var(--dark-shadow), inset -1px -1px var(--surface-light);
+}
+
+.classic-button {
+  min-height: 23px;
+  padding: 2px 10px;
+  background: var(--surface);
+  border-radius: 0;
+  cursor: default;
+}
+
+.classic-button:focus-visible,
+.desktop-icon:focus-visible {
+  outline: 1px dotted var(--dark-shadow);
+  outline-offset: -4px;
+}

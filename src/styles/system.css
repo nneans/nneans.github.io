@@ -1,0 +1,145 @@
+.boot-screen,
+.sleep-overlay,
+.shutdown-overlay {
+  position: fixed;
+  z-index: var(--z-overlay);
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.boot-screen {
+  flex-direction: column;
+  gap: 18px;
+  color: #bcbcbc;
+  transition: opacity 120ms linear, visibility 0s linear 120ms;
+}
+
+.boot-screen.is-done {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.boot-logo {
+  color: #fff;
+  font-size: clamp(38px, 8vw, 80px);
+  font-weight: 700;
+  letter-spacing: -4px;
+}
+
+.boot-logo span {
+  color: #2b78c5;
+}
+
+.boot-logo small {
+  font-size: 0.45em;
+  letter-spacing: -2px;
+}
+
+.boot-subtitle,
+.boot-status {
+  margin: 0;
+  font-family: var(--font-ui);
+}
+
+.boot-subtitle {
+  color: #72b6f5;
+  font-size: 18px;
+}
+
+.boot-status {
+  color: #929292;
+}
+
+.boot-progress {
+  width: min(340px, 72vw);
+  height: 22px;
+  padding: 3px;
+  background: var(--surface);
+}
+
+.boot-progress i {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, #000080 0 12px, transparent 12px 16px);
+  animation: boot-progress var(--boot-duration, 3100ms) steps(12, end) forwards;
+}
+
+@keyframes boot-progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.sleep-overlay,
+.shutdown-overlay {
+  visibility: hidden;
+  flex-direction: column;
+  color: #fff;
+  opacity: 0;
+}
+
+.sleep-overlay.is-open,
+.shutdown-overlay.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sleep-overlay {
+  gap: 26px;
+  color: #aaa;
+  font-family: var(--font-ui);
+}
+
+.sleep-logo {
+  color: #388bd8;
+  font-family: var(--font-ui);
+  font-size: clamp(32px, 7vw, 68px);
+  font-weight: 700;
+}
+
+.sleep-logo span {
+  color: #fff;
+}
+
+.shutdown-overlay {
+  color: #d8b823;
+  text-align: center;
+}
+
+.shutdown-overlay p {
+  margin: 0 0 10px;
+  font: 25px/1.4 var(--font-ui);
+}
+
+.shutdown-overlay strong {
+  display: block;
+  color: #fff;
+  font: 18px/1.4 var(--font-ui);
+}
+
+.shutdown-restart {
+  margin-top: 30px;
+  border: 0;
+  background: transparent;
+  color: #929292;
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-screen {
+    transition: none;
+  }
+
+  .boot-progress i {
+    animation-duration: 1ms;
+  }
+}
+
+@media (max-width: 520px) {
+  .boot-subtitle {
+    max-width: 84vw;
+    text-align: center;
+  }
+}
