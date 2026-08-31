@@ -1,6 +1,7 @@
 import { desktopItems } from "../config/desktop";
 import { appCatalog, type AppMetadata } from "../apps/catalog";
 import { osConfig } from "../config/os";
+import { installMobileTapActivation } from "./mobileTap";
 import type { WindowManager } from "./windowManager";
 
 export type SystemAction = "restart" | "sleep" | "shutdown";
@@ -22,6 +23,8 @@ export class StartMenu {
   ) {
     this.element = this.createElement();
     document.body.append(this.element);
+    installMobileTapActivation(startButton);
+    installMobileTapActivation(this.element);
     startButton.addEventListener("click", (event) => {
       event.stopPropagation();
       this.setOpen(!this.open);

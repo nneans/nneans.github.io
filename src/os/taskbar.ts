@@ -1,4 +1,5 @@
 import type { OSState, WindowManager } from "./windowManager";
+import { installMobileTapActivation } from "./mobileTap";
 
 export class Taskbar {
   private readonly taskList: HTMLElement;
@@ -10,6 +11,7 @@ export class Taskbar {
     const taskList = element.querySelector<HTMLElement>(".task-list");
     if (!taskList) throw new Error("Missing task list");
     this.taskList = taskList;
+    installMobileTapActivation(element);
     windowManager.subscribe((state) => this.render(state));
   }
 

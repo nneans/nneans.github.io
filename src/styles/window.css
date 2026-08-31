@@ -77,6 +77,8 @@
   flex: 1;
   padding: 3px;
   overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   background: var(--surface);
 }
 

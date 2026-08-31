@@ -568,6 +568,12 @@
   line-height: 1.45;
 }
 
+.resume-header-contact a,
+.resume-entry__main strong,
+.resume-entry__main span {
+  overflow-wrap: anywhere;
+}
+
 .resume-entry {
   display: flex;
   justify-content: space-between;
@@ -1985,6 +1991,11 @@
   line-height: 1.2;
 }
 
+.time-travel-viewer__details > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .time-travel-viewer__controls {
   display: flex;
   flex: 0 0 auto;
@@ -2058,7 +2069,64 @@
 
   .resume-page {
     margin-inline: 3px;
-    padding: 16px;
+    padding: 14px 12px 18px;
+  }
+
+  .resume-toolbar {
+    min-height: 28px;
+    gap: 7px;
+    padding-inline: 3px;
+  }
+
+  .resume-toolbar span {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .resume-page h1 {
+    font-size: 21px;
+  }
+
+  .resume-page h2 {
+    margin-top: 14px;
+  }
+
+  .resume-entry {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+    margin: 10px 0;
+  }
+
+  .resume-entry time {
+    order: -1;
+    justify-self: start;
+    color: var(--active-title);
+    font-size: 10px;
+  }
+
+  .resume-entry__heading {
+    gap: 4px;
+  }
+
+  .resume-entry span {
+    font-size: 10px;
+  }
+
+  .mail-form {
+    padding: 9px;
+  }
+
+  .mail-form__row {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .mail-form__actions {
+    justify-content: flex-end;
   }
 
   .aims-layout {
@@ -2081,6 +2149,12 @@
   .nostalgia-controls .nostalgia-volume-label,
   .nostalgia-controls .nostalgia-volume {
     display: none;
+  }
+
+  .nostalgia-controls .classic-button,
+  .time-travel-viewer__close {
+    min-width: 32px;
+    min-height: 30px;
   }
 
   .time-travel-intro {
@@ -2140,6 +2214,8 @@
   .time-travel-viewer__details {
     align-items: stretch;
     flex-direction: column;
+    gap: 6px;
+    min-height: 0;
   }
 }
 

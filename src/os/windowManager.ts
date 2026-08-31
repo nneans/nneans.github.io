@@ -1,5 +1,6 @@
 import { getAppDefinition } from "../apps/registry";
 import { osConfig } from "../config/os";
+import { installMobileTapActivation } from "./mobileTap";
 
 export interface WindowBounds {
   x: number;
@@ -55,14 +56,11 @@ export class WindowManager {
 
   private listeners = new Set<StateListener>();
   private dragState: DragState | null = null;
-  private touchActivatedTargets = new WeakSet<HTMLElement>();
-  private syntheticTouchTarget: HTMLElement | null = null;
   private instanceCount = 0;
 
   constructor(private readonly layer: HTMLElement) {
     window.addEventListener("resize", () => this.handleResize());
-    this.layer.addEventListener("pointerup", (event) => this.activateMobileTarget(event));
-    this.layer.addEventListener("click", (event) => this.suppressDuplicateMobileClick(event), true);
+    installMobileTapActivation(this.layer);
   }
 
   subscribe(listener: StateListener): () => void {
@@ -395,34 +393,6 @@ export class WindowManager {
     return window.innerWidth <= osConfig.mobileBreakpoint;
   }
 
-  private activateMobileTarget(event: PointerEvent): void {
-    if (!this.isMobileViewport() || event.pointerType === "mouse" || event.defaultPrevented) return;
-    const target = this.mobileActivationTarget(event.target);
-    if (!target) return;
-
-    this.touchActivatedTargets.add(target);
-    this.syntheticTouchTarget = target;
-    event.preventDefault();
-    target.click();
-    this.syntheticTouchTarget = null;
-  }
-
-  private suppressDuplicateMobileClick(event: MouseEvent): void {
-    if (!this.isMobileViewport()) return;
-    const target = this.mobileActivationTarget(event.target);
-    if (!target || this.syntheticTouchTarget === target || !this.touchActivatedTargets.has(target)) return;
-    this.touchActivatedTargets.delete(target);
-    event.preventDefault();
-    event.stopImmediatePropagation();
-  }
-
-  private mobileActivationTarget(target: EventTarget | null): HTMLElement | null {
-    if (!(target instanceof Element)) return null;
-    const candidate = target.closest<HTMLElement>("button, a[href], video");
-    if (!candidate || !this.layer.contains(candidate)) return null;
-    if (candidate instanceof HTMLButtonElement && candidate.disabled) return null;
-    return candidate;
-  }
 
   private getWindow(windowId: string): WindowState | undefined {
     return this.state.windows.find((candidate) => candidate.id === windowId);

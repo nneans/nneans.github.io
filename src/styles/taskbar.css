@@ -46,7 +46,14 @@
   min-width: 0;
   flex: 1;
   gap: 4px;
-  overflow: hidden;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.task-list::-webkit-scrollbar {
+  display: none;
 }
 
 .clock {
@@ -71,5 +78,9 @@
   .clock {
     min-width: 58px;
     padding-inline: 5px;
+  }
+
+  .task-button {
+    flex: 0 0 min(128px, 36vw);
   }
 }

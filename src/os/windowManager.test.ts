@@ -127,6 +127,21 @@ describe("WindowManager and taskbar synchronization", () => {
     expect(app?.querySelector(".time-travel-lightbox")?.hasAttribute("hidden")).toBe(false);
   });
 
+  it("restores a minimized task with one mobile tap", () => {
+    setViewport(390, 844);
+    const taskbar = createTaskbar(manager);
+    document.body.append(taskbar);
+    const id = manager.openWindow("about");
+    manager.minimizeWindow(id);
+
+    taskbar.querySelector<HTMLButtonElement>(".task-button")?.dispatchEvent(
+      new PointerEvent("pointerup", { bubbles: true, pointerType: "touch" }),
+    );
+
+    expect(manager.state.windows[0]).toMatchObject({ id, isMinimized: false });
+    expect(manager.state.activeWindowId).toBe(id);
+  });
+
   it("closes all windows during a reset", () => {
     manager.openWindow("about");
     manager.openWindow("workArchive");

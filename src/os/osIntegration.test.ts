@@ -8,6 +8,11 @@ import { WindowManager } from "./windowManager";
 import { recycleStore } from "./recycleStore";
 import { desktopItems } from "../config/desktop";
 
+function setViewport(width = 1366, height = 768): void {
+  Object.defineProperty(window, "innerWidth", { configurable: true, value: width });
+  Object.defineProperty(window, "innerHeight", { configurable: true, value: height });
+}
+
 describe("desktop, Start menu, and system flows", () => {
   let root: HTMLElement;
   let layer: HTMLElement;
@@ -16,6 +21,7 @@ describe("desktop, Start menu, and system flows", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
     document.body.replaceChildren();
+    setViewport();
     recycleStore.empty();
     root = document.createElement("main");
     layer = document.createElement("div");
@@ -50,6 +56,26 @@ describe("desktop, Start menu, and system flows", () => {
       button.textContent?.includes("About Me"),
     );
     about?.click();
+
+    expect(manager.state.windows[0]?.appId).toBe("about");
+    expect(startButton.getAttribute("aria-expanded")).toBe("false");
+  });
+
+  it("opens Start and launches an app with mobile taps", () => {
+    setViewport(390, 844);
+    const startButton = document.createElement("button");
+    startButton.className = "start-button";
+    startButton.setAttribute("aria-expanded", "false");
+    document.body.append(startButton);
+    const menu = new StartMenu(startButton, manager, vi.fn());
+
+    startButton.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerType: "touch" }));
+    expect(startButton.getAttribute("aria-expanded")).toBe("true");
+
+    const about = [...menu.element.querySelectorAll<HTMLButtonElement>(".start-menu__item")].find((button) =>
+      button.textContent?.includes("About Me"),
+    );
+    about?.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerType: "touch" }));
 
     expect(manager.state.windows[0]?.appId).toBe("about");
     expect(startButton.getAttribute("aria-expanded")).toBe("false");
