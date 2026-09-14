@@ -198,6 +198,10 @@ describe("interactive application registry", () => {
     );
     app.querySelector<HTMLButtonElement>('[aria-label="Close photo viewer"]')?.click();
     expect(app.querySelector(".time-travel-lightbox")?.hasAttribute("hidden")).toBe(true);
+    document.dispatchEvent(new CustomEvent("time-travel:open-date", { detail: { date: "2026.05.08" } }));
+    expect(app.querySelector(".time-travel-viewer__titlebar")?.textContent).toContain("2026.05.08");
+    expect(app.querySelector<HTMLImageElement>(".time-travel-viewer__stage img")?.src).toContain("sports-day");
+    app.dispatchEvent(new CustomEvent("app:dispose"));
   });
 
   it("opens Work Archive folders in the configured order", () => {

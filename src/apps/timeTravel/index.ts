@@ -223,10 +223,25 @@ export function renderTimeTravel(): HTMLElement {
     status.textContent = `${selectedFilter} · ${years.length} ${years.length === 1 ? "year" : "years"} · ${frames.length} ${frames.length === 1 ? "photo" : "photos"}`;
   }
 
+  const openDate = (event: Event): void => {
+    const date = (event as CustomEvent<{ date: string }>).detail?.date;
+    if (!date) return;
+    selectedFilter = "All";
+    renderFilters();
+    renderGallery();
+    const frame = visibleFrames().find((candidate) => candidate.photo.date === date);
+    if (frame) openLightbox(frame.key);
+  };
+
+  document.addEventListener("time-travel:open-date", openDate);
+
   lightbox.addEventListener("click", (event) => {
     if (event.target === lightbox) closeLightbox();
   });
-  app.addEventListener("app:dispose", () => imageObserver?.disconnect(), { once: true });
+  app.addEventListener("app:dispose", () => {
+    imageObserver?.disconnect();
+    document.removeEventListener("time-travel:open-date", openDate);
+  }, { once: true });
   app.addEventListener("keydown", (event) => {
     if (lightbox.hidden || !openFrameKey) return;
     if (event.key === "Escape") closeLightbox();

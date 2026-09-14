@@ -66,6 +66,100 @@
   white-space: nowrap;
 }
 
+.music-tray {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.music-tray[hidden],
+.music-tray__popup[hidden] {
+  display: none;
+}
+
+.music-tray__toggle {
+  display: flex;
+  width: 150px;
+  height: 27px;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  padding: 2px 7px;
+}
+
+.music-tray__note {
+  color: #000080;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.music-tray__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.music-tray__popup {
+  position: absolute;
+  right: 0;
+  bottom: 32px;
+  display: grid;
+  width: 270px;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 8px;
+  padding: 7px;
+  background: var(--surface);
+}
+
+.music-tray__artwork {
+  width: 56px;
+  height: 56px;
+  grid-row: span 2;
+  object-fit: cover;
+}
+
+.music-tray__copy {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  gap: 3px;
+}
+
+.music-tray__copy strong,
+.music-tray__copy span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.music-tray__copy span {
+  color: #555;
+  font-size: 10px;
+}
+
+.music-tray__progress {
+  height: 5px;
+  overflow: hidden;
+  border: 1px solid var(--shadow);
+  background: #fff;
+}
+
+.music-tray__progress i {
+  display: block;
+  height: 100%;
+  background: #000080;
+}
+
+.music-tray__controls {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: 40px 40px 40px 1fr;
+  gap: 4px;
+}
+
+.music-tray__controls button {
+  min-height: 25px;
+}
+
 @media (max-width: 560px) {
   .start-button__label {
     display: none;
@@ -82,5 +176,15 @@
 
   .task-button {
     flex: 0 0 min(128px, 36vw);
+  }
+
+  .music-tray__toggle {
+    width: 31px;
+    justify-content: center;
+    padding: 2px;
+  }
+
+  .music-tray__title {
+    display: none;
   }
 }

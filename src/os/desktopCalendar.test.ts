@@ -17,16 +17,16 @@ describe("desktop calendar", () => {
   it("marks saved memory dates and opens Time Travel from a marked day", () => {
     const calendar = createDesktopCalendar(new Date(2026, 7, 1));
     const memoryDay = calendar.querySelector<HTMLButtonElement>(".desktop-calendar__day.is-memory");
-    const openApp = vi.fn();
-    document.addEventListener("os:open-app", openApp);
+    const openTimeTravel = vi.fn();
+    document.addEventListener("os:open-time-travel", openTimeTravel);
 
     expect(calendar.querySelectorAll(".desktop-calendar__day.is-memory").length).toBeGreaterThan(0);
     expect(calendar.querySelector(".desktop-calendar__recent")).toBeNull();
     expect(calendar.querySelector(".desktop-calendar__footer")?.textContent).toBe("Today: Aug 1, 2026");
     memoryDay?.click();
 
-    expect(openApp).toHaveBeenCalledOnce();
-    expect(openApp.mock.calls[0][0]).toMatchObject({ detail: "timeTravel" });
-    document.removeEventListener("os:open-app", openApp);
+    expect(openTimeTravel).toHaveBeenCalledOnce();
+    expect(openTimeTravel.mock.calls[0][0]).toMatchObject({ detail: { date: expect.stringMatching(/^2026\.08\./) } });
+    document.removeEventListener("os:open-time-travel", openTimeTravel);
   });
 });

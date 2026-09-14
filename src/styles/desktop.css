@@ -65,15 +65,6 @@ body {
   outline-offset: 3px;
 }
 
-.desktop-signature {
-  position: absolute;
-  right: 12px;
-  bottom: 10px;
-  color: rgb(255 255 255 / 60%);
-  font-size: 11px;
-  text-shadow: 1px 1px rgb(0 0 0 / 35%);
-}
-
 .desktop-widgets {
   position: static;
 }
@@ -227,8 +218,8 @@ button.desktop-calendar__day:focus-visible {
 .desktop-hit-counter {
   position: absolute;
   z-index: 2;
-  right: 24px;
-  bottom: 42px;
+  right: 8px;
+  bottom: 8px;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -309,10 +300,6 @@ button.desktop-calendar__day:focus-visible {
     width: auto;
     min-width: 0;
     min-height: 82px;
-  }
-
-  .desktop-signature {
-    display: none;
   }
 
   .desktop-hit-counter {

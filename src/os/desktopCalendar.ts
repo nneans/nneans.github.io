@@ -54,8 +54,8 @@ function memoryMarks(): MemoryMark[] {
   return [...marks.values()].sort((a, b) => b.key.localeCompare(a.key));
 }
 
-function openTimeTravel(): void {
-  document.dispatchEvent(new CustomEvent("os:open-app", { detail: "timeTravel" }));
+function openTimeTravel(date: string): void {
+  document.dispatchEvent(new CustomEvent("os:open-time-travel", { detail: { date } }));
 }
 
 function createDayCell(
@@ -82,7 +82,7 @@ function createDayCell(
     cell.setAttribute("aria-label", `${mark.dateLabel}: ${mark.title}. Open Time Travel.`);
     cell.title = `${mark.title} · ${mark.location}`;
     (cell as HTMLButtonElement).type = "button";
-    cell.addEventListener("click", openTimeTravel);
+    cell.addEventListener("click", () => openTimeTravel(mark.dateLabel));
   }
   return cell;
 }

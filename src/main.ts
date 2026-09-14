@@ -19,6 +19,7 @@ import { SystemController } from "./os/system";
 import { Taskbar } from "./os/taskbar";
 import { WindowManager } from "./os/windowManager";
 import { createDesktopCalendar } from "./os/desktopCalendar";
+import { createMusicTray } from "./os/musicTray";
 
 function createDesktop(): HTMLElement {
   const desktop = document.createElement("section");
@@ -56,13 +57,10 @@ function createDesktop(): HTMLElement {
     icons.append(button);
   });
 
-  const signature = document.createElement("div");
-  signature.className = "desktop-signature";
-  signature.textContent = "MINGYUN KANG · INDUSTRIAL DATA ENGINEERING · 2026";
   const desktopWidgets = document.createElement("div");
   desktopWidgets.className = "desktop-widgets";
   desktopWidgets.append(createDesktopCalendar(), createHitCounter());
-  desktop.append(icons, desktopWidgets, signature);
+  desktop.append(icons, desktopWidgets);
   return desktop;
 }
 
@@ -86,6 +84,7 @@ function createTaskbar(): HTMLElement {
     update.title = "The modern-site transition is outside this build's scope.";
     taskbar.append(update);
   }
+  taskbar.append(createMusicTray());
   const clock = document.createElement("time");
   clock.className = "clock sunken";
   clock.setAttribute("aria-label", "Current time");
@@ -120,5 +119,10 @@ system.connectStartMenu(startMenu);
 document.addEventListener("os:open-app", (event) => {
   const appId = (event as CustomEvent<string>).detail;
   if (appId) windowManager.openWindow(appId);
+});
+document.addEventListener("os:open-time-travel", (event) => {
+  const date = (event as CustomEvent<{ date: string }>).detail?.date;
+  windowManager.openWindow("timeTravel");
+  if (date) document.dispatchEvent(new CustomEvent("time-travel:open-date", { detail: { date } }));
 });
 void system.initialize();

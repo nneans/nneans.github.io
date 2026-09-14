@@ -1,4 +1,5 @@
 import { appShell, element, menuBar } from "../shared/dom";
+import type { MusicTrayState } from "../../os/musicTray";
 
 interface PlaylistTrack {
   title: string;
@@ -146,6 +147,20 @@ export function renderNapster(): HTMLElement {
   let hasSelectedTrack = false;
   const trackButtons: HTMLButtonElement[] = [];
 
+  const emitMusicState = (active = true): void => {
+    const selected = tracks[selectedIndex];
+    const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+    const state: MusicTrayState = {
+      active,
+      title: hasSelectedTrack ? selected.title : playlistTitle,
+      artist: hasSelectedTrack ? selected.artist : playlistOwner,
+      artwork: hasSelectedTrack ? selected.artwork : playlistArtwork,
+      playing: !audio.paused,
+      progress: duration > 0 ? (audio.currentTime / duration) * 100 : 0,
+    };
+    document.dispatchEvent(new CustomEvent("os:music-state", { detail: state }));
+  };
+
   const updateSelection = (): void => {
     const selected = tracks[selectedIndex];
     if (hasSelectedTrack) {
@@ -177,6 +192,7 @@ export function renderNapster(): HTMLElement {
     audio.load();
     updateSelection();
     trackButtons[selectedIndex]?.scrollIntoView({ block: "nearest" });
+    emitMusicState();
     if (autoplay) void playSelected();
   };
 
@@ -231,17 +247,20 @@ export function renderNapster(): HTMLElement {
     playButton.classList.add("is-playing");
     playButton.setAttribute("aria-label", "Pause");
     tableRow.lastElementChild!.textContent = "Preview Playing";
+    emitMusicState();
   });
   audio.addEventListener("pause", () => {
     playButton.classList.remove("is-playing");
     playButton.setAttribute("aria-label", "Play");
     tableRow.lastElementChild!.textContent = "Preview Ready";
+    if (hasSelectedTrack) emitMusicState();
   });
   audio.addEventListener("timeupdate", () => {
     const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
     seek.value = duration > 0 ? String((audio.currentTime / duration) * 100) : "0";
     elapsed.textContent = formatTime(audio.currentTime);
     remaining.textContent = `-${formatTime(Math.max(0, duration - audio.currentTime))}`;
+    emitMusicState();
   });
   audio.addEventListener("loadedmetadata", () => {
     remaining.textContent = `-${formatTime(audio.duration)}`;
@@ -249,7 +268,22 @@ export function renderNapster(): HTMLElement {
   audio.addEventListener("ended", () => {
     selectTrack(selectedIndex + 1);
   });
-  app.addEventListener("app:dispose", () => audio.pause(), { once: true });
+  const handleMusicCommand = (event: Event): void => {
+    const command = (event as CustomEvent<string>).detail;
+    if (command === "previous") selectTrack(selectedIndex - 1);
+    if (command === "next") selectTrack(selectedIndex + 1);
+    if (command === "play-pause") {
+      if (audio.paused) void playSelected();
+      else audio.pause();
+    }
+    if (command === "open") document.dispatchEvent(new CustomEvent("os:open-app", { detail: "napster" }));
+  };
+  document.addEventListener("os:music-command", handleMusicCommand);
+  app.addEventListener("app:dispose", () => {
+    audio.pause();
+    document.removeEventListener("os:music-command", handleMusicCommand);
+    emitMusicState(false);
+  }, { once: true });
 
   trackPanel.append(trackHeading, trackList, openCurrent);
   layout.append(nowPlaying, trackPanel);
