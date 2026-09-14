@@ -857,6 +857,11 @@
   color: #53e85f;
 }
 
+.napster-app {
+  overflow: hidden;
+  container-type: inline-size;
+}
+
 .napster-header strong {
   font-size: 18px;
   letter-spacing: 3px;
@@ -865,6 +870,10 @@
 .napster-search {
   display: flex;
   gap: 5px;
+}
+
+.napster-search .classic-button {
+  white-space: nowrap;
 }
 
 .napster-results {
@@ -889,16 +898,352 @@
   color: #fff;
 }
 
-.napster-player,
-.napster-embed {
-  width: 100%;
-}
-
-.napster-embed {
+.napster-player-layout {
+  display: grid;
+  min-width: 0;
   min-height: 0;
   flex: 1;
+  grid-template-columns: minmax(190px, 0.88fr) minmax(230px, 1.12fr);
+  overflow: hidden;
+  background: #f4f4f4;
+}
+
+.napster-now-playing {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  padding: 12px 14px 10px;
+  overflow: hidden;
+  border-right: 1px solid #d2d2d2;
+  background: linear-gradient(#f4f4f4, #fafafa);
+}
+
+.napster-playlist-cover {
+  width: min(100%, 240px);
+  max-height: 200px;
+  aspect-ratio: 1;
+  align-self: center;
+  border-radius: 7px;
+  background: #d8d8d8;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
+  object-fit: cover;
+}
+
+.napster-playlist-details {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.napster-playlist-title {
+  overflow: hidden;
+  font-size: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.napster-playlist-owner {
+  flex: 0 0 auto;
+  color: #777;
+}
+
+.napster-current-track {
+  display: grid;
+  min-height: 47px;
+  gap: 2px;
+  margin-top: 9px;
+  padding-top: 7px;
+  border-top: 1px solid #ddd;
+}
+
+.napster-current-track small {
+  color: #ff2942;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.napster-current-track strong,
+.napster-current-track span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.napster-current-track span {
+  color: #777;
+  font-size: 10px;
+}
+
+.napster-progress {
+  margin-top: 5px;
+}
+
+.napster-seek {
+  width: 100%;
+  height: 14px;
+  margin: 0;
+  accent-color: #777;
+  cursor: pointer;
+}
+
+.napster-progress-times {
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  font-size: 10px;
+}
+
+.napster-controls {
+  display: grid;
+  flex: 0 0 42px;
+  align-items: center;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.napster-skip-button,
+.napster-play-button {
+  position: relative;
   border: 0;
+  background: transparent;
+  color: #111;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.napster-skip-button {
+  height: 32px;
+}
+
+.napster-skip-button::before,
+.napster-skip-button::after {
+  position: absolute;
+  top: 8px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  content: "";
+}
+
+.napster-skip-button::before {
+  left: calc(50% - 10px);
+  border-right: 12px solid #111;
+}
+
+.napster-skip-button::after {
+  left: calc(50% + 2px);
+  border-right: 12px solid #111;
+}
+
+.napster-skip-button:last-child {
+  transform: rotate(180deg);
+}
+
+.napster-play-button {
+  min-height: 38px;
+}
+
+.napster-play-button::before {
+  display: block;
+  width: 0;
+  height: 0;
+  margin: auto;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-left: 20px solid #111;
+  content: "";
+}
+
+.napster-play-button.is-playing::before {
+  width: 15px;
+  height: 25px;
+  border: 0;
+  background: linear-gradient(90deg, #111 0 5px, transparent 5px 10px, #111 10px 15px);
+}
+
+.napster-play-button:hover,
+.napster-play-button:focus-visible {
+  outline: 1px dotted #111;
+  background: #e5e5e5;
+}
+
+.napster-play-button:active {
+  transform: translateY(1px);
+}
+
+.napster-audio {
+  display: none;
+}
+
+.napster-track-panel {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
   background: #fff;
+}
+
+.napster-track-heading {
+  display: flex;
+  min-height: 32px;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 10px;
+  border-bottom: 1px solid #ddd;
+  color: #333;
+}
+
+.napster-track-heading span {
+  color: #888;
+  font-size: 9px;
+}
+
+.napster-track-list {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.napster-track-item {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  min-height: 58px;
+  align-items: center;
+  grid-template-columns: 44px minmax(0, 1fr) 24px;
+  gap: 9px;
+  padding: 7px 8px;
+  border: 0;
+  border-bottom: 1px solid #e5e5e5;
+  border-radius: 0;
+  background: #fff;
+  text-align: left;
+}
+
+.napster-track-item:hover,
+.napster-track-item:focus-visible {
+  outline: 0;
+  background: #eee;
+}
+
+.napster-track-item.is-selected {
+  background: #e5e5e5;
+}
+
+.napster-track-item img {
+  width: 44px;
+  height: 44px;
+  border-radius: 3px;
+  background: #ddd;
+  object-fit: cover;
+}
+
+.napster-track-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.napster-track-copy strong,
+.napster-track-copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.napster-track-copy strong {
+  font-size: 12px;
+}
+
+.napster-track-copy small,
+.napster-track-number {
+  color: #888;
+  font-size: 10px;
+}
+
+.napster-track-number {
+  text-align: right;
+}
+
+.napster-open-current {
+  min-height: 39px;
+  flex: 0 0 39px;
+  padding: 6px 10px;
+  border: 0;
+  border-top: 1px solid #ddd;
+  border-radius: 0;
+  background: #fff;
+  color: #ff1f3d;
+  cursor: pointer;
+  font-weight: 700;
+  text-align: left;
+}
+
+.napster-open-current:hover,
+.napster-open-current:focus-visible {
+  outline: 0;
+  background: #f5f5f5;
+  text-decoration: underline;
+}
+
+@container (max-width: 520px) {
+  .napster-player-layout {
+    grid-template-columns: minmax(128px, 0.85fr) minmax(0, 1.15fr);
+  }
+
+  .napster-now-playing {
+    padding: 8px;
+  }
+
+  .napster-playlist-cover {
+    max-height: 138px;
+  }
+
+  .napster-playlist-details {
+    display: grid;
+    margin-top: 7px;
+  }
+
+  .napster-playlist-title {
+    font-size: 14px;
+  }
+
+  .napster-current-track {
+    min-height: 40px;
+    margin-top: 6px;
+    padding-top: 5px;
+  }
+
+  .napster-play-button {
+    min-height: 36px;
+  }
+
+  .napster-track-item {
+    min-height: 50px;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .napster-track-item img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .napster-track-number {
+    display: none;
+  }
 }
 
 .nostalgia-layout {

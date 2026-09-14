@@ -8,6 +8,7 @@ import { renderAbout } from "./about";
 import { renderClippyHelp } from "./clippyHelp";
 import { renderCv } from "./cv";
 import { renderKidPix } from "./kidPix";
+import { renderNapster } from "./napster";
 import { renderNostalgiaMoments } from "./nostalgiaMoments";
 import { renderPopCultureQuiz } from "./popCultureQuiz";
 import { renderTimeTravel } from "./timeTravel";
@@ -135,6 +136,21 @@ describe("interactive application registry", () => {
     app.querySelector<HTMLButtonElement>('[aria-label="Next video"]')?.click();
     expect(app.querySelector(".nostalgia-now-playing")?.textContent).toContain("살자 제발 2");
     expect(app.querySelector(".app-status")?.textContent).toContain("2 of 2");
+  });
+
+  it("keeps the Napster player fixed while only the song list scrolls", () => {
+    const app = renderNapster();
+
+    expect(app.querySelector(".napster-now-playing")).not.toBeNull();
+    expect(app.querySelectorAll(".napster-track-item")).toHaveLength(7);
+    expect(app.querySelector(".napster-track-list")).not.toBeNull();
+    expect(app.querySelector("iframe")).toBeNull();
+    expect(app.querySelector(".napster-track-item.is-selected")?.textContent).toContain("Silence");
+    expect(app.querySelector(".napster-playlist-title")?.textContent).toBe("Cree-pung");
+    expect(app.querySelector(".napster-preview-note")).toBeNull();
+    expect(app.querySelector<HTMLInputElement>(".napster-seek")?.value).toBe("0");
+    expect(app.querySelectorAll(".napster-controls button")).toHaveLength(3);
+    app.dispatchEvent(new CustomEvent("app:dispose"));
   });
 
   it("opens the year-grouped Time Travel photo gallery", () => {
