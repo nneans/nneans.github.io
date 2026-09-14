@@ -18,6 +18,7 @@ import { StartMenu } from "./os/startMenu";
 import { SystemController } from "./os/system";
 import { Taskbar } from "./os/taskbar";
 import { WindowManager } from "./os/windowManager";
+import { createDesktopCalendar } from "./os/desktopCalendar";
 
 function createDesktop(): HTMLElement {
   const desktop = document.createElement("section");
@@ -58,7 +59,10 @@ function createDesktop(): HTMLElement {
   const signature = document.createElement("div");
   signature.className = "desktop-signature";
   signature.textContent = "MINGYUN KANG · INDUSTRIAL DATA ENGINEERING · 2026";
-  desktop.append(icons, createHitCounter(), signature);
+  const desktopWidgets = document.createElement("div");
+  desktopWidgets.className = "desktop-widgets";
+  desktopWidgets.append(createDesktopCalendar(), createHitCounter());
+  desktop.append(icons, desktopWidgets, signature);
   return desktop;
 }
 

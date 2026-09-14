@@ -74,11 +74,161 @@ body {
   text-shadow: 1px 1px rgb(0 0 0 / 35%);
 }
 
+.desktop-widgets {
+  position: static;
+}
+
+.desktop-calendar {
+  position: absolute;
+  z-index: 1;
+  top: 54px;
+  right: clamp(24px, 7vw, 116px);
+  display: flex;
+  width: clamp(270px, 24vw, 318px);
+  flex-direction: column;
+  gap: 7px;
+  color: rgb(239 255 255 / 82%);
+}
+
+.desktop-calendar__header {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 24px;
+  min-height: 27px;
+  align-items: center;
+  border-bottom: 1px solid rgb(239 255 255 / 38%);
+  text-align: center;
+}
+
+.desktop-calendar__title {
+  overflow: hidden;
+  color: rgb(239 255 255 / 88%);
+  font-size: 14px;
+  letter-spacing: 0.7px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.desktop-calendar__month-button {
+  width: 24px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgb(239 255 255 / 88%);
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.desktop-calendar__month-button:hover,
+.desktop-calendar__month-button:focus-visible {
+  outline: 1px dotted #fff;
+  outline-offset: -2px;
+  color: #fff;
+}
+
+.desktop-calendar__month-button:active {
+  transform: translateY(1px);
+}
+
+.desktop-calendar__header::before,
+.desktop-calendar__header::after {
+  display: none;
+}
+
+.desktop-calendar__eyebrow,
+.desktop-calendar__year {
+  display: none;
+}
+
+.desktop-calendar__weekdays,
+.desktop-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.desktop-calendar__weekdays {
+  padding: 0 3px;
+  color: rgb(239 255 255 / 76%);
+  font-size: 9px;
+  letter-spacing: 0.4px;
+  text-align: center;
+}
+
+.desktop-calendar__grid {
+  gap: 0;
+}
+
+.desktop-calendar__day {
+  display: grid;
+  min-height: 29px;
+  place-items: center;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgb(239 255 255 / 82%);
+  font: inherit;
+  font-size: 12px;
+}
+
+button.desktop-calendar__day {
+  cursor: pointer;
+}
+
+button.desktop-calendar__day:hover,
+button.desktop-calendar__day:focus-visible {
+  outline: 1px dotted rgb(255 255 255 / 90%);
+  outline-offset: -4px;
+  background: rgb(0 0 0 / 8%);
+}
+
+.desktop-calendar__day.is-outside {
+  color: rgb(239 255 255 / 34%);
+}
+
+.desktop-calendar__day.is-sunday,
+.desktop-calendar__day.is-saturday {
+  color: rgb(239 255 255 / 82%);
+}
+
+.desktop-calendar__day.is-today {
+  margin: 3px;
+  min-height: 23px;
+  box-shadow: inset 0 0 0 1px rgb(239 255 255 / 88%);
+  background: rgb(0 0 0 / 12%);
+  color: #fff;
+  font-weight: 700;
+}
+
+.desktop-calendar__day.is-memory {
+  position: relative;
+  font-weight: 700;
+}
+
+.desktop-calendar__day.is-memory::after {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgb(239 255 255 / 84%);
+  content: "";
+}
+
+.desktop-calendar__footer {
+  padding-top: 8px;
+  border-top: 1px solid rgb(239 255 255 / 38%);
+  color: rgb(239 255 255 / 82%);
+  font-size: 11px;
+  letter-spacing: 0;
+}
+
 .desktop-hit-counter {
   position: absolute;
   z-index: 2;
-  top: 12px;
-  right: 14px;
+  right: 24px;
+  bottom: 42px;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -137,15 +287,19 @@ body {
   font-size: 10px;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .desktop {
     overflow-y: auto;
   }
 
+  .desktop-calendar {
+    display: none;
+  }
+
   .desktop-icons {
-    top: 55px;
+    top: 8px;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-content: start;
     gap: 10px 2px;
   }
@@ -162,13 +316,54 @@ body {
   }
 
   .desktop-hit-counter {
-    top: 8px;
     right: 8px;
+    top: auto;
+    bottom: 8px;
+    gap: 3px;
+    padding: 2px;
+    z-index: 3;
   }
-}
 
-@media (max-width: 420px) {
-  .desktop-icons {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .desktop-hit-counter__button {
+    min-width: 34px;
+    height: 22px;
+    padding-inline: 4px;
+    font-size: 10px;
   }
+
+  .desktop-hit-counter__digits {
+    min-width: 54px;
+    height: 22px;
+    padding: 2px 3px;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .desktop-calendar__day {
+    min-height: 22px;
+  }
+
+  .desktop-calendar__day.is-today {
+    min-height: 16px;
+    margin: 2px;
+  }
+
+  .desktop-calendar__footer {
+    padding-top: 5px;
+    font-size: 9px;
+  }
+
+  .desktop-calendar__weekdays {
+    font-size: 8px;
+  }
+
+  .desktop-calendar__title {
+    font-size: 11px;
+  }
+
+  .desktop-calendar__month-button {
+    width: 20px;
+    font-size: 8px;
+  }
+
 }
