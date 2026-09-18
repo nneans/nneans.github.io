@@ -143,3 +143,125 @@
     text-align: center;
   }
 }
+
+/* Classic screensavers: they sit over everything but the sleep and shutdown overlays. */
+.screensaver {
+  position: fixed;
+  z-index: calc(var(--z-overlay) - 1);
+  inset: 0;
+  background: #000;
+  cursor: none;
+}
+
+.screensaver[hidden] {
+  display: none;
+}
+
+.screensaver canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Clippy, uninvited as ever. */
+.clippy-pop {
+  position: fixed;
+  z-index: calc(var(--z-taskbar) - 1);
+  right: 16px;
+  bottom: calc(var(--taskbar-height) + 14px);
+  display: flex;
+  max-width: min(360px, calc(100vw - 32px));
+  align-items: flex-start;
+  gap: 10px;
+  animation: clippy-rise 0.25s ease-out;
+}
+
+.clippy-pop[hidden] {
+  display: none;
+}
+
+@keyframes clippy-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.clippy-pop__buddy {
+  order: 2;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 82px;
+  border-width: 6px;
+  border-radius: 28px;
+}
+
+.clippy-pop__buddy::before,
+.clippy-pop__buddy::after {
+  top: 12px;
+  width: 13px;
+  height: 13px;
+}
+
+.clippy-pop__buddy::before { left: 5px; }
+.clippy-pop__buddy::after { right: 5px; }
+
+.clippy-pop__buddy i {
+  top: 17px;
+  width: 4px;
+  height: 4px;
+}
+
+.clippy-pop__buddy i:first-child { left: 10px; }
+.clippy-pop__buddy i:last-child { right: 10px; }
+
+.clippy-pop__bubble {
+  display: grid;
+  gap: 9px;
+  padding: 11px 13px;
+  order: 1;
+}
+
+.clippy-pop__bubble::before {
+  display: none;
+}
+
+.clippy-pop__text {
+  margin: 0;
+  padding-right: 16px;
+  line-height: 1.45;
+}
+
+.clippy-pop__close {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #444;
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.clippy-pop__close:hover {
+  color: #000;
+}
+
+.clippy-pop__mute {
+  justify-self: start;
+  height: 22px;
+  padding-inline: 8px;
+  font-size: 10px;
+}
+
+@media (max-width: 900px) {
+  .clippy-pop {
+    right: 8px;
+    left: 8px;
+    max-width: none;
+  }
+}

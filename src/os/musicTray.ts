@@ -1,13 +1,4 @@
-export interface MusicTrayState {
-  active: boolean;
-  title: string;
-  artist: string;
-  artwork: string;
-  playing: boolean;
-  progress: number;
-}
-
-type MusicCommand = "previous" | "play-pause" | "next" | "open";
+import type { MusicCommand, MusicState } from "./musicPlayer";
 
 export function createMusicTray(): HTMLElement {
   const tray = document.createElement("div");
@@ -51,7 +42,7 @@ export function createMusicTray(): HTMLElement {
     if (!popup.hidden && !tray.contains(event.target as Node)) setPopup(false);
   });
   document.addEventListener("os:music-state", (event) => {
-    const state = (event as CustomEvent<MusicTrayState>).detail;
+    const state = (event as CustomEvent<MusicState>).detail;
     tray.hidden = !state.active;
     if (!state.active) {
       setPopup(false);

@@ -69,13 +69,20 @@ body {
   position: static;
 }
 
-.desktop-calendar {
+.desktop-widget-column {
   position: absolute;
   z-index: 1;
   top: 54px;
   right: clamp(24px, 7vw, 116px);
   display: flex;
   width: clamp(270px, 24vw, 318px);
+  flex-direction: column;
+  gap: 16px;
+}
+
+.desktop-calendar {
+  display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 7px;
   color: rgb(239 255 255 / 82%);
@@ -353,4 +360,108 @@ button.desktop-calendar__day:focus-visible {
     font-size: 8px;
   }
 
+}
+
+.desktop-music {
+  display: grid;
+  width: 100%;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgb(239 255 255 / 38%);
+  color: rgb(239 255 255 / 84%);
+}
+
+.desktop-music__now {
+  display: grid;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+  grid-template-columns: 52px minmax(0, 1fr);
+}
+
+.desktop-music__artwork {
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgb(239 255 255 / 38%);
+  object-fit: cover;
+}
+
+.desktop-music__copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.desktop-music__title,
+.desktop-music__artist {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.desktop-music__artist {
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+.desktop-music__bar {
+  height: 4px;
+  overflow: hidden;
+  border: 1px solid rgb(239 255 255 / 38%);
+  background: rgb(0 0 0 / 35%);
+}
+
+.desktop-music__bar i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: rgb(239 255 255 / 82%);
+}
+
+.desktop-music__controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.desktop-music__skip,
+.desktop-music__play,
+.desktop-music__open {
+  height: 24px;
+  border: 1px solid rgb(239 255 255 / 38%);
+  background: rgb(0 0 0 / 32%);
+  color: inherit;
+  cursor: pointer;
+  font: 11px/1 var(--font-ui);
+}
+
+.desktop-music__skip {
+  min-width: 32px;
+}
+
+.desktop-music__play {
+  min-width: 42px;
+  font-size: 13px;
+}
+
+.desktop-music__open {
+  margin-left: auto;
+  padding-inline: 8px;
+}
+
+.desktop-music__skip:hover,
+.desktop-music__play:hover,
+.desktop-music__open:hover,
+.desktop-music__skip:focus-visible,
+.desktop-music__play:focus-visible,
+.desktop-music__open:focus-visible {
+  background: rgb(0 0 128 / 62%);
+}
+
+@media (max-width: 900px) {
+  .desktop-widget-column {
+    position: static;
+    width: auto;
+    margin: 12px 8px 64px;
+  }
 }

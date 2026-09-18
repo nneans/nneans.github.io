@@ -188,3 +188,22 @@
     display: none;
   }
 }
+
+/* A cap of snow on the taskbar while it is snowing in Busan. */
+.taskbar::before {
+  position: absolute;
+  top: -5px;
+  right: 0;
+  left: 0;
+  height: 6px;
+  background: linear-gradient(rgb(255 255 255 / 95%), rgb(232 240 250 / 88%));
+  border-radius: 3px 5px 0 0 / 5px 6px 0 0;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 4s ease-out;
+}
+
+:root[data-weather="snow"] .taskbar::before {
+  opacity: 1;
+}

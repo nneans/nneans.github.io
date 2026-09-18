@@ -2,6 +2,7 @@ import "./styles/reset.css";
 import "./styles/tokens.css";
 import "./styles/win95.css";
 import "./styles/desktop.css";
+import "./styles/scene.css";
 import "./styles/taskbar.css";
 import "./styles/window.css";
 import "./styles/startMenu.css";
@@ -12,7 +13,7 @@ import { osConfig } from "./config/os";
 import { BootSequence } from "./os/boot";
 import { Clock } from "./os/clock";
 import { Desktop } from "./os/desktop";
-import { initializeDesktopBackground } from "./os/desktopBackground";
+import { applyDesktopMode, getDesktopMode, initializeDesktopBackground } from "./os/desktopBackground";
 import { createHitCounter } from "./os/hitCounter";
 import { StartMenu } from "./os/startMenu";
 import { SystemController } from "./os/system";
@@ -20,6 +21,13 @@ import { Taskbar } from "./os/taskbar";
 import { WindowManager } from "./os/windowManager";
 import { createDesktopCalendar } from "./os/desktopCalendar";
 import { createMusicTray } from "./os/musicTray";
+import { createDesktopMusic } from "./os/desktopMusic";
+import { createDesktopScene } from "./os/desktopScene";
+import { createScreensaver } from "./os/screensaver";
+import { createClippyPop } from "./os/clippyPop";
+import { createDesktopWeather, updateDesktopWeather } from "./os/desktopWeather";
+
+let desktopScene: ReturnType<typeof createDesktopScene> | undefined;
 
 function createDesktop(): HTMLElement {
   const desktop = document.createElement("section");
@@ -59,8 +67,14 @@ function createDesktop(): HTMLElement {
 
   const desktopWidgets = document.createElement("div");
   desktopWidgets.className = "desktop-widgets";
-  desktopWidgets.append(createDesktopCalendar(), createHitCounter());
-  desktop.append(icons, desktopWidgets);
+  const weather = createDesktopWeather();
+  const scene = createDesktopScene((snapshot) => updateDesktopWeather(weather, snapshot));
+  desktopScene = scene;
+  const widgetColumn = document.createElement("div");
+  widgetColumn.className = "desktop-widget-column";
+  widgetColumn.append(weather, createDesktopCalendar(), createDesktopMusic());
+  desktopWidgets.append(widgetColumn, createHitCounter());
+  desktop.append(scene.element, icons, desktopWidgets);
   return desktop;
 }
 
@@ -103,6 +117,16 @@ windowLayer.className = "window-layer";
 desktop.append(windowLayer);
 const taskbarElement = createTaskbar();
 root.append(desktop, taskbarElement);
+// Must run after the desktop is in the document, or the scene class lands nowhere.
+applyDesktopMode(getDesktopMode());
+
+const systemOverlayOpen = (): boolean =>
+  document.querySelector(".sleep-overlay.is-open, .shutdown-overlay.is-open") !== null;
+
+const screensaver = createScreensaver(root, {
+  sky: () => desktopScene?.snapshot ?? null,
+  blocked: systemOverlayOpen,
+});
 
 const windowManager = new WindowManager(windowLayer);
 const taskbar = new Taskbar(taskbarElement, windowManager);
@@ -111,6 +135,16 @@ new Desktop(desktop, windowManager);
 const clockElement = taskbarElement.querySelector<HTMLTimeElement>(".clock");
 if (!clockElement) throw new Error("Missing clock");
 new Clock(clockElement);
+
+let openWindowCount = 0;
+windowManager.subscribe((state) => {
+  openWindowCount = state.windows.filter((entry) => entry.isOpen).length;
+});
+createClippyPop(root, {
+  sky: () => desktopScene?.snapshot ?? null,
+  openWindows: () => openWindowCount,
+  blocked: () => screensaver.running || systemOverlayOpen(),
+});
 
 const boot = new BootSequence(root);
 const system = new SystemController(root, windowManager, boot);

@@ -13,6 +13,31 @@ export const desktopBackgrounds: DesktopBackground[] = [
 export const defaultDesktopBackground = desktopBackgrounds[0];
 const storageKey = "mingyun-os:desktop-background";
 
+/** "live" draws the Busan sky; "color" falls back to a flat 256-color desktop. */
+export type DesktopMode = "live" | "color";
+const modeKey = "mingyun-os:desktop-mode";
+
+export function getDesktopMode(): DesktopMode {
+  try {
+    return window.localStorage.getItem(modeKey) === "color" ? "color" : "live";
+  } catch {
+    return "live";
+  }
+}
+
+export function applyDesktopMode(mode: DesktopMode): void {
+  document.querySelector(".desktop")?.classList.toggle("has-scene", mode === "live");
+}
+
+export function setDesktopMode(mode: DesktopMode): void {
+  applyDesktopMode(mode);
+  try {
+    window.localStorage.setItem(modeKey, mode);
+  } catch {
+    // The chosen mode still applies for this session.
+  }
+}
+
 function isAvailable(color: string | null): color is string {
   return color !== null && desktopBackgrounds.some((background) => background.color === color);
 }
@@ -37,6 +62,7 @@ export function initializeDesktopBackground(): void {
 
 export function setDesktopBackground(color: string): void {
   if (!isAvailable(color)) return;
+  setDesktopMode("color");
   document.documentElement.style.setProperty("--desktop-bg", color);
   try {
     window.localStorage.setItem(storageKey, color);

@@ -1,0 +1,387 @@
+/* Live Busan sky: phase (dawn/day/dusk/night) sets the palette, condition adds weather. */
+.desktop-scene {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.desktop:not(.has-scene) .desktop-scene {
+  display: none;
+}
+
+.desktop-scene.is-teleport .scene__body,
+.desktop-scene.is-teleport .scene__glow {
+  transition: none;
+}
+
+.scene__sky,
+.scene__glow,
+.scene__scrim,
+.scene__flash,
+.scene__fog {
+  position: absolute;
+  inset: 0;
+}
+
+.scene__sky {
+  transition: background 2.5s linear;
+}
+
+[data-phase="night"] .scene__sky {
+  background: linear-gradient(#050a1c 0%, #0c1533 55%, #1b2450 100%);
+}
+
+[data-phase="dawn"] .scene__sky {
+  background: linear-gradient(#1d3268 0%, #6b5a93 48%, #e9a077 100%);
+}
+
+[data-phase="day"] .scene__sky {
+  background: linear-gradient(#1f6fae 0%, #4a9fd0 52%, #9ccde8 100%);
+}
+
+[data-phase="dusk"] .scene__sky {
+  background: linear-gradient(#152045 0%, #5b3f76 45%, #d97a54 100%);
+}
+
+/* Overcast weather mutes whatever the phase painted. */
+[data-condition="overcast"] .scene__sky,
+[data-condition="rain"] .scene__sky,
+[data-condition="storm"] .scene__sky,
+[data-condition="snow"] .scene__sky,
+[data-condition="fog"] .scene__sky {
+  filter: saturate(0.45) brightness(0.72);
+}
+
+/* The horizon glow tracks whichever side the sun is actually on. */
+.scene__glow {
+  background: radial-gradient(
+    ellipse 55% 42% at var(--body-x, 50%) 100%,
+    rgb(255 150 80 / 55%),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 2.5s linear, background 3s linear;
+}
+
+[data-phase="dawn"] .scene__glow,
+[data-phase="dusk"] .scene__glow {
+  opacity: 1;
+}
+
+[data-condition="overcast"] .scene__glow,
+[data-condition="rain"] .scene__glow,
+[data-condition="storm"] .scene__glow,
+[data-condition="snow"] .scene__glow,
+[data-condition="fog"] .scene__glow {
+  opacity: 0;
+}
+
+/* --- sun and moon --- */
+/* Position comes from the real arc between sunrise and sunset; see desktopScene. */
+.scene__body {
+  position: absolute;
+  top: var(--body-y, 13%);
+  left: var(--body-x, 50%);
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  margin-left: -31px;
+  transition:
+    top 3s linear,
+    left 3s linear,
+    width 2.5s linear,
+    height 2.5s linear,
+    background 2.5s linear,
+    box-shadow 2.5s linear,
+    opacity 2.5s linear;
+}
+
+[data-body="sun"] .scene__body {
+  background: #ffe9a8;
+  box-shadow: 0 0 0 10px rgb(255 233 168 / 22%), 0 0 54px 18px rgb(255 226 140 / 45%);
+}
+
+/* Low sun reddens, the way it actually does near the horizon. */
+[data-body="sun"]:is([data-phase="dawn"], [data-phase="dusk"]) .scene__body {
+  background: #ffcf8a;
+  box-shadow: 0 0 0 12px rgb(255 175 110 / 22%), 0 0 60px 22px rgb(255 150 90 / 42%);
+}
+
+[data-body="moon"] .scene__body {
+  width: 52px;
+  height: 52px;
+  margin-left: -26px;
+  background: #eef3ff;
+  box-shadow: 0 0 34px 6px rgb(200 220 255 / 26%);
+}
+
+/* Craters, drawn only on the moon. */
+.scene__body::before,
+.scene__body::after {
+  position: absolute;
+  border-radius: 50%;
+  background: rgb(150 170 210 / 45%);
+  content: "";
+  opacity: 0;
+  transition: opacity 2.5s linear;
+}
+
+.scene__body::before {
+  top: 24%;
+  left: 22%;
+  width: 13px;
+  height: 13px;
+}
+
+.scene__body::after {
+  right: 24%;
+  bottom: 26%;
+  width: 8px;
+  height: 8px;
+}
+
+[data-body="moon"] .scene__body::before,
+[data-body="moon"] .scene__body::after {
+  opacity: 1;
+}
+
+/* The sun and moon hide behind thick weather. */
+[data-condition="overcast"] .scene__body,
+[data-condition="rain"] .scene__body,
+[data-condition="storm"] .scene__body,
+[data-condition="snow"] .scene__body,
+[data-condition="fog"] .scene__body {
+  opacity: 0;
+}
+
+/* --- stars --- */
+.scene__stars {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 2.5s linear;
+}
+
+[data-phase="night"] .scene__stars {
+  opacity: 1;
+}
+
+[data-phase="dawn"] .scene__stars,
+[data-phase="dusk"] .scene__stars {
+  opacity: 0.35;
+}
+
+[data-condition="overcast"] .scene__stars,
+[data-condition="rain"] .scene__stars,
+[data-condition="storm"] .scene__stars,
+[data-condition="snow"] .scene__stars,
+[data-condition="fog"] .scene__stars {
+  opacity: 0;
+}
+
+.scene__stars i {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  background: #fff;
+  opacity: var(--dim);
+  animation: scene-twinkle 4.5s var(--delay) ease-in-out infinite;
+}
+
+@keyframes scene-twinkle {
+  0%,
+  100% {
+    opacity: var(--dim);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* --- clouds --- */
+.scene__clouds {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 2.5s linear;
+}
+
+[data-condition="partly"] .scene__clouds {
+  opacity: 0.55;
+}
+
+[data-condition="overcast"] .scene__clouds,
+[data-condition="rain"] .scene__clouds,
+[data-condition="snow"] .scene__clouds,
+[data-condition="storm"] .scene__clouds {
+  opacity: 0.85;
+}
+
+.scene__clouds i {
+  position: absolute;
+  top: var(--top);
+  left: -240px;
+  width: 190px;
+  height: 52px;
+  border-radius: 40px;
+  animation: scene-drift calc(var(--duration) / var(--wind, 1)) var(--delay) linear infinite;
+  background: rgb(255 255 255 / 72%);
+  filter: blur(7px);
+  scale: var(--scale);
+}
+
+[data-phase="night"] .scene__clouds i {
+  background: rgb(190 205 235 / 44%);
+}
+
+@keyframes scene-drift {
+  to {
+    transform: translateX(calc(100vw + 480px));
+  }
+}
+
+/* --- rain and snow --- */
+.scene__rain,
+.scene__snow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+[data-condition="rain"] .scene__rain,
+[data-condition="storm"] .scene__rain {
+  opacity: 1;
+}
+
+[data-condition="snow"] .scene__snow {
+  opacity: 1;
+}
+
+.scene__rain i {
+  position: absolute;
+  top: -20%;
+  width: 1px;
+  height: 22px;
+  animation: scene-fall var(--duration) var(--delay) linear infinite;
+  background: linear-gradient(transparent, rgb(200 225 255 / 85%));
+}
+
+.scene__snow i {
+  position: absolute;
+  top: -10%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  animation: scene-fall calc(var(--duration) * 7) var(--delay) linear infinite;
+  background: rgb(255 255 255 / 88%);
+}
+
+@keyframes scene-fall {
+  to {
+    transform: translate(var(--drift), 130vh);
+  }
+}
+
+/* Snow gathers along the bottom of the sky while it falls. */
+.scene__drift {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 0;
+  background: linear-gradient(rgb(255 255 255 / 92%), rgb(226 236 248 / 92%));
+  border-radius: 50% 40% 0 0 / 22px 26px 0 0;
+  transition: height 6s ease-out;
+}
+
+[data-condition="snow"] .scene__drift {
+  height: 26px;
+}
+
+/* --- fog and lightning --- */
+.scene__fog {
+  background: repeating-linear-gradient(
+    rgb(215 222 232 / 0%) 0 24px,
+    rgb(215 222 232 / 26%) 24px 62px
+  );
+  opacity: 0;
+  transition: opacity 2.5s linear;
+}
+
+[data-condition="fog"] .scene__fog {
+  opacity: 1;
+}
+
+.scene__flash {
+  background: rgb(226 236 255 / 82%);
+  opacity: 0;
+}
+
+[data-condition="storm"] .scene__flash {
+  animation: scene-lightning 9s 2s linear infinite;
+}
+
+@keyframes scene-lightning {
+  0%,
+  3.4%,
+  100% {
+    opacity: 0;
+  }
+
+  1% {
+    opacity: 0.85;
+  }
+
+  1.8% {
+    opacity: 0.1;
+  }
+
+  2.6% {
+    opacity: 0.6;
+  }
+}
+
+/* Keeps white icon labels and the widget column readable over a bright sky. */
+.scene__scrim {
+  background: linear-gradient(rgb(0 0 0 / 30%), rgb(0 0 0 / 10%) 55%, rgb(0 0 0 / 26%));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene__stars i,
+  .scene__clouds i,
+  .scene__rain i,
+  .scene__snow i,
+  .scene__flash {
+    animation: none;
+  }
+}
+
+/* --- the taskbar-side weather readout --- */
+.desktop-weather {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 7px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgb(239 255 255 / 38%);
+  color: rgb(239 255 255 / 84%);
+  text-shadow: 1px 1px 2px rgb(0 0 0 / 55%);
+}
+
+.desktop-weather__place {
+  font-size: 11px;
+  letter-spacing: 0.4px;
+}
+
+.desktop-weather__temp {
+  font-size: 15px;
+}
+
+.desktop-weather__label {
+  font-size: 11px;
+  opacity: 0.8;
+}
