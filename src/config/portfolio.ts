@@ -102,6 +102,13 @@ export const portfolio = {
     },
     { degree: "B.S. in Statistics", school: "Pusan National University", period: "2022.03–2026.08" },
   ],
+  experience: [
+    {
+      role: "Intern",
+      organization: "Dongnam Regional Statistics Office",
+      period: "2024.06.24–2024.12.17",
+    },
+  ],
   now: [
     "Studying Industrial Data Engineering at Pusan National University",
     "Exploring process mining and time-series representation learning",

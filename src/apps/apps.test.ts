@@ -70,6 +70,7 @@ describe("interactive application registry", () => {
       "Publications",
       "Conference Presentations",
       "Awards",
+      "Experience",
     ]);
     expect(app.textContent).toContain("Accepted at ICICIC 2026");
     expect(app.textContent).toContain("ASPAI 2026");
@@ -331,5 +332,13 @@ describe("interactive application registry", () => {
 
     expect(app.querySelector(".explorer-address")?.textContent).toContain("Presentations");
     Object.defineProperty(window, "innerWidth", { configurable: true, value: originalWidth });
+  });
+});
+
+describe("CV experience", () => {
+  it("lists the statistics office internship with its dates", () => {
+    const app = renderCv();
+    expect(app.textContent).toContain("Dongnam Regional Statistics Office");
+    expect(app.textContent).toContain("2024.06.24–2024.12.17");
   });
 });

@@ -81,6 +81,18 @@ export function renderCv(): HTMLElement {
   page.append(element("h2", undefined, "Awards"));
   awardIds.forEach((id) => appendAwardRow(page, id));
 
+  page.append(element("h2", undefined, "Experience"));
+  portfolio.experience.forEach((experience) => {
+    const row = element("div", "resume-entry");
+    const main = element("div", "resume-entry__main");
+    main.append(
+      element("strong", undefined, experience.role),
+      element("span", undefined, experience.organization),
+    );
+    row.append(main, element("time", undefined, experience.period));
+    page.append(row);
+  });
+
   app.append(menuBar(["File", "View", "Document", "Help"]), toolbar, page);
   return app;
 }
