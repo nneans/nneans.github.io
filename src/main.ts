@@ -13,7 +13,6 @@ import { osConfig } from "./config/os";
 import { BootSequence } from "./os/boot";
 import { Clock } from "./os/clock";
 import { Desktop } from "./os/desktop";
-import { applyDesktopMode, getDesktopMode, initializeDesktopBackground } from "./os/desktopBackground";
 import { createHitCounter } from "./os/hitCounter";
 import { StartMenu } from "./os/startMenu";
 import { SystemController } from "./os/system";
@@ -110,16 +109,12 @@ function createTaskbar(): HTMLElement {
 const root = document.querySelector<HTMLElement>("#os-root");
 if (!root) throw new Error("Missing #os-root element");
 
-initializeDesktopBackground();
 const desktop = createDesktop();
 const windowLayer = document.createElement("div");
 windowLayer.className = "window-layer";
 desktop.append(windowLayer);
 const taskbarElement = createTaskbar();
 root.append(desktop, taskbarElement);
-// Must run after the desktop is in the document, or the scene class lands nowhere.
-applyDesktopMode(getDesktopMode());
-
 const systemOverlayOpen = (): boolean =>
   document.querySelector(".sleep-overlay.is-open, .shutdown-overlay.is-open") !== null;
 

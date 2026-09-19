@@ -23,7 +23,6 @@ export const appCatalog = {
   popCultureQuiz: { title: "Pop Culture Quiz", desktopLabel: "Pop Culture Quiz", icon: icon("help"), defaultWidth: 500, defaultHeight: 390, showInStartMenu: true },
   clippyHelp: { title: `${osConfig.name} Help`, desktopLabel: "Clippy Help", icon: icon("info"), defaultWidth: 500, defaultHeight: 360 },
   games: { title: "Games", desktopLabel: "Games", icon: icon("dice"), defaultWidth: 520, defaultHeight: 430, showInStartMenu: true },
-  backgrounds: { title: "Desktop Backgrounds", desktopLabel: "Backgrounds", icon: icon("image"), defaultWidth: 500, defaultHeight: 350, showInStartMenu: true },
   napster: { title: "Napster", desktopLabel: "Napster", icon: icon("music"), defaultWidth: 580, defaultHeight: 530, showInStartMenu: true },
   nostalgiaMoments: { title: "Nostalgia Moments — Media Player", desktopLabel: "Nostalgia Moments", icon: icon("video"), defaultWidth: 720, defaultHeight: 520, showInStartMenu: true },
   timeTravel: { title: "Time Travel — Memory Navigator", desktopLabel: "Time Travel", icon: icon("world"), defaultWidth: 820, defaultHeight: 590, minWidth: 620, minHeight: 460, showInStartMenu: true },

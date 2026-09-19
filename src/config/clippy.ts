@@ -165,10 +165,6 @@ export const clippyLines: ClippyLine[] = [
     text: "연락하고 싶으시면 Contact 앱을 쓰시면 돼요. 답장은 제가 아니라 민균님이 합니다.",
   },
   {
-    id: "backgrounds",
-    text: "배경이 마음에 안 드시면 Backgrounds에서 바꾸실 수 있어요. 단색으로 돌아가도 서운해하지 않을게요.",
-  },
-  {
     id: "recycle",
     text: "바탕화면 아이콘을 휴지통으로 끌어다 버릴 수 있어요. 버려도 됩니다. 되돌릴 수 있거든요.",
   },

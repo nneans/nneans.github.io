@@ -1,5 +1,4 @@
 import { renderAbout } from "./about";
-import { renderBackgrounds } from "./backgrounds";
 import { appCatalog, type AppId, type AppMetadata } from "./catalog";
 import { renderClippyHelp } from "./clippyHelp";
 import { renderContact } from "./contact";
@@ -38,7 +37,6 @@ const renderers: Record<AppId, () => HTMLElement> = {
   popCultureQuiz: renderPopCultureQuiz,
   clippyHelp: renderClippyHelp,
   games: renderGamesLauncher,
-  backgrounds: renderBackgrounds,
   napster: renderNapster,
   nostalgiaMoments: renderNostalgiaMoments,
   timeTravel: renderTimeTravel,

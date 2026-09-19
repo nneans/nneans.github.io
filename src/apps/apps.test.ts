@@ -3,7 +3,6 @@ import { afterEach, describe, expect, it } from "vitest";
 import { desktopItems } from "../config/desktop";
 import { appCatalog } from "./catalog";
 import { apps } from "./registry";
-import { renderBackgrounds } from "./backgrounds";
 import { renderAbout } from "./about";
 import { renderClippyHelp } from "./clippyHelp";
 import { renderCv } from "./cv";
@@ -29,7 +28,6 @@ Object.defineProperty(window, "localStorage", { configurable: true, value: testS
 
 afterEach(() => {
   document.body.replaceChildren();
-  document.documentElement.style.removeProperty("--desktop-bg");
   window.localStorage.clear();
 });
 
@@ -46,7 +44,7 @@ describe("interactive application registry", () => {
 
   it("renders every registered application without an exception", () => {
     const rendered = Object.values(apps).map((definition) => definition.render());
-    expect(rendered).toHaveLength(20);
+    expect(rendered).toHaveLength(19);
     rendered.forEach((app) => app.dispatchEvent(new CustomEvent("app:dispose")));
   });
 
@@ -104,20 +102,6 @@ describe("interactive application registry", () => {
     const next = [...app.querySelectorAll<HTMLButtonElement>(".quiz-options button")].at(-1);
     next?.click();
     expect(app.querySelector(".quiz-progress")?.textContent).toContain("Question 2");
-  });
-
-  it("saves and resets the selected desktop background", () => {
-    const app = renderBackgrounds();
-    const midnight = [...app.querySelectorAll<HTMLButtonElement>(".background-swatch")].find(
-      (button) => button.title === "Midnight Blue",
-    );
-    midnight?.click();
-    expect(document.documentElement.style.getPropertyValue("--desktop-bg")).toBe("#000080");
-    expect(midnight?.getAttribute("aria-pressed")).toBe("true");
-
-    app.querySelector<HTMLButtonElement>(".background-reset")?.click();
-    expect(document.documentElement.style.getPropertyValue("--desktop-bg")).toBe("");
-    expect(app.querySelector(".app-status")?.textContent).toContain("Classic Teal");
   });
 
   it("cycles through Clippy help tips", () => {

@@ -7,10 +7,6 @@
   pointer-events: none;
 }
 
-.desktop:not(.has-scene) .desktop-scene {
-  display: none;
-}
-
 .desktop-scene.is-teleport .scene__body,
 .desktop-scene.is-teleport .scene__glow {
   transition: none;

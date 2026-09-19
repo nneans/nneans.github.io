@@ -19,6 +19,6 @@ export const tips = [
   "Double-click a desktop icon to open it. On a small screen, one tap is enough.",
   "Use the taskbar to switch between open windows or restore a minimized one.",
   "Drag a desktop icon into Recycle Bin to hide it. You can restore it later.",
-  "Open Backgrounds to change the desktop color. Your choice is saved automatically.",
+  "The desktop sky follows the real weather and time in Busan. Check back after dark.",
   "Need a break? Pop Culture Quiz and six retro games are installed.",
 ];

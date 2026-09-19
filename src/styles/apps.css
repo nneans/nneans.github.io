@@ -680,34 +680,6 @@
   font-weight: 700;
 }
 
-.background-swatches {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(58px, 78px));
-  gap: 12px;
-  margin-top: 18px;
-}
-
-.background-choice {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 5px;
-  text-align: center;
-}
-
-.background-choice span {
-  line-height: 1.2;
-}
-
-.background-swatch {
-  width: 54px;
-  height: 44px;
-}
-
-.background-reset {
-  margin-top: 18px;
-}
-
 .kidpix-toolbar {
   display: flex;
   min-height: 32px;
@@ -2581,22 +2553,4 @@
     border: 0;
     box-shadow: none;
   }
-}
-
-.background-live {
-  display: grid;
-  width: 100%;
-  gap: 3px;
-  padding: 9px 11px;
-  margin-bottom: 11px;
-  text-align: left;
-}
-
-.background-live small {
-  color: #444;
-  font-size: 10px;
-}
-
-.background-live.sunken small {
-  color: #222;
 }
