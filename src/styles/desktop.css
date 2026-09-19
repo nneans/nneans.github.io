@@ -290,7 +290,8 @@ button.desktop-calendar__day:focus-visible {
     overflow-y: auto;
   }
 
-  .desktop-calendar {
+  /* The calendar, weather readout and music widget are desktop-only furniture. */
+  .desktop-widget-column {
     display: none;
   }
 
@@ -331,33 +332,6 @@ button.desktop-calendar__day:focus-visible {
     padding: 2px 3px;
     font-size: 11px;
     letter-spacing: 1px;
-  }
-
-  .desktop-calendar__day {
-    min-height: 22px;
-  }
-
-  .desktop-calendar__day.is-today {
-    min-height: 16px;
-    margin: 2px;
-  }
-
-  .desktop-calendar__footer {
-    padding-top: 5px;
-    font-size: 9px;
-  }
-
-  .desktop-calendar__weekdays {
-    font-size: 8px;
-  }
-
-  .desktop-calendar__title {
-    font-size: 11px;
-  }
-
-  .desktop-calendar__month-button {
-    width: 20px;
-    font-size: 8px;
   }
 
 }
@@ -456,12 +430,4 @@ button.desktop-calendar__day:focus-visible {
 .desktop-music__play:focus-visible,
 .desktop-music__open:focus-visible {
   background: rgb(0 0 128 / 62%);
-}
-
-@media (max-width: 900px) {
-  .desktop-widget-column {
-    position: static;
-    width: auto;
-    margin: 12px 8px 64px;
-  }
 }

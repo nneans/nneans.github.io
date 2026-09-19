@@ -1,3 +1,4 @@
+import { osConfig } from "../config/os";
 import type { SkyCondition, SkyPhase } from "./weather";
 
 export type SaverMode = "starfield" | "flying" | "mystify";
@@ -185,6 +186,10 @@ export function createScreensaver(host: HTMLElement, options: ScreensaverOptions
   };
 
   const start = (): void => {
+    // On a phone, three idle minutes usually means someone is reading.
+    if (window.innerWidth <= osConfig.mobileBreakpoint) return;
+    // A full-screen starfield is exactly what this preference asks us not to do.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (running || options.blocked?.()) return;
     const sky = options.sky?.();
     mode = sky ? modeForSky(sky.phase, sky.condition) : "starfield";

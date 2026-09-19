@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { arcProgress, busan, phaseFor, toSnapshot } from "./weather";
+import { arcProgress, busan, clockOnlySnapshot, phaseFor, toSnapshot } from "./weather";
 
 const forecast = (code: number, isDay: number) => ({
   current: { temperature_2m: 21.4, weather_code: code, is_day: isDay, wind_speed_10m: 9 },
@@ -64,5 +64,20 @@ describe("arcProgress", () => {
     const before = arcProgress(23 * 60, sunrise, sunset).t;
     const after = arcProgress(1 * 60, sunrise, sunset).t;
     expect(after).toBeGreaterThan(before);
+  });
+});
+
+describe("clockOnlySnapshot", () => {
+  it("gives the sky a sensible phase with no network at all", () => {
+    // 03:00 UTC is midday in Busan; 18:00 UTC is 03:00 the next morning.
+    expect(clockOnlySnapshot(busan, new Date("2026-09-19T03:00:00Z")).phase).toBe("day");
+    expect(clockOnlySnapshot(busan, new Date("2026-09-19T18:00:00Z")).phase).toBe("night");
+  });
+
+  it("carries sunrise and sunset so the sun can still be placed", () => {
+    const snapshot = clockOnlySnapshot(busan, new Date("2026-09-19T03:00:00Z"));
+    expect(snapshot.sunrise).toBeGreaterThan(0);
+    expect(snapshot.sunset).toBeGreaterThan(snapshot.sunrise);
+    expect(snapshot.live).toBe(false);
   });
 });

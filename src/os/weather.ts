@@ -33,6 +33,7 @@ export const busan: SkyLocation = {
 
 const forecastCacheKey = "mingyun-os:weather";
 const forecastMaxAge = 10 * 60 * 1000;
+const requestTimeout = 5000;
 
 interface ForecastResponse {
   current: { temperature_2m: number; weather_code: number; is_day: number; wind_speed_10m?: number };
@@ -142,8 +143,11 @@ export function toSnapshot(data: ForecastResponse, location: SkyLocation, now = 
   };
 }
 
-/** Used when the forecast call fails; these hours are close enough for a backdrop. */
-function offlineSnapshot(location: SkyLocation, now: Date): WeatherSnapshot {
+/**
+ * A sky derived from the clock alone. Used both when the forecast fails and to
+ * paint the first frame, so a night visitor never sees a flash of blue daylight.
+ */
+export function clockOnlySnapshot(location: SkyLocation, now = new Date()): WeatherSnapshot {
   return {
     place: location.label,
     temperature: Number.NaN,
@@ -167,12 +171,20 @@ export async function fetchWeather(location: SkyLocation, now = new Date()): Pro
     `&current=temperature_2m,weather_code,is_day,wind_speed_10m&daily=sunrise,sunset&forecast_days=1` +
     `&timezone=${encodeURIComponent(location.timeZone)}`;
   try {
-    const response = await fetch(endpoint);
-    if (!response.ok) throw new Error(`Forecast responded ${response.status}`);
-    const data = (await response.json()) as ForecastResponse;
-    writeCache(key, data);
-    return toSnapshot(data, location, now);
+    // Without a deadline a stalled request never rejects, and the clock-only
+    // fallback below would never run.
+    const controller = new AbortController();
+    const deadline = setTimeout(() => controller.abort(), requestTimeout);
+    try {
+      const response = await fetch(endpoint, { signal: controller.signal });
+      if (!response.ok) throw new Error(`Forecast responded ${response.status}`);
+      const data = (await response.json()) as ForecastResponse;
+      writeCache(key, data);
+      return toSnapshot(data, location, now);
+    } finally {
+      clearTimeout(deadline);
+    }
   } catch {
-    return offlineSnapshot(location, now);
+    return clockOnlySnapshot(location, now);
   }
 }

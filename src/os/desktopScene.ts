@@ -1,6 +1,7 @@
 import {
   arcProgress,
   busan,
+  clockOnlySnapshot,
   fetchWeather,
   localMinutesNow,
   phaseFor,
@@ -53,7 +54,6 @@ export function createDesktopScene(onUpdate?: (snapshot: WeatherSnapshot) => voi
   const scene = document.createElement("div");
   scene.className = "desktop-scene";
   scene.setAttribute("aria-hidden", "true");
-  scene.dataset.phase = "day";
   scene.dataset.condition = "clear";
 
   const sky = document.createElement("div");
@@ -141,6 +141,8 @@ export function createDesktopScene(onUpdate?: (snapshot: WeatherSnapshot) => voi
     return snapshot;
   };
 
+  // Paint from the clock first; the forecast only adds weather on top.
+  placeBody(clockOnlySnapshot(busan));
   void refresh();
   timer = window.setInterval(() => void refresh(), refreshInterval);
   const arcTimer = window.setInterval(() => {

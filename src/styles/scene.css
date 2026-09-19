@@ -100,13 +100,13 @@
 
 [data-body="sun"] .scene__body {
   background: #ffe9a8;
-  box-shadow: 0 0 0 10px rgb(255 233 168 / 22%), 0 0 54px 18px rgb(255 226 140 / 45%);
+  box-shadow: 0 0 54px 18px rgb(255 226 140 / 45%);
 }
 
 /* Low sun reddens, the way it actually does near the horizon. */
 [data-body="sun"]:is([data-phase="dawn"], [data-phase="dusk"]) .scene__body {
   background: #ffcf8a;
-  box-shadow: 0 0 0 12px rgb(255 175 110 / 22%), 0 0 60px 22px rgb(255 150 90 / 42%);
+  box-shadow: 0 0 60px 22px rgb(255 150 90 / 42%);
 }
 
 [data-body="moon"] .scene__body {
