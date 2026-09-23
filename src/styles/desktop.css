@@ -285,14 +285,16 @@ button.desktop-calendar__day:focus-visible {
   font-size: 10px;
 }
 
-@media (max-width: 900px) {
-  .desktop {
-    overflow-y: auto;
-  }
-
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
   /* The calendar, weather readout and music widget are desktop-only furniture. */
   .desktop-widget-column {
     display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .desktop {
+    overflow-y: auto;
   }
 
   .desktop-icons {
