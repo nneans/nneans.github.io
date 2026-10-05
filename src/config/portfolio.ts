@@ -22,6 +22,11 @@ export interface Project {
   completedAt: string;
   stack: string[];
   awardLabel?: string;
+  /** Short venue name; projects with one are listed as publications on the home page. */
+  venue?: string;
+  /** Company an industry project was carried out with. */
+  partner?: string;
+  figure?: { src: string; alt: string };
   links: { label: string; url: string; download?: string }[];
   preview?: ProjectPreview;
 }
@@ -93,12 +98,15 @@ export const portfolio = {
     "HI👋👋, I'm Mingyun Kang. I'm a master's student in Industrial Data Engineering at BAE LAB, Pusan National University, advised by Professor Hyerim Bae.",
     "My research focuses on process mining. This space is my digital workspace—documenting research notes, dev projects, travel photos, and other things I enjoy.",
   ],
-  interests: ["Process Mining", "Time Series", "Machine Learning", "Public Data", "Data Visualization"],
+  introduction:
+    "I'm a master's student in Industrial Data Engineering at BAE LAB, Pusan National University, advised by Prof. Hyerim Bae. My research focuses on process mining: discovering, monitoring, and predicting process behavior from event data, the fine-grained records from which most operational data originate.",
+  interests: ["Predictive Process Monitoring", "Process Anomaly Detection", "Agentic AI for Process Mining"],
   education: [
     {
       degree: "M.S. in Industrial Data Engineering",
       school: "Pusan National University · BAE LAB",
       period: "2026.08–Present",
+      note: "Advisor: Prof. Hyerim Bae",
     },
     { degree: "B.S. in Statistics", school: "Pusan National University", period: "2022.03–2026.08" },
   ],
@@ -106,8 +114,14 @@ export const portfolio = {
     {
       role: "Intern",
       organization: "Dongnam Regional Statistics Office",
-      period: "2024.06.24–2024.12.17",
+      period: "2024.06–12",
     },
+  ],
+  news: [
+    { date: "2026.08", text: "PaCHITA received the Best Paper Runner-up Award at ASPAI 2026." },
+    { date: "2026.08", text: "Received 장려상 in the 2026년 보훈 공공데이터·AI 활용 아이디어 공모전." },
+    { date: "2026.08", text: "Received 우수상 in the KOSSDA 2026 대학생 데이터 시각화 공모전." },
+    { date: "2026.07", text: "PaCT was accepted at ICICIC 2026." },
   ],
   now: [
     "Studying Industrial Data Engineering at Pusan National University",
@@ -135,6 +149,7 @@ export const portfolio = {
     {
       id: "k-recipe2vec",
       title: "한식 레시피 정량 분석 및 AI 기반 맛 모듈 구조화 기획 프로젝트",
+      partner: "(주)웨이브앤바이브",
       description: "A Korean ingredient-substitution system that learns recipe context with Word2Vec and Doc2Vec.",
       period: "2025.10–12",
       completedAt: "2025.12",
@@ -151,9 +166,10 @@ export const portfolio = {
     {
       id: "ai-work-instruction",
       title: "AI 동작분석 기반 현장 표준작업지도서 구축",
+      partner: "(주)고모텍",
       description:
         "An industry project that analyzes work and waiting segments and postural strain from shop-floor videos, delivering a digital work-instruction system in Korean, English, and Nepali.",
-      period: "2026.07",
+      period: "2026.05–07",
       completedAt: "2026.07",
       stack: ["Pose Estimation", "YOLO11n", "ONNX", "Multilingual UI"],
       links: [
@@ -262,6 +278,9 @@ export const portfolio = {
       period: "2026.08",
       completedAt: "2026.08",
       stack: ["Process Mining", "Anomaly Detection", "Transformer", "Patch-Based Learning"],
+      awardLabel: "Best Paper Runner-up Award",
+      venue: "ASPAI 2026",
+      figure: { src: "/assets/publications/pachita-architecture.webp", alt: "Overview of the PaCHITA framework" },
       links: [
         {
           label: "Slides (PDF)",
@@ -276,10 +295,12 @@ export const portfolio = {
       description:
         "PaCT is a Transformer-based predictive process monitoring method that uses patch-based multi-channel event-log representations to perform next-activity, remaining-trace, and remaining-runtime prediction.",
       authors: "Mingyun Kang, Yongjae Lee, Kibeom Park, Hyerim Bae*",
-      status: "Accepted at ICICIC 2026",
+      status: "Accepted at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)",
       period: "2026.07",
       completedAt: "2026.07",
       stack: ["Process Mining", "Predictive Process Monitoring", "Transformer"],
+      venue: "ICICIC 2026",
+      figure: { src: "/assets/publications/pact-architecture.webp", alt: "Proposed PaCT framework" },
       links: [
         {
           label: "Paper (PDF)",

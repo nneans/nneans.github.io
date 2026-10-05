@@ -70,7 +70,7 @@ describe("interactive application registry", () => {
       "Awards",
       "Experience",
     ]);
-    expect(app.textContent).toContain("Accepted at ICICIC 2026");
+    expect(app.textContent).toContain("Accepted at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)");
     expect(app.textContent).toContain("ASPAI 2026");
     expect(app.textContent).toContain("Best Paper Runner-up Award");
     expect(app.querySelectorAll(".resume-entry--award")).toHaveLength(5);
@@ -210,7 +210,7 @@ describe("interactive application registry", () => {
       "Authors: Mingyun Kang, Yongjae Lee, Kibeom Park, Hyerim Bae*",
     );
     expect(app.querySelector(".project-details__status")?.textContent).toBe(
-      "Accepted at ICICIC 2026",
+      "Accepted at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)",
     );
     app.querySelector<HTMLButtonElement>(".explorer-up")?.click();
 
@@ -323,6 +323,6 @@ describe("CV experience", () => {
   it("lists the statistics office internship with its dates", () => {
     const app = renderCv();
     expect(app.textContent).toContain("Dongnam Regional Statistics Office");
-    expect(app.textContent).toContain("2024.06.24–2024.12.17");
+    expect(app.textContent).toContain("2024.06–12");
   });
 });

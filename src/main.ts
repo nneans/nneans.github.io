@@ -8,6 +8,8 @@ import "./styles/window.css";
 import "./styles/startMenu.css";
 import "./styles/system.css";
 import "./styles/apps.css";
+import "./styles/home.css";
+import { createHome, homeSectionId, setActiveSection } from "./home";
 import { desktopItems } from "./config/desktop";
 import { osConfig } from "./config/os";
 import { BootSequence } from "./os/boot";
@@ -86,6 +88,7 @@ function createTaskbar(): HTMLElement {
       <span class="start-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
       <span class="start-button__label">Start</span>
     </button>
+    <a class="home-taskbar-button classic-button raised" href="#home" aria-label="Return to portfolio home">⌂ Home</a>
     <div class="task-list" aria-label="Open windows"></div>
   `;
   if (osConfig.showUpdateButton) {
@@ -106,52 +109,92 @@ function createTaskbar(): HTMLElement {
   return taskbar;
 }
 
-const root = document.querySelector<HTMLElement>("#os-root");
-if (!root) throw new Error("Missing #os-root element");
+const rootElement = document.querySelector<HTMLElement>("#os-root");
+if (!rootElement) throw new Error("Missing #os-root element");
+const root: HTMLElement = rootElement;
+const home = createHome();
+root.before(home);
 
-const desktop = createDesktop();
-const windowLayer = document.createElement("div");
-windowLayer.className = "window-layer";
-desktop.append(windowLayer);
-const taskbarElement = createTaskbar();
-root.append(desktop, taskbarElement);
-const systemOverlayOpen = (): boolean =>
-  document.querySelector(".sleep-overlay.is-open, .shutdown-overlay.is-open") !== null;
+let stopDesktopScreensaver: (() => void) | undefined;
+let replayDesktopBoot: (() => Promise<void>) | undefined;
+function initializeDesktop(): void {
+  const desktop = createDesktop();
+  const windowLayer = document.createElement("div");
+  windowLayer.className = "window-layer";
+  desktop.append(windowLayer);
+  const taskbarElement = createTaskbar();
+  root.append(desktop, taskbarElement);
+  const systemOverlayOpen = (): boolean =>
+    document.querySelector(".sleep-overlay.is-open, .shutdown-overlay.is-open") !== null;
 
-const screensaver = createScreensaver(root, {
-  sky: () => desktopScene?.snapshot ?? null,
-  blocked: systemOverlayOpen,
-});
+  const screensaver = createScreensaver(root, {
+    sky: () => desktopScene?.snapshot ?? null,
+    blocked: () => root.hidden || systemOverlayOpen(),
+  });
+  stopDesktopScreensaver = screensaver.stop;
 
-const windowManager = new WindowManager(windowLayer);
-const taskbar = new Taskbar(taskbarElement, windowManager);
-new Desktop(desktop, windowManager);
+  const windowManager = new WindowManager(windowLayer);
+  const taskbar = new Taskbar(taskbarElement, windowManager);
+  new Desktop(desktop, windowManager);
 
-const clockElement = taskbarElement.querySelector<HTMLTimeElement>(".clock");
-if (!clockElement) throw new Error("Missing clock");
-new Clock(clockElement);
+  const clockElement = taskbarElement.querySelector<HTMLTimeElement>(".clock");
+  if (!clockElement) throw new Error("Missing clock");
+  new Clock(clockElement);
 
-let openWindowCount = 0;
-windowManager.subscribe((state) => {
-  openWindowCount = state.windows.filter((entry) => entry.isOpen).length;
-});
-createClippyPop(root, {
-  sky: () => desktopScene?.snapshot ?? null,
-  openWindows: () => openWindowCount,
-  blocked: () => screensaver.running || systemOverlayOpen(),
-});
+  let openWindowCount = 0;
+  windowManager.subscribe((state) => {
+    openWindowCount = state.windows.filter((entry) => entry.isOpen).length;
+  });
+  createClippyPop(root, {
+    sky: () => desktopScene?.snapshot ?? null,
+    openWindows: () => openWindowCount,
+    blocked: () => screensaver.running || systemOverlayOpen(),
+  });
 
-const boot = new BootSequence(root);
-const system = new SystemController(root, windowManager, boot);
-const startMenu = new StartMenu(taskbar.startButton, windowManager, (action) => system.handleAction(action));
-system.connectStartMenu(startMenu);
-document.addEventListener("os:open-app", (event) => {
-  const appId = (event as CustomEvent<string>).detail;
-  if (appId) windowManager.openWindow(appId);
-});
-document.addEventListener("os:open-time-travel", (event) => {
-  const date = (event as CustomEvent<{ date: string }>).detail?.date;
-  windowManager.openWindow("timeTravel");
-  if (date) document.dispatchEvent(new CustomEvent("time-travel:open-date", { detail: { date } }));
-});
-void system.initialize();
+  const boot = new BootSequence(root);
+  const system = new SystemController(root, windowManager, boot);
+  const startMenu = new StartMenu(taskbar.startButton, windowManager, (action) => system.handleAction(action));
+  system.connectStartMenu(startMenu);
+  document.addEventListener("os:open-app", (event) => {
+    const appId = (event as CustomEvent<string>).detail;
+    if (appId) windowManager.openWindow(appId);
+  });
+  document.addEventListener("os:open-time-travel", (event) => {
+    const date = (event as CustomEvent<{ date: string }>).detail?.date;
+    windowManager.openWindow("timeTravel");
+    if (date) document.dispatchEvent(new CustomEvent("time-travel:open-date", { detail: { date } }));
+  });
+  replayDesktopBoot = () => system.initialize();
+  void system.initialize();
+}
+
+// The home page shows the same boot screen as the desktop. It is created on first
+// use because a new boot screen is visible until it finishes playing.
+let homeBoot: BootSequence | undefined;
+let shownRoute: "home" | "desktop" | undefined;
+function showRoute(): void {
+  const inDesktop = window.location.hash === "#desktop";
+  const previousRoute = shownRoute;
+  shownRoute = inDesktop ? "desktop" : "home";
+  home.hidden = inDesktop;
+  root.hidden = !inDesktop;
+  document.body.classList.toggle("home-mode", !inDesktop);
+  document.title = inDesktop ? "MingyunOS '96 — Desktop" : "Mingyun Kang — Portfolio";
+  if (inDesktop) {
+    if (!replayDesktopBoot) initializeDesktop();
+    else if (previousRoute !== "desktop") void replayDesktopBoot();
+    return;
+  }
+  if (previousRoute !== "home") void (homeBoot ??= new BootSequence(document.body)).play();
+  stopDesktopScreensaver?.();
+  const sectionId = homeSectionId(window.location.hash);
+  const section = sectionId ? document.getElementById(sectionId) : null;
+  if (section) {
+    section.scrollIntoView();
+    setActiveSection(home, sectionId!);
+  } else {
+    window.scrollTo(0, 0);
+  }
+}
+window.addEventListener("hashchange", showRoute);
+showRoute();
