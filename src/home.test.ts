@@ -56,7 +56,7 @@ it("splits awards, industry projects and study material into separate sections",
     "AI 동작분석 기반 현장 표준작업지도서 구축",
     "한식 레시피 정량 분석 및 AI 기반 맛 모듈 구조화 기획 프로젝트",
   ]);
-  expect(home.querySelector("#projects")?.textContent).toContain("(주)고모텍");
+  expect(home.querySelector("#projects")?.textContent).toContain("고모텍(주)");
   ["awards", "projects", "study"].forEach((id) => expect(home.querySelectorAll(`#${id} a`)).toHaveLength(0));
   expect(home.querySelectorAll("#news li")).toHaveLength(portfolio.news.length);
 });

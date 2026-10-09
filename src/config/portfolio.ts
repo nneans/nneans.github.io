@@ -166,7 +166,7 @@ export const portfolio = {
     {
       id: "ai-work-instruction",
       title: "AI 동작분석 기반 현장 표준작업지도서 구축",
-      partner: "(주)고모텍",
+      partner: "고모텍(주)",
       description:
         "An industry project that analyzes work and waiting segments and postural strain from shop-floor videos, delivering a digital work-instruction system in Korean, English, and Nepali.",
       period: "2026.05–07",
