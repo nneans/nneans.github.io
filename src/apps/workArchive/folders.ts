@@ -44,7 +44,7 @@ export const workArchiveFolders: WorkArchiveFolder[] = [
     id: "industry-projects",
     label: "Industry Projects",
     description: "Projects developed with or for industry partners.",
-    projectIds: ["ai-work-instruction", "k-recipe2vec"],
+    projectIds: ["review-sentiment-dashboard", "ai-work-instruction", "k-recipe2vec"],
   },
   {
     id: "side-projects",

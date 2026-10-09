@@ -181,6 +181,17 @@ export const portfolio = {
       preview: documents.aiWorkInstruction,
     },
     {
+      id: "review-sentiment-dashboard",
+      title: "이커머스 리뷰 데이터 자동 수집 및 AI 기반 긍·부정 카테고리 분류 대시보드 구축",
+      partner: "비비이노베이션",
+      description:
+        "An industry project that collects Coupang and Naver Smart Store reviews, classifies sentiment and issue categories with generative-AI prompts, and turns them into a monitoring dashboard, FAQ templates, and detail-page action items.",
+      period: "2026.10–11",
+      completedAt: "2026.11",
+      stack: ["Generative AI", "Prompt Engineering", "Sentiment Analysis", "Looker Studio"],
+      links: [],
+    },
+    {
       id: "mino",
       title: "Mino",
       description: "A smart asset-management platform that maps transaction records to spatial patterns and spending behavior.",

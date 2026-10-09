@@ -51,7 +51,11 @@ it("splits awards, industry projects and study material into separate sections",
   expect(titlesIn("projects")).not.toContain("Data-Aware LSTM for Predictive Process Monitoring");
   expect(titlesIn("awards")).toContain("풍력 발전량 예측");
   expect(titlesIn("awards").some((title) => title?.startsWith("뽀뽀"))).toBe(false);
-  expect(titlesIn("projects")).toEqual(["AI 동작분석 기반 현장 표준작업지도서 구축", "한식 레시피 정량 분석 및 AI 기반 맛 모듈 구조화 기획 프로젝트"]);
+  expect(titlesIn("projects")).toEqual([
+    "이커머스 리뷰 데이터 자동 수집 및 AI 기반 긍·부정 카테고리 분류 대시보드 구축",
+    "AI 동작분석 기반 현장 표준작업지도서 구축",
+    "한식 레시피 정량 분석 및 AI 기반 맛 모듈 구조화 기획 프로젝트",
+  ]);
   expect(home.querySelector("#projects")?.textContent).toContain("(주)고모텍");
   ["awards", "projects", "study"].forEach((id) => expect(home.querySelectorAll(`#${id} a`)).toHaveLength(0));
   expect(home.querySelectorAll("#news li")).toHaveLength(portfolio.news.length);

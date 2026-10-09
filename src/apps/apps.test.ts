@@ -297,11 +297,13 @@ describe("interactive application registry", () => {
       (button) => button.textContent === "Industry Projects",
     );
     industryProjects?.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
-    expect(app.querySelector(".project-folder span")?.textContent).toBe(
+    expect([...app.querySelectorAll(".project-folder span")].map((span) => span.textContent).slice(0, 2)).toEqual([
+      "2026.11 이커머스 리뷰 데이터 자동 수집 및 AI 기반 긍·부정 카테고리 분류 대시보드 구축",
       "2026.07 AI 동작분석 기반 현장 표준작업지도서 구축",
-    );
+    ]);
+    expect(app.querySelector(".app-status")?.textContent).toBe("3 object(s)");
+    app.querySelectorAll<HTMLButtonElement>(".project-folder")[1]?.click();
     expect(app.querySelector(".archive-viewer-page")?.textContent).toBe("1 / 18");
-    expect(app.querySelector(".app-status")?.textContent).toBe("2 object(s)");
   });
 
   it("opens Work Archive folders with one mobile tap", () => {
