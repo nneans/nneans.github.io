@@ -3,9 +3,9 @@ import type { SkyCondition, SkyPhase } from "../os/weather";
 export interface ClippyContext {
   condition: SkyCondition;
   phase: SkyPhase;
-  /** NaN when the forecast never arrived. */
+
   temperature: number;
-  /** Hour of day in Busan, 0-23. */
+
   hour: number;
   openWindows: number;
   musicPlaying: boolean;
@@ -14,9 +14,9 @@ export interface ClippyContext {
 export interface ClippyLine {
   id: string;
   text: string;
-  /** Omit to make the line always eligible. */
+
   when?: (context: ClippyContext) => boolean;
-  /** Higher weight lines are picked more often among the eligible ones. */
+
   weight?: number;
 }
 
@@ -24,7 +24,7 @@ const cold = (context: ClippyContext) => context.temperature <= 4;
 const hot = (context: ClippyContext) => context.temperature >= 28;
 
 export const clippyLines: ClippyLine[] = [
-  /* --- weather --- */
+
   {
     id: "rain",
     text: "부산에 비가 오고 있어요. 우산 챙기셨나요? 저는 클립이라 젖어도 녹슬 뿐입니다.",
@@ -97,7 +97,6 @@ export const clippyLines: ClippyLine[] = [
     weight: 3,
   },
 
-  /* --- time of day --- */
   {
     id: "very-late",
     text: "부산은 지금 새벽 3시입니다. 안 주무세요? 저야 상관없지만요.",
@@ -127,7 +126,6 @@ export const clippyLines: ClippyLine[] = [
     weight: 2,
   },
 
-  /* --- what you are doing --- */
   {
     id: "many-windows",
     text: "창을 꽤 많이 열어두셨네요. 1996년 컴퓨터였으면 벌써 멈췄을 겁니다.",
@@ -147,7 +145,6 @@ export const clippyLines: ClippyLine[] = [
     weight: 2,
   },
 
-  /* --- portfolio nudges --- */
   {
     id: "work-archive",
     text: "Work Archive부터 보시는 걸 추천드려요. 여기 온 이유가 아마 그거일 테니까요.",
@@ -169,7 +166,6 @@ export const clippyLines: ClippyLine[] = [
     text: "바탕화면 아이콘을 휴지통으로 끌어다 버릴 수 있어요. 버려도 됩니다. 되돌릴 수 있거든요.",
   },
 
-  /* --- just Clippy being Clippy --- */
   {
     id: "letter",
     text: "편지를 쓰시는 것 같군요! ...아니네요. 죄송합니다. 직업병입니다.",

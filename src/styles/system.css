@@ -144,7 +144,6 @@
   }
 }
 
-/* Classic screensavers: they sit over everything but the sleep and shutdown overlays. */
 .screensaver {
   position: fixed;
   z-index: calc(var(--z-overlay) - 1);
@@ -163,7 +162,6 @@
   height: 100%;
 }
 
-/* Clippy, uninvited as ever. */
 .clippy-pop {
   position: fixed;
   z-index: calc(var(--z-taskbar) - 1);

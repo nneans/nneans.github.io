@@ -1,5 +1,4 @@
 export const osConfig = {
-  referenceMode: true,
   name: "MingyunOS",
   brandPrefix: "Mingyun",
   brandSuffix: "OS",
@@ -7,8 +6,6 @@ export const osConfig = {
   subtitle: "Loading Research, Projects & Good Memories…",
   enableBoot: true,
   bootDuration: 3100,
-  showUpdateButton: false,
-  soundEnabled: false,
   clockFormat: "24h" as "12h" | "24h",
   taskbarHeight: 34,
   mobileBreakpoint: 760,

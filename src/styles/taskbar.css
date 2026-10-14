@@ -189,7 +189,6 @@
   }
 }
 
-/* A cap of snow on the taskbar while it is snowing in Busan. */
 .taskbar::before {
   position: absolute;
   top: -5px;

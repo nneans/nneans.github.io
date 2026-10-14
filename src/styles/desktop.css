@@ -134,11 +134,6 @@ body {
   display: none;
 }
 
-.desktop-calendar__eyebrow,
-.desktop-calendar__year {
-  display: none;
-}
-
 .desktop-calendar__weekdays,
 .desktop-calendar__grid {
   display: grid;
@@ -286,7 +281,7 @@ button.desktop-calendar__day:focus-visible {
 }
 
 @media (max-width: 900px), (hover: none) and (pointer: coarse) {
-  /* The calendar, weather readout and music widget are desktop-only furniture. */
+
   .desktop-widget-column {
     display: none;
   }

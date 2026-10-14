@@ -1,4 +1,4 @@
-// @vitest-environment happy-dom
+
 import { afterEach, describe, expect, it } from "vitest";
 import { desktopItems } from "../config/desktop";
 import { appCatalog } from "./catalog";
@@ -127,7 +127,8 @@ describe("interactive application registry", () => {
     const app = renderNapster();
 
     expect(app.querySelector(".napster-now-playing")).not.toBeNull();
-    expect(app.querySelectorAll(".napster-track-item")).toHaveLength(7);
+    expect(app.querySelectorAll(".napster-track-item")).toHaveLength(8);
+    expect(app.querySelector(".napster-track-item:last-child")?.textContent).toContain("7Mondays");
     expect(app.querySelector(".napster-track-list")).not.toBeNull();
     expect(app.querySelector("iframe")).toBeNull();
     expect(app.querySelector(".napster-track-item.is-selected")?.textContent).toContain("Silence");

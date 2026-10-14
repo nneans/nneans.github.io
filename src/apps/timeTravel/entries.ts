@@ -1,10 +1,6 @@
 export type TimeTravelCategory = "Travel" | "Conference" | "Field Trip" | "Event";
 export type TimeTravelLayout = "standard" | "wide" | "tall" | "large";
 
-/**
- * Edit each photo's date, title, and description here.
- * The gallery year is generated automatically from the first four digits of date.
- */
 export interface TimeTravelPhoto {
   src: string;
   alt: string;
@@ -25,26 +21,6 @@ export interface TimeTravelEntry {
 export const timeTravelEntries: TimeTravelEntry[] = [
   {
     id: "fukuoka-2026",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     location: "Fukuoka",
     country: "Japan",

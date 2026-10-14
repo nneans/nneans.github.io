@@ -16,7 +16,6 @@ type SectionId = (typeof sections)[number][0];
 
 const newestFirst = (a: Project, b: Project) => b.completedAt.localeCompare(a.completedAt);
 
-/** Projects filed under the given Work Archive folders (and their subfolders), newest first. */
 function archived(...folderIds: string[]): Project[] {
   const ids: string[] = [];
   const collect = (folders: WorkArchiveFolder[], inside: boolean) => folders.forEach((folder) => {
@@ -28,7 +27,6 @@ function archived(...folderIds: string[]): Project[] {
   return portfolio.projects.filter((item) => ids.includes(item.id)).sort(newestFirst);
 }
 
-/** Returns the section a home URL points to, or null for the top of the page. */
 export function homeSectionId(hash: string): SectionId | null {
   const requested = hash.replace(/^#\/?/, "");
   return sections.find(([id]) => id === requested)?.[0] ?? null;
@@ -80,7 +78,6 @@ function section(content: HTMLElement, id: SectionId): HTMLElement {
   return node;
 }
 
-/** A one-line list item that starts with an italic date, e.g. "2026.08: text". */
 function datedItem(date: string, ...content: (Node | string)[]): HTMLLIElement {
   const item = el("li");
   item.append(el("em", "home-date", date), " ", ...content);
@@ -240,7 +237,6 @@ function createContent(): HTMLElement {
   return content;
 }
 
-/** Highlights the navigation link of the section currently under the sticky header. */
 function trackActiveSection(home: HTMLElement): void {
   let queued = false;
   const update = () => {

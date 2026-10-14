@@ -31,3 +31,4 @@ archive/**/.local/
 /tmp/
 /.wrangler/
 /worker/.wrangler/
+/Trash/

@@ -26,7 +26,6 @@ body.home-mode {
 .portfolio-home .classic-button { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; color: #000; font-size: 12px; text-decoration: none; }
 .portfolio-home .classic-button:hover { background: var(--surface-light); color: #000; }
 
-/* Header */
 .home-header {
   position: sticky;
   z-index: 20;
@@ -55,7 +54,6 @@ body.home-mode {
   color: var(--active-title);
 }
 
-/* Layout: a narrow profile panel beside one reading column. */
 .home-layout {
   display: grid;
   max-width: 1200px;
@@ -101,7 +99,6 @@ body.home-mode {
 .home-content { min-width: 0; padding: 3px 32px 32px; background: #fff; }
 .home-document-title { margin: 0 -29px 24px; }
 
-/* Sections */
 .home-section { scroll-margin-top: calc(var(--header-height) + 16px); }
 .home-section + .home-section { margin-top: 28px; }
 .home-section h2 {
@@ -121,7 +118,6 @@ body.home-mode {
 .home-muted { color: var(--deep-shadow); }
 .home-award { padding: 0 6px; background: #fff6c8; box-shadow: inset 0 0 0 1px #c9a400; font-size: 12px; white-space: nowrap; }
 
-/* Publications: a small figure beside the paper details. */
 .home-paper {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);

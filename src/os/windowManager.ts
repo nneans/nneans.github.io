@@ -393,7 +393,6 @@ export class WindowManager {
     return window.innerWidth <= osConfig.mobileBreakpoint;
   }
 
-
   private getWindow(windowId: string): WindowState | undefined {
     return this.state.windows.find((candidate) => candidate.id === windowId);
   }

@@ -4,18 +4,14 @@ import type { SkyCondition, SkyPhase } from "./weather";
 export type SaverMode = "starfield" | "flying" | "mystify";
 
 export interface ScreensaverOptions {
-  /** Idle time before the saver kicks in. */
+
   idleMs?: number;
-  /** Lets the saver match whatever the desktop sky is currently doing. */
+
   sky?: () => { phase: SkyPhase; condition: SkyCondition } | null;
-  /** The saver stays away while a system overlay (sleep, shutdown) is up. */
+
   blocked?: () => boolean;
 }
 
-/**
- * Picks the classic saver that suits the sky: a starfield at night, Mystify's
- * cold ribbons under bad weather, Flying Windows the rest of the time.
- */
 export function modeForSky(phase: SkyPhase, condition: SkyCondition): SaverMode {
   if (condition === "rain" || condition === "storm" || condition === "snow" || condition === "fog") return "mystify";
   if (phase === "night") return "starfield";
@@ -149,7 +145,7 @@ export function createScreensaver(host: HTMLElement, options: ScreensaverOptions
 
   const drawMystify = (): void => {
     if (!context) return;
-    // A translucent wash instead of a clear, so the ribbons leave trails.
+
     context.fillStyle = "rgba(0,0,0,0.12)";
     context.fillRect(0, 0, width, height);
     shapes.forEach((shape) => {
@@ -186,9 +182,9 @@ export function createScreensaver(host: HTMLElement, options: ScreensaverOptions
   };
 
   const start = (): void => {
-    // On a phone, three idle minutes usually means someone is reading.
+
     if (window.innerWidth <= osConfig.mobileBreakpoint) return;
-    // A full-screen starfield is exactly what this preference asks us not to do.
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (running || options.blocked?.()) return;
     const sky = options.sky?.();

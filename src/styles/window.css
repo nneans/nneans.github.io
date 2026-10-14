@@ -82,23 +82,6 @@
   background: var(--surface);
 }
 
-.app-panel {
-  height: 100%;
-  padding: 14px;
-  overflow: auto;
-  background: #fff;
-  user-select: text;
-}
-
-.app-panel h1 {
-  margin: 0 0 12px;
-  font-size: 15px;
-}
-
-.app-panel p {
-  line-height: 1.5;
-}
-
 .task-button {
   display: flex;
   width: min(180px, 21vw);

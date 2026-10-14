@@ -43,9 +43,9 @@ function buildPrecipitation(className: string, count: number): HTMLElement {
 
 export interface DesktopScene {
   element: HTMLElement;
-  /** The last painted forecast, or null before the first one lands. */
+
   readonly snapshot: WeatherSnapshot | null;
-  /** Re-fetches the forecast and repaints; also returns the snapshot for the readout. */
+
   refresh: () => Promise<WeatherSnapshot>;
   stop: () => void;
 }
@@ -98,23 +98,18 @@ export function createDesktopScene(onUpdate?: (snapshot: WeatherSnapshot) => voi
   let timer: number | undefined;
   let last: WeatherSnapshot | null = null;
 
-  /**
-   * Walks the sun or moon along its arc and keeps the sky phase honest between
-   * forecast refreshes, so the desktop changes minute by minute rather than
-   * jumping every ten.
-   */
   const placeBody = (snapshot: WeatherSnapshot): void => {
     const minutes = localMinutesNow(new Date(), snapshot.timeZone);
     const { t, body } = arcProgress(minutes, snapshot.sunrise, snapshot.sunset);
     scene.dataset.phase = phaseFor(minutes, snapshot.sunrise, snapshot.sunset);
-    // At sunrise and sunset one body replaces the other, so cut rather than slide.
+
     if (body !== lastBody) {
       scene.classList.add("is-teleport");
       window.setTimeout(() => scene.classList.remove("is-teleport"), 60);
       lastBody = body;
     }
     scene.dataset.body = body;
-    // East on the left, west on the right, peaking overhead at the halfway point.
+
     scene.style.setProperty("--body-x", `${(6 + t * 88).toFixed(2)}%`);
     scene.style.setProperty("--body-y", `${(8 + (1 - Math.sin(Math.PI * t)) * 46).toFixed(2)}%`);
   };
@@ -124,10 +119,9 @@ export function createDesktopScene(onUpdate?: (snapshot: WeatherSnapshot) => voi
   const paint = (snapshot: WeatherSnapshot): void => {
     last = snapshot;
     scene.dataset.condition = snapshot.condition;
-    // The taskbar lives outside the desktop, so snow is announced on the root.
+
     document.documentElement.dataset.weather = snapshot.condition;
 
-    // Clouds cross faster on windy days; 12km/h is an ordinary breeze.
     const wind = Math.max(0.45, Math.min(2.6, snapshot.windSpeed / 12));
     scene.style.setProperty("--wind", wind.toFixed(2));
 
@@ -141,14 +135,13 @@ export function createDesktopScene(onUpdate?: (snapshot: WeatherSnapshot) => voi
     return snapshot;
   };
 
-  // Paint from the clock first; the forecast only adds weather on top.
   placeBody(clockOnlySnapshot(busan));
   void refresh();
   timer = window.setInterval(() => void refresh(), refreshInterval);
   const arcTimer = window.setInterval(() => {
     if (last) placeBody(last);
   }, arcInterval);
-  // A laptop waking from sleep should not sit on a stale midnight sky.
+
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") void refresh();
   });

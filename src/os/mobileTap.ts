@@ -10,10 +10,6 @@ function activationTarget(root: HTMLElement, target: EventTarget | null): HTMLEl
   return candidate;
 }
 
-/**
- * Makes mouse-style click handlers reliably respond to one touch on mobile browsers.
- * The native follow-up click is suppressed so toggle buttons do not run twice.
- */
 export function installMobileTapActivation(root: HTMLElement): void {
   const touchActivatedTargets = new WeakSet<HTMLElement>();
   let syntheticTouchTarget: HTMLElement | null = null;

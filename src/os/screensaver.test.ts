@@ -28,7 +28,7 @@ const context = (overrides: Partial<ClippyContext> = {}): ClippyContext => ({
 
 describe("chooseLine", () => {
   it("only offers lines whose conditions match", () => {
-    // Always take the first eligible line so the pick is deterministic.
+
     const line = chooseLine(context({ condition: "snow" }), [], () => 0);
     expect(line?.id).toBe("snow");
   });

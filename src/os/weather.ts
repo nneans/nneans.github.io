@@ -14,13 +14,13 @@ export interface WeatherSnapshot {
   condition: SkyCondition;
   phase: SkyPhase;
   label: string;
-  /** km/h at 10m; drives how fast the clouds cross the sky. */
+
   windSpeed: number;
-  /** Minutes past local midnight, so the sun and moon can be placed on their arc. */
+
   sunrise: number;
   sunset: number;
   timeZone: string;
-  /** False when the network call failed and only the clock drove the scene. */
+
   live: boolean;
 }
 
@@ -40,7 +40,6 @@ interface ForecastResponse {
   daily: { sunrise: string[]; sunset: string[] };
 }
 
-/** WMO weather interpretation codes, grouped into the scenes the desktop can draw. */
 const conditions: { codes: number[]; condition: SkyCondition; label: string }[] = [
   { codes: [0], condition: "clear", label: "맑음" },
   { codes: [1, 2], condition: "partly", label: "구름 조금" },
@@ -72,13 +71,9 @@ function writeCache<T>(key: string, data: T): void {
   try {
     window.localStorage.setItem(key, JSON.stringify({ at: Date.now(), data }));
   } catch {
-    // The value we already hold still drives this session.
   }
 }
 
-/* --- time of day --- */
-
-/** Minutes past midnight at the drawn location, regardless of where the browser is. */
 export function localMinutesNow(now: Date, timeZone: string): number {
   const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone,
@@ -96,10 +91,6 @@ function minutesFromIso(isoLocalTime: string): number {
   return hour * 60 + minute;
 }
 
-/**
- * Where the sun (or moon) sits on its arc: 0 at rise, 1 at set. Daylight runs
- * sunrise to sunset; the night leg wraps around midnight.
- */
 export function arcProgress(minutes: number, sunriseMinutes: number, sunsetMinutes: number): { t: number; body: "sun" | "moon" } {
   const isDay = minutes >= sunriseMinutes && minutes <= sunsetMinutes;
   if (isDay) {
@@ -111,10 +102,6 @@ export function arcProgress(minutes: number, sunriseMinutes: number, sunsetMinut
   return { t: elapsed / darkness, body: "moon" };
 }
 
-/**
- * Dawn and dusk are the ~50 minutes around sunrise and sunset, so the desktop
- * gets a warm sky twice a day instead of flipping straight between day and night.
- */
 export function phaseFor(minutes: number, sunriseMinutes: number, sunsetMinutes: number): SkyPhase {
   const window = 50;
   if (Math.abs(minutes - sunriseMinutes) <= window) return "dawn";
@@ -132,7 +119,7 @@ export function toSnapshot(data: ForecastResponse, location: SkyLocation, now = 
     place: location.label,
     temperature: data.current.temperature_2m,
     condition,
-    // The API's own day/night flag wins over our clock arithmetic near the edges.
+
     phase: data.current.is_day === 0 && phase === "day" ? "dusk" : phase,
     label,
     windSpeed: data.current.wind_speed_10m ?? 0,
@@ -143,10 +130,6 @@ export function toSnapshot(data: ForecastResponse, location: SkyLocation, now = 
   };
 }
 
-/**
- * A sky derived from the clock alone. Used both when the forecast fails and to
- * paint the first frame, so a night visitor never sees a flash of blue daylight.
- */
 export function clockOnlySnapshot(location: SkyLocation, now = new Date()): WeatherSnapshot {
   return {
     place: location.label,
@@ -171,8 +154,7 @@ export async function fetchWeather(location: SkyLocation, now = new Date()): Pro
     `&current=temperature_2m,weather_code,is_day,wind_speed_10m&daily=sunrise,sunset&forecast_days=1` +
     `&timezone=${encodeURIComponent(location.timeZone)}`;
   try {
-    // Without a deadline a stalled request never rejects, and the clock-only
-    // fallback below would never run.
+
     const controller = new AbortController();
     const deadline = setTimeout(() => controller.abort(), requestTimeout);
     try {

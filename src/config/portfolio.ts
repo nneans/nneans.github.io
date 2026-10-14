@@ -22,9 +22,9 @@ export interface Project {
   completedAt: string;
   stack: string[];
   awardLabel?: string;
-  /** Short venue name; projects with one are listed as publications on the home page. */
+
   venue?: string;
-  /** Company an industry project was carried out with. */
+
   partner?: string;
   figure?: { src: string; alt: string };
   links: { label: string; url: string; download?: string }[];
@@ -122,11 +122,6 @@ export const portfolio = {
     { date: "2026.08", text: "Received 장려상 in the 2026년 보훈 공공데이터·AI 활용 아이디어 공모전." },
     { date: "2026.08", text: "Received 우수상 in the KOSSDA 2026 대학생 데이터 시각화 공모전." },
     { date: "2026.07", text: "PaCT was accepted at ICICIC 2026." },
-  ],
-  now: [
-    "Studying Industrial Data Engineering at Pusan National University",
-    "Exploring process mining and time-series representation learning",
-    "Building practical data products from research ideas",
   ],
   projects: [
     {

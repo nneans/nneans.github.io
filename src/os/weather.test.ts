@@ -32,9 +32,9 @@ describe("toSnapshot", () => {
   });
 
   it("reads the clock in Busan, not in the visitor's timezone", () => {
-    // 21:00 UTC is 06:00 the next morning in Busan, so the sky is at dawn.
+
     expect(toSnapshot(forecast(0, 1), busan, new Date("2026-09-18T21:00:00Z")).phase).toBe("dawn");
-    // 03:00 UTC is midday in Busan.
+
     expect(toSnapshot(forecast(0, 1), busan, new Date("2026-09-19T03:00:00Z")).phase).toBe("day");
   });
 
@@ -56,7 +56,7 @@ describe("arcProgress", () => {
   it("hands the sky over to the moon after sunset, wrapping past midnight", () => {
     expect(arcProgress(sunset + 1, sunrise, sunset).body).toBe("moon");
     expect(arcProgress(2 * 60, sunrise, sunset).body).toBe("moon");
-    // Midnight is the halfway point of a 12-hour night.
+
     expect(arcProgress(0, sunrise, sunset).t).toBeCloseTo(0.5, 5);
   });
 
@@ -69,7 +69,7 @@ describe("arcProgress", () => {
 
 describe("clockOnlySnapshot", () => {
   it("gives the sky a sensible phase with no network at all", () => {
-    // 03:00 UTC is midday in Busan; 18:00 UTC is 03:00 the next morning.
+
     expect(clockOnlySnapshot(busan, new Date("2026-09-19T03:00:00Z")).phase).toBe("day");
     expect(clockOnlySnapshot(busan, new Date("2026-09-19T18:00:00Z")).phase).toBe("night");
   });

@@ -91,15 +91,6 @@ function createTaskbar(): HTMLElement {
     <a class="home-taskbar-button classic-button raised" href="#home" aria-label="Return to portfolio home">⌂ Home</a>
     <div class="task-list" aria-label="Open windows"></div>
   `;
-  if (osConfig.showUpdateButton) {
-    const update = document.createElement("button");
-    update.className = "update-button classic-button raised";
-    update.type = "button";
-    update.textContent = "Update to 2026";
-    update.disabled = true;
-    update.title = "The modern-site transition is outside this build's scope.";
-    taskbar.append(update);
-  }
   taskbar.append(createMusicTray());
   const clock = document.createElement("time");
   clock.className = "clock sunken";
@@ -168,8 +159,6 @@ function initializeDesktop(): void {
   void system.initialize();
 }
 
-// The home page shows the same boot screen as the desktop. It is created on first
-// use because a new boot screen is visible until it finishes playing.
 let homeBoot: BootSequence | undefined;
 let shownRoute: "home" | "desktop" | undefined;
 function showRoute(): void {

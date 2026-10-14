@@ -76,5 +76,14 @@ export const tracks: PlaylistTrack[] = [
     artwork:
       "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/ce/36/7f/ce367f3d-2a4f-46ee-1434-e3fbb52f1fc8/093624849797.jpg/160x160bb.jpg",
   },
+  {
+    title: "7Mondays",
+    artist: "Unofficialboyy",
+    url: "https://music.apple.com/kr/album/7mondays/6811808019?i=6811808029",
+    previewUrl:
+      "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cb/a3/98/cba39854-2f0a-e7da-ba71-0f4974b036b4/mzaf_455706559492150008.plus.aac.p.m4a",
+    artwork:
+      "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d4/b3/85/d4b385b3-5083-0380-25bc-495c102e96cb/8800388620355_cover.jpg/160x160bb.jpg",
+  },
 ];
 

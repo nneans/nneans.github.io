@@ -1,4 +1,4 @@
-// @vitest-environment happy-dom
+
 import { afterEach, expect, it } from "vitest";
 import { portfolio } from "./config/portfolio";
 import { createHome, homeSectionId, setActiveSection } from "./home";

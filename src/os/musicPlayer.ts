@@ -1,14 +1,14 @@
 import { playlistArtwork, playlistOwner, playlistTitle, tracks } from "../apps/napster/playlist";
 
 export interface MusicState {
-  /** True once a track has been picked, i.e. the taskbar tray has something to show. */
+
   active: boolean;
   index: number;
   title: string;
   artist: string;
   artwork: string;
   playing: boolean;
-  /** 0-100 */
+
   progress: number;
   currentTime: number;
   duration: number;
@@ -16,11 +16,6 @@ export interface MusicState {
 
 export type MusicCommand = "previous" | "play-pause" | "next" | "open" | `select:${number}`;
 
-/**
- * The playlist audio lives here rather than inside the Napster app, so the desktop
- * widget keeps playing after the window is closed. Views talk to it by dispatching
- * `os:music-command` and re-render from `os:music-state`.
- */
 class MusicPlayer {
   private readonly audio = document.createElement("audio");
   private index = 0;

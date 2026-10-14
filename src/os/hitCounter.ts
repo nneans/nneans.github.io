@@ -38,7 +38,6 @@ export class LocalHitCounterStore implements HitCounterStore {
       this.storage.setItem(countStorageKey, String(next.count));
       this.storage.setItem(recordedStorageKey, "true");
     } catch {
-      // The visual interaction still works when storage is unavailable.
     }
     return next;
   }
@@ -111,7 +110,6 @@ export class CloudflareHitCounterStore implements HitCounterStore {
     try {
       this.storage.setItem(key, value);
     } catch {
-      // D1 UUID uniqueness still protects a completed request.
     }
   }
 }

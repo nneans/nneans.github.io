@@ -1,4 +1,4 @@
-/* Live Busan sky: phase (dawn/day/dusk/night) sets the palette, condition adds weather. */
+
 .desktop-scene {
   position: absolute;
   z-index: 0;
@@ -41,7 +41,6 @@
   background: linear-gradient(#152045 0%, #5b3f76 45%, #d97a54 100%);
 }
 
-/* Overcast weather mutes whatever the phase painted. */
 [data-condition="overcast"] .scene__sky,
 [data-condition="rain"] .scene__sky,
 [data-condition="storm"] .scene__sky,
@@ -50,7 +49,6 @@
   filter: saturate(0.45) brightness(0.72);
 }
 
-/* The horizon glow tracks whichever side the sun is actually on. */
 .scene__glow {
   background: radial-gradient(
     ellipse 55% 42% at var(--body-x, 50%) 100%,
@@ -74,8 +72,6 @@
   opacity: 0;
 }
 
-/* --- sun and moon --- */
-/* Position comes from the real arc between sunrise and sunset; see desktopScene. */
 .scene__body {
   position: absolute;
   top: var(--body-y, 13%);
@@ -99,7 +95,6 @@
   box-shadow: 0 0 54px 18px rgb(255 226 140 / 45%);
 }
 
-/* Low sun reddens, the way it actually does near the horizon. */
 [data-body="sun"]:is([data-phase="dawn"], [data-phase="dusk"]) .scene__body {
   background: #ffcf8a;
   box-shadow: 0 0 60px 22px rgb(255 150 90 / 42%);
@@ -113,7 +108,6 @@
   box-shadow: 0 0 34px 6px rgb(200 220 255 / 26%);
 }
 
-/* Craters, drawn only on the moon. */
 .scene__body::before,
 .scene__body::after {
   position: absolute;
@@ -143,7 +137,6 @@
   opacity: 1;
 }
 
-/* The sun and moon hide behind thick weather. */
 [data-condition="overcast"] .scene__body,
 [data-condition="rain"] .scene__body,
 [data-condition="storm"] .scene__body,
@@ -152,7 +145,6 @@
   opacity: 0;
 }
 
-/* --- stars --- */
 .scene__stars {
   position: absolute;
   inset: 0;
@@ -197,7 +189,6 @@
   }
 }
 
-/* --- clouds --- */
 .scene__clouds {
   position: absolute;
   inset: 0;
@@ -239,7 +230,6 @@
   }
 }
 
-/* --- rain and snow --- */
 .scene__rain,
 .scene__snow {
   position: absolute;
@@ -281,7 +271,6 @@
   }
 }
 
-/* Snow gathers along the bottom of the sky while it falls. */
 .scene__drift {
   position: absolute;
   right: 0;
@@ -297,7 +286,6 @@
   height: 26px;
 }
 
-/* --- fog and lightning --- */
 .scene__fog {
   background: repeating-linear-gradient(
     rgb(215 222 232 / 0%) 0 24px,
@@ -340,7 +328,6 @@
   }
 }
 
-/* Keeps white icon labels and the widget column readable over a bright sky. */
 .scene__scrim {
   background: linear-gradient(rgb(0 0 0 / 30%), rgb(0 0 0 / 10%) 55%, rgb(0 0 0 / 26%));
 }
@@ -355,7 +342,6 @@
   }
 }
 
-/* --- the taskbar-side weather readout --- */
 .desktop-weather {
   display: flex;
   width: 100%;

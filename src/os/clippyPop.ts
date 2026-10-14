@@ -5,7 +5,7 @@ import type { WeatherSnapshot } from "./weather";
 export interface ClippyPopOptions {
   sky: () => WeatherSnapshot | null;
   openWindows: () => number;
-  /** Clippy keeps quiet while the screensaver or a system overlay is up. */
+
   blocked?: () => boolean;
   firstDelayMs?: number;
   intervalMs?: number;
@@ -26,7 +26,6 @@ function mute(): void {
   try {
     window.localStorage.setItem(mutedKey, "1");
   } catch {
-    // Clippy still stays quiet for the rest of this session.
   }
 }
 
@@ -36,7 +35,6 @@ function busanHour(now = new Date()): number {
   );
 }
 
-/** Weighted pick among the lines whose conditions match, skipping recent ones. */
 export function chooseLine(context: ClippyContext, recent: string[], random = Math.random): ClippyLine | null {
   const eligible = clippyLines.filter((line) => !recent.includes(line.id) && (line.when?.(context) ?? true));
   const pool = eligible.length > 0 ? eligible : clippyLines.filter((line) => !line.when);

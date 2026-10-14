@@ -1,4 +1,4 @@
-// @vitest-environment happy-dom
+
 import { describe, expect, it } from "vitest";
 import { CloudflareHitCounterStore, createHitCounter, LocalHitCounterStore } from "./hitCounter";
 
