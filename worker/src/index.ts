@@ -1,6 +1,7 @@
 interface Env {
   DB: D1Database;
   ALLOWED_ORIGINS: string;
+  HIT_LIMITER: RateLimit;
 }
 
 interface HitCountRow {
@@ -73,6 +74,12 @@ export default {
       }
 
       if (request.method === "POST") {
+        // Browsers always send Origin on this cross-origin POST; scripts that omit it are not visitors.
+        if (!origin) return json({ error: "Origin required" }, 403, null);
+        const ip = request.headers.get("CF-Connecting-IP") ?? "unknown";
+        const { success } = await env.HIT_LIMITER.limit({ key: ip });
+        if (!success) return json({ error: "Too many hits" }, 429, origin);
+
         const visitorId = await parseVisitorId(request);
         if (!visitorId) return json({ error: "Invalid visitor ID" }, 400, origin);
 

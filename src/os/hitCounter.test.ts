@@ -58,4 +58,13 @@ describe("desktop hit counter", () => {
     await expect(store.leaveHit()).resolves.toEqual({ count: 41, hasHit: true });
     expect(visitors.size).toBe(1);
   });
+
+  it("keeps the placeholder instead of a fake count when the API is down", async () => {
+    const fetcher: typeof fetch = async () => new Response(null, { status: 503 });
+    const widget = createHitCounter(new CloudflareHitCounterStore("https://hits.example.com", memoryStorage(), fetcher));
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(widget.querySelector("output")?.textContent).toBe("------");
+    expect(widget.querySelector<HTMLButtonElement>("button")?.disabled).toBe(true);
+  });
 });

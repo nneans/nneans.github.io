@@ -114,35 +114,6 @@ export class CloudflareHitCounterStore implements HitCounterStore {
   }
 }
 
-class FallbackHitCounterStore implements HitCounterStore {
-  private useFallback = false;
-
-  constructor(
-    private readonly primary: HitCounterStore,
-    private readonly fallback: HitCounterStore,
-  ) {}
-
-  async read(): Promise<HitCounterState> {
-    if (this.useFallback) return this.fallback.read();
-    try {
-      return await this.primary.read();
-    } catch {
-      this.useFallback = true;
-      return this.fallback.read();
-    }
-  }
-
-  async leaveHit(): Promise<HitCounterState> {
-    if (this.useFallback) return this.fallback.leaveHit();
-    try {
-      return await this.primary.leaveHit();
-    } catch {
-      this.useFallback = true;
-      return this.fallback.leaveHit();
-    }
-  }
-}
-
 function normalisedCount(value: unknown): number {
   const count = Number(value);
   return Number.isFinite(count) && count > 0 ? Math.floor(count) : 0;
@@ -159,10 +130,9 @@ async function responseJson(response: Response): Promise<{ count: unknown }> {
 
 export function createDefaultHitCounterStore(storage: Storage = window.localStorage): HitCounterStore {
   const apiUrl = import.meta.env.VITE_HIT_COUNTER_API_URL?.trim();
-  const local = new LocalHitCounterStore(storage);
-  return apiUrl
-    ? new FallbackHitCounterStore(new CloudflareHitCounterStore(apiUrl, storage), local)
-    : local;
+  // No local fallback when the API is configured: a browser-local count starting
+  // at 0 would show visitors a fake "#000001" whenever the Worker is down.
+  return apiUrl ? new CloudflareHitCounterStore(apiUrl, storage) : new LocalHitCounterStore(storage);
 }
 
 function formattedCount(count: number): string {
@@ -207,14 +177,24 @@ export function createHitCounter(store: HitCounterStore = createDefaultHitCounte
   digits.textContent = "------";
   button.textContent = "HIT!";
   button.disabled = true;
-  void store.read().then(render);
+  const renderOffline = (): void => {
+    button.textContent = "HIT!";
+    button.disabled = true;
+    button.title = "The hit counter is offline right now.";
+  };
+
+  void store.read().then(render, renderOffline);
 
   button.addEventListener("click", async () => {
     button.disabled = true;
-    const state = await store.leaveHit();
-    render(state);
-    noticeText.textContent = `YOU ARE HIT #${formattedCount(state.count)}`;
-    notice.hidden = false;
+    try {
+      const state = await store.leaveHit();
+      render(state);
+      noticeText.textContent = `YOU ARE HIT #${formattedCount(state.count)}`;
+      notice.hidden = false;
+    } catch {
+      renderOffline();
+    }
   });
 
   widget.append(button, digits, notice);
