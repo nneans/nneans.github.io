@@ -27,7 +27,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     category: "Travel",
     photos: [
       {
-        src: "/assets/time-travel/2026-08-28-fukuoka-01.jpg",
+        src: "/assets/time-travel/2026-08-28-fukuoka-01.webp",
         alt: "An evening stop inside a restaurant in Fukuoka",
         date: "2026.08.28",
         title: "somewhere in Fukuoka",
@@ -35,7 +35,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "tall",
       },
       {
-        src: "/assets/time-travel/2026-08-28-fukuoka-02.jpg",
+        src: "/assets/time-travel/2026-08-28-fukuoka-02.webp",
         alt: "A roast beef bowl served at a restaurant in Fukuoka",
         date: "2026.08.28",
         title: "Roast Beef Bowl",
@@ -43,7 +43,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "tall",
       },
       {
-        src: "/assets/time-travel/2026-08-28-fukuoka-03.jpg",
+        src: "/assets/time-travel/2026-08-28-fukuoka-03.webp",
         alt: "A yakiniku dinner table in Fukuoka",
         date: "2026.08.28",
         title: "Yakiniku in Fukuoka",
@@ -51,7 +51,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "tall",
       },
       {
-        src: "/assets/time-travel/2026-08-28-fukuoka-04.jpg",
+        src: "/assets/time-travel/2026-08-28-fukuoka-04.webp",
         alt: "Grilled beef and egg served at a restaurant in Fukuoka",
         date: "2026.08.28",
         title: "One More Plate",
@@ -59,7 +59,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "tall",
       },
       {
-        src: "/assets/time-travel/2026-08-28-fukuoka-05.jpg",
+        src: "/assets/time-travel/2026-08-28-fukuoka-05.webp",
         alt: "An ASPAI and Process Mining Summer School T-shirt",
         date: "2026.08.28",
         title: "ASPAI T-shirt in Fukuoka",
@@ -74,7 +74,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2026-08-27-veterans-data-award.jpg",
+      src: "/assets/time-travel/2026-08-27-veterans-data-award.webp",
       alt: "Flowers and a certificate from the veterans public data and AI idea competition",
       date: "2026.08.27",
       title: "보훈 공공데이터·AI 활용 아이디어 공모전 입상",
@@ -89,7 +89,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     category: "Conference",
     photos: [
       {
-        src: "/assets/time-travel/2026-08-24-aspai-presentation.jpg",
+        src: "/assets/time-travel/2026-08-24-aspai-presentation.webp",
         alt: "Godfather of Process Mining, Wil van der Aalst",
         date: "2026.08.24",
         title: "Process Mining Industry and Academia Symposium",
@@ -97,7 +97,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "wide",
       },
       {
-        src: "/assets/time-travel/2026-08-24-best-paper-runner-up.jpg",
+        src: "/assets/time-travel/2026-08-24-best-paper-runner-up.webp",
         alt: "Best Paper Runner-up Award certificate from ASPAI 2026",
         date: "2026.08.24",
         title: "Best Paper Runner-up Award",
@@ -112,7 +112,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2026-08-21-graduation-address.jpg",
+      src: "/assets/time-travel/2026-08-21-graduation-address.webp",
       alt: "Delivering the graduate representative address at Pusan National University",
       date: "2026.08.21",
       title: "Graduate Representative Address",
@@ -127,7 +127,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     category: "Travel",
     photos: [
       {
-        src: "/assets/time-travel/2026-08-02-changwon-imhanbyeol.jpg",
+        src: "/assets/time-travel/2026-08-02-changwon-imhanbyeol.webp",
         alt: "A group photo taken in Changwon",
         date: "2026.08.02",
         title: "Interview with Imhanbyeol in Changwon",
@@ -135,7 +135,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "wide",
       },
       {
-        src: "/assets/time-travel/2026-08-02-pingpong-01.jpg",
+        src: "/assets/time-travel/2026-08-02-pingpong-01.webp",
         alt: "Friends playing table tennis in Changwon",
         date: "2026.08.02",
         title: "Ping-Pong in Changwon",
@@ -143,7 +143,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "wide",
       },
       {
-        src: "/assets/time-travel/2026-08-02-pingpong-02.jpg",
+        src: "/assets/time-travel/2026-08-02-pingpong-02.webp",
         alt: "A retro digital-camera photograph from a table-tennis match",
         date: "2026.08.02",
         title: "Ping-Pong, Take Two",
@@ -158,7 +158,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2026-07-04-ddori-and-maru.jpg",
+      src: "/assets/time-travel/2026-07-04-ddori-and-maru.webp",
       alt: "Two cats named Ddori and Maru reaching for treats",
       date: "2026.07.04",
       title: "Ddori & Maru",
@@ -172,7 +172,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2026-05-08-bae-lab-sports-day.jpg",
+      src: "/assets/time-travel/2026-05-08-bae-lab-sports-day.webp",
       alt: "BAE LAB group photo in a gym after a sports day",
       date: "2026.05.08",
       title: "BAE LAB Sports Day",
@@ -186,7 +186,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2026-04-26-hyukjun-birthday.jpg",
+      src: "/assets/time-travel/2026-04-26-hyukjun-birthday.webp",
       alt: "Hyukjun at his birthday party",
       date: "2026.04.26",
       title: "Hyukjun's Birthday Party",
@@ -200,7 +200,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2026-04-05-cherry-blossoms.jpg",
+      src: "/assets/time-travel/2026-04-05-cherry-blossoms.webp",
       alt: "A selfie under cherry blossoms at night",
       date: "2026.04.05",
       title: "Cherry Blossoms at Night",
@@ -214,7 +214,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2026-01-30-mukho.jpg",
+      src: "/assets/time-travel/2026-01-30-mukho.webp",
       alt: "An instant photo taken by the sea in Mukho",
       date: "2026.01.30",
       title: "Winter Sea in Mukho",
@@ -228,7 +228,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2026-01-25-seongju.jpg",
+      src: "/assets/time-travel/2026-01-25-seongju.webp",
       alt: "A handmade banner from the Seongju trip",
       date: "2026.01.25",
       title: "The Seongju Banner",
@@ -242,7 +242,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2025-11-24-industry-academia-award.jpg",
+      src: "/assets/time-travel/2025-11-24-industry-academia-award.webp",
       alt: "Team photo with an excellence award from the industry-academia competition",
       date: "2025.11.24",
       title: "지·산·학 경진대회 우수상",
@@ -256,7 +256,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2025-11-16-geumjeongsan.jpg",
+      src: "/assets/time-travel/2025-11-16-geumjeongsan.webp",
       alt: "Group photo at Godangbong Peak on Geumjeongsan",
       date: "2025.11.16",
       title: "At Godangbong Peak",
@@ -271,7 +271,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     category: "Travel",
     photos: [
       {
-        src: "/assets/time-travel/2025-08-20-osaka-01.jpg",
+        src: "/assets/time-travel/2025-08-20-osaka-01.webp",
         alt: "Instant photographs spread across a table in Osaka",
         date: "2025.08.20",
         title: "Instax Memories in Osaka",
@@ -279,7 +279,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "wide",
       },
       {
-        src: "/assets/time-travel/2025-08-20-osaka-02.jpg",
+        src: "/assets/time-travel/2025-08-20-osaka-02.webp",
         alt: "Friends gathered around a restaurant table in Osaka",
         date: "2025.08.20",
         title: "Dinner in Osaka",
@@ -294,7 +294,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Japan",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2025-08-18-rainy-kyoto.jpg",
+      src: "/assets/time-travel/2025-08-18-rainy-kyoto.webp",
       alt: "Walking down a wet street in Kyoto",
       date: "2025.08.18",
       title: "Rainy Kyoto",
@@ -308,7 +308,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Japan",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2025-08-16-osaka.jpg",
+      src: "/assets/time-travel/2025-08-16-osaka.webp",
       alt: "A bright summer street in Osaka",
       date: "2025.08.16",
       title: "A Summer Afternoon in Osaka",
@@ -322,7 +322,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2025-07-27-night-run-with-moon-and-chan.jpg",
+      src: "/assets/time-travel/2025-07-27-night-run-with-moon-and-chan.webp",
       alt: "A motion-blurred photo during a night run with Moon and Chan",
       date: "2025.07.27",
       title: "Night Run with Moon & Chan",
@@ -336,7 +336,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Japan",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2025-07-22-tokyo-beer.jpg",
+      src: "/assets/time-travel/2025-07-22-tokyo-beer.webp",
       alt: "Friends raising beer glasses at a restaurant in Tokyo",
       date: "2025.07.22",
       title: "Beer in Tokyo",
@@ -350,7 +350,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Japan",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2025-07-20-ikaho.jpg",
+      src: "/assets/time-travel/2025-07-20-ikaho.webp",
       alt: "Friends posing beneath a clear sky in Ikaho",
       date: "2025.07.20",
       title: "A Clear Day in Ikaho",
@@ -365,7 +365,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     category: "Travel",
     photos: [
       {
-        src: "/assets/time-travel/2025-07-19-tokyo-ueno-01.jpg",
+        src: "/assets/time-travel/2025-07-19-tokyo-ueno-01.webp",
         alt: "Friends posing together in Ueno, Tokyo",
         date: "2025.07.19",
         title: "An Afternoon in Ueno",
@@ -373,7 +373,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "tall",
       },
       {
-        src: "/assets/time-travel/2025-07-19-tokyo-ueno-02.jpg",
+        src: "/assets/time-travel/2025-07-19-tokyo-ueno-02.webp",
         alt: "Friends sitting together at a summer festival in Ueno",
         date: "2025.07.19",
         title: "Ueno Summer Festival",
@@ -388,7 +388,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2025-07-16-ddaibums-day.jpg",
+      src: "/assets/time-travel/2025-07-16-ddaibums-day.webp",
       alt: "A two-frame photo strip from Ddaibum's day",
       date: "2025.07.16",
       title: "Ddaibum's Day",
@@ -403,7 +403,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     category: "Event",
     photos: [
       {
-        src: "/assets/time-travel/2025-06-29-bbongsoon-birthday-01.jpg",
+        src: "/assets/time-travel/2025-06-29-bbongsoon-birthday-01.webp",
         alt: "Friends taking a mirror photo at Bbongsoon's birthday party",
         date: "2025.06.29",
         title: "Bbongsoon's Birthday — Photo Booth",
@@ -411,7 +411,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "tall",
       },
       {
-        src: "/assets/time-travel/2025-06-29-bbongsoon-birthday-02.jpg",
+        src: "/assets/time-travel/2025-06-29-bbongsoon-birthday-02.webp",
         alt: "Friends gathered around a birthday dinner table",
         date: "2025.06.29",
         title: "Bbongsoon's Birthday Dinner",
@@ -426,7 +426,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2025-06-28-daegu-hip-hop-festival.jpg",
+      src: "/assets/time-travel/2025-06-28-daegu-hip-hop-festival.webp",
       alt: "Friends posing together at the Daegu hip-hop festival",
       date: "2025.06.28",
       title: "Daegu Hip-hop Festival",
@@ -440,7 +440,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2025-06-20-best-friend.jpg",
+      src: "/assets/time-travel/2025-06-20-best-friend.webp",
       alt: "Two instant photographs taken with a best friend",
       date: "2025.06.20",
       title: "Instant Photos with My Best Friend",
@@ -454,7 +454,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2025-05-31-hyukjun-first-performance.jpg",
+      src: "/assets/time-travel/2025-05-31-hyukjun-first-performance.webp",
       alt: "Hyukjun signing a poster after his first performance",
       date: "2025.05.31",
       title: "Hyukjun's First Performance",
@@ -469,7 +469,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     category: "Event",
     photos: [
       {
-        src: "/assets/time-travel/2025-05-10-my-birthday-01.jpg",
+        src: "/assets/time-travel/2025-05-10-my-birthday-01.webp",
         alt: "A birthday cake with a handwritten message",
         date: "2025.05.10",
         title: "Birthday Cake",
@@ -477,7 +477,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
         layout: "tall",
       },
       {
-        src: "/assets/time-travel/2025-05-10-my-birthday-02.jpg",
+        src: "/assets/time-travel/2025-05-10-my-birthday-02.webp",
         alt: "Mingyun wearing a party hat beside a birthday cake",
         date: "2025.05.10",
         title: "My Birthday",
@@ -492,7 +492,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "Republic of Korea",
     category: "Event",
     photos: [{
-      src: "/assets/time-travel/2025-05-05-at-dragons-house.jpg",
+      src: "/assets/time-travel/2025-05-05-at-dragons-house.webp",
       alt: "Friends gathered together at Dragon's house with a video call on a tablet",
       date: "2025.05.05",
       title: "At Dragon's House",
@@ -506,7 +506,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "China",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2025-01-20-shanghai-bund.jpg",
+      src: "/assets/time-travel/2025-01-20-shanghai-bund.webp",
       alt: "A nighttime portrait at the Bund in Shanghai",
       date: "2025.01.20",
       title: "The Bund at Night",
@@ -520,7 +520,7 @@ export const timeTravelEntries: TimeTravelEntry[] = [
     country: "China",
     category: "Travel",
     photos: [{
-      src: "/assets/time-travel/2025-01-19-shanghai-water-town.jpg",
+      src: "/assets/time-travel/2025-01-19-shanghai-water-town.webp",
       alt: "A group photograph beside an illuminated pagoda near Shanghai",
       date: "2025.01.19",
       title: "Shanghai Water Town",

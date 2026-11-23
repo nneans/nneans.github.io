@@ -176,11 +176,11 @@ describe("interactive application registry", () => {
     expect(app.querySelector(".time-travel-lightbox")?.hasAttribute("hidden")).toBe(false);
     expect(app.querySelector(".time-travel-viewer__titlebar")?.textContent).toContain("2026.01.30");
     expect(app.querySelector<HTMLImageElement>(".time-travel-viewer__stage img")?.src).toContain(
-      "2026-01-30-mukho.jpg",
+      "2026-01-30-mukho.webp",
     );
     app.querySelector<HTMLButtonElement>('[aria-label="Next photo"]')?.click();
     expect(app.querySelector<HTMLImageElement>(".time-travel-viewer__stage img")?.src).toContain(
-      "seongju.jpg",
+      "seongju.webp",
     );
     app.querySelector<HTMLButtonElement>('[aria-label="Close photo viewer"]')?.click();
     expect(app.querySelector(".time-travel-lightbox")?.hasAttribute("hidden")).toBe(true);
