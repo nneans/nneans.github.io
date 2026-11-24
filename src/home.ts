@@ -95,16 +95,7 @@ function authorLine(authors: string): HTMLElement {
 
 function publication(project: Project): HTMLElement {
   const paper = el("article", "home-paper");
-  if (project.figure) {
-    const figure = el("figure", "home-paper__figure");
-    const image = el("img");
-    image.src = project.figure.src;
-    image.alt = project.figure.alt;
-    image.loading = "lazy";
-    if (project.venue) figure.append(el("span", "home-paper__venue", project.venue));
-    figure.append(image);
-    paper.append(figure);
-  }
+  paper.append(el("span", "home-paper__venue", project.venue ?? ""));
   const copy = el("div", "home-paper__copy");
   copy.append(el("h3", "", project.title));
   if (project.authors) copy.append(authorLine(project.authors));

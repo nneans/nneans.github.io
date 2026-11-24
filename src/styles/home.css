@@ -120,23 +120,13 @@ body.home-mode {
 
 .home-paper {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  gap: 24px;
-  align-items: center;
-  padding: 14px 0;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 12px 0;
 }
 .home-paper + .home-paper { border-top: 1px solid var(--surface-light); }
-.portfolio-home .home-paper__figure {
-  position: relative;
-  display: block;
-  padding: 6px;
-  background: #fff;
-  border: 1px solid var(--surface);
-  margin: 0;
-  box-shadow: 2px 2px 0 var(--surface-light);
-}
-.home-paper__figure img { display: block; width: 100%; height: 170px; object-fit: contain; }
-.home-paper__venue { position: absolute; top: 0; left: 0; padding: 1px 7px; background: var(--active-title); color: #fff; font-size: 12px; }
+.home-paper__venue { padding: 1px 6px; background: var(--active-title); color: #fff; font-size: 12px; text-align: center; white-space: nowrap; }
 .home-paper h3 { margin-bottom: 6px; font-size: 16px; }
 .home-paper__copy { font-size: 14px; }
 .home-paper__copy strong { text-decoration: underline; text-underline-offset: 3px; }
@@ -178,6 +168,7 @@ body.home-mode {
   .home-layout { margin-top: 16px; padding: 0 16px; }
   .home-content { padding: 3px 18px 24px; }
   .home-document-title { margin: 0 -15px 20px; }
-  .home-paper { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .home-paper { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .home-paper__venue { justify-self: start; }
   .home-footer { margin: 0 16px 20px; overflow-wrap: anywhere; }
 }

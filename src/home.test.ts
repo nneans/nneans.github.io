@@ -32,7 +32,7 @@ it("treats the brand link and unknown hashes as the top of the page", () => {
   expect(homeSectionId("")).toBeNull();
 });
 
-it("shows each publication with its architecture figure, newest first", () => {
+it("shows each conference paper with its venue, newest first", () => {
   const papers = [...createHome().querySelectorAll(".home-paper")];
   const published = portfolio.projects.filter((item) => item.venue);
   expect(papers).toHaveLength(published.length);
@@ -40,7 +40,8 @@ it("shows each publication with its architecture figure, newest first", () => {
     [...published].sort((a, b) => b.completedAt.localeCompare(a.completedAt)).map((item) => item.title),
   );
   papers.forEach((paper) => {
-    expect(paper.querySelector(".home-paper__figure img")?.getAttribute("src")).toMatch(/architecture\.webp$/);
+    expect(paper.querySelector("img")).toBeNull();
+    expect(paper.querySelector(".home-paper__venue")?.textContent).toMatch(/ 2026$/);
   });
 });
 

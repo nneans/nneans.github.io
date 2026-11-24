@@ -70,7 +70,7 @@ describe("interactive application registry", () => {
       "Awards",
       "Experience",
     ]);
-    expect(app.textContent).toContain("Accepted at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)");
+    expect(app.textContent).toContain("Presented at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)");
     expect(app.textContent).toContain("ASPAI 2026");
     expect(app.textContent).toContain("Best Paper Runner-up Award");
     expect(app.querySelectorAll(".resume-entry--award")).toHaveLength(5);
@@ -200,7 +200,7 @@ describe("interactive application registry", () => {
       "Industry Projects",
       "Side Projects",
     ]);
-    expect(app.querySelector(".folder-content-date")?.textContent).toBe("2026.07");
+    expect(app.querySelector(".folder-content-date")?.textContent).toBe("2026.11");
     expect(app.querySelector(".folder-content-title")?.textContent).toContain("PaCT");
 
     const publications = [...app.querySelectorAll<HTMLButtonElement>(".project-folder")].find(
@@ -211,7 +211,7 @@ describe("interactive application registry", () => {
       "Authors: Mingyun Kang, Yongjae Lee, Kibeom Park, Hyerim Bae*",
     );
     expect(app.querySelector(".project-details__status")?.textContent).toBe(
-      "Accepted at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)",
+      "Presented at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)",
     );
     app.querySelector<HTMLButtonElement>(".explorer-up")?.click();
 

@@ -118,6 +118,7 @@ export const portfolio = {
     },
   ],
   news: [
+    { date: "2026.11", text: "Presented PaCT at ICICIC 2026." },
     { date: "2026.08", text: "PaCHITA received the Best Paper Runner-up Award at ASPAI 2026." },
     { date: "2026.08", text: "Received 장려상 in the 2026년 보훈 공공데이터·AI 활용 아이디어 공모전." },
     { date: "2026.08", text: "Received 우수상 in the KOSSDA 2026 대학생 데이터 시각화 공모전." },
@@ -301,9 +302,9 @@ export const portfolio = {
       description:
         "PaCT is a Transformer-based predictive process monitoring method that uses patch-based multi-channel event-log representations to perform next-activity, remaining-trace, and remaining-runtime prediction.",
       authors: "Mingyun Kang, Yongjae Lee, Kibeom Park, Hyerim Bae*",
-      status: "Accepted at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)",
+      status: "Presented at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)",
       period: "2026.07",
-      completedAt: "2026.07",
+      completedAt: "2026.11",
       stack: ["Process Mining", "Predictive Process Monitoring", "Transformer"],
       venue: "ICICIC 2026",
       figure: { src: "/assets/publications/pact-architecture.webp", alt: "Proposed PaCT framework" },
