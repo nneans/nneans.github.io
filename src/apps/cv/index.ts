@@ -72,7 +72,7 @@ export function renderCv(): HTMLElement {
     page.append(row);
   });
 
-  page.append(element("h2", undefined, "Publications"));
+  page.append(element("h2", undefined, "Conference"));
   publicationIds.forEach((id) => appendResearchRow(page, id));
 
   page.append(element("h2", undefined, "Conference Presentations"));

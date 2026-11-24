@@ -9,7 +9,7 @@ export interface WorkArchiveFolder {
 export const workArchiveFolders: WorkArchiveFolder[] = [
   {
     id: "publications",
-    label: "Publications",
+    label: "Conference",
     description: "Research papers and manuscripts.",
     projectIds: ["pact"],
   },

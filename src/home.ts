@@ -4,7 +4,7 @@ import { portfolio, type Project } from "./config/portfolio";
 const sections = [
   ["about", "About Me", "info"],
   ["news", "News", "note"],
-  ["publications", "Publications", "text"],
+  ["publications", "Conference", "text"],
   ["awards", "Awards", "paint"],
   ["projects", "Projects", "directory"],
   ["study", "Study", "help"],

@@ -65,7 +65,7 @@ describe("interactive application registry", () => {
     expect([...app.querySelectorAll("h2")].map((heading) => heading.textContent)).toEqual([
       "Profile",
       "Education",
-      "Publications",
+      "Conference",
       "Conference Presentations",
       "Awards",
       "Experience",
@@ -194,7 +194,7 @@ describe("interactive application registry", () => {
     const app = renderWorkArchive();
     const labels = [...app.querySelectorAll(".project-folder span")].map((label) => label.textContent);
     expect(labels).toEqual([
-      "Publications",
+      "Conference",
       "Presentations",
       "Competitions",
       "Industry Projects",
@@ -204,7 +204,7 @@ describe("interactive application registry", () => {
     expect(app.querySelector(".folder-content-title")?.textContent).toContain("PaCT");
 
     const publications = [...app.querySelectorAll<HTMLButtonElement>(".project-folder")].find(
-      (button) => button.textContent === "Publications",
+      (button) => button.textContent === "Conference",
     );
     publications?.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
     expect(app.querySelector(".project-details__authors")?.textContent).toBe(
