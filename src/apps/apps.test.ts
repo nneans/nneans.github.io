@@ -208,7 +208,7 @@ describe("interactive application registry", () => {
     );
     publications?.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
     expect(app.querySelector(".project-details__authors")?.textContent).toBe(
-      "Authors: Mingyun Kang, Yongjae Lee, Kibeom Park, Hyerim Bae*",
+      "Authors: Mingyun Kang, Yongjae Lee, Gibeom Park, Hyerim Bae*",
     );
     expect(app.querySelector(".project-details__status")?.textContent).toBe(
       "Presented at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)",
@@ -270,24 +270,25 @@ describe("interactive application registry", () => {
     expect(
       [...app.querySelectorAll(".folder-content-title")].slice(0, 2).map((item) => item.textContent),
     ).toEqual([
+      "2026 POSTECH OIBC 빅데이터 경진대회",
       "2026년 보훈 공공데이터·AI 활용 아이디어 공모전",
-      "KOSSDA 2026 대학생 데이터 시각화 공모전",
     ]);
     expect(
       [...app.querySelectorAll(".folder-content-list .project-award-label")].map((item) => item.textContent),
-    ).toEqual(["장려상", "우수상", "장려상", "우수상", "장려상"]);
+    ).toEqual(["최우수상", "장려상", "우수상", "장려상", "우수상", "장려상"]);
     competitions?.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
     expect(app.querySelector(".project-folder span")?.textContent).toBe(
-      "2026.08 2026년 보훈 공공데이터·AI 활용 아이디어 공모전",
+      "2026.12 2026 POSTECH OIBC 빅데이터 경진대회",
     );
+    app.querySelectorAll<HTMLButtonElement>(".project-folder")[1]?.click();
     expect(app.querySelector(".project-details__meta")?.textContent).toContain(
       "2026.08| AI 기반 준보훈병원 입지 및 커버리지 분석장려상",
     );
-    app.querySelectorAll<HTMLButtonElement>(".project-folder")[1]?.click();
+    app.querySelectorAll<HTMLButtonElement>(".project-folder")[2]?.click();
     expect(app.querySelector(".project-details__award")).toBeNull();
     expect(app.querySelector(".project-details__meta .project-award-label")?.textContent).toBe("우수상");
-    expect(app.querySelector(".app-status")?.textContent).toBe("6 object(s)");
-    app.querySelectorAll<HTMLButtonElement>(".project-folder")[4]?.click();
+    expect(app.querySelector(".app-status")?.textContent).toBe("7 object(s)");
+    app.querySelectorAll<HTMLButtonElement>(".project-folder")[5]?.click();
     expect(
       [...app.querySelectorAll<HTMLAnchorElement>(".archive-viewer-toolbar a")].map((link) => link.textContent),
     ).toEqual(["Open PDF ↗", "GitHub ↗"]);

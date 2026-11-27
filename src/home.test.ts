@@ -1,7 +1,7 @@
 
 import { afterEach, expect, it } from "vitest";
 import { portfolio } from "./config/portfolio";
-import { createHome, homeSectionId, setActiveSection } from "./home";
+import { achievementCounts, createHome, homeSectionId, setActiveSection } from "./home";
 
 afterEach(() => window.history.replaceState(null, "", "/"));
 
@@ -47,11 +47,12 @@ it("shows each conference paper with its venue, newest first", () => {
 
 it("splits awards, industry projects and study material into separate sections", () => {
   const home = createHome();
-  const titlesIn = (id: string) => [...home.querySelectorAll(`#${id} li > strong`)].map((node) => node.textContent);
+  const titlesIn = (id: string) => [...home.querySelectorAll(`#${id} .home-dated__body > strong`)].map((node) => node.textContent);
   expect(titlesIn("study")).toContain("Data-Aware LSTM for Predictive Process Monitoring");
   expect(titlesIn("projects")).not.toContain("Data-Aware LSTM for Predictive Process Monitoring");
-  expect(titlesIn("awards")).toContain("풍력 발전량 예측");
-  expect(titlesIn("awards").some((title) => title?.startsWith("뽀뽀"))).toBe(false);
+  const awardEntries = [...home.querySelectorAll("#awards .home-awards__entry")].map((node) => node.textContent);
+  expect(awardEntries).toContain("기상/환경 데이터를 활용한 하루 전 풍력 발전량 예측");
+  expect(awardEntries.some((title) => title?.startsWith("뽀뽀"))).toBe(false);
   expect(titlesIn("projects")).toEqual([
     "이커머스 리뷰 데이터 자동 수집 및 AI 기반 긍·부정 카테고리 분류 대시보드 구축",
     "AI 동작분석 기반 현장 표준작업지도서 구축",
@@ -59,5 +60,17 @@ it("splits awards, industry projects and study material into separate sections",
   ]);
   expect(home.querySelector("#projects")?.textContent).toContain("고모텍(주)");
   ["awards", "projects", "study"].forEach((id) => expect(home.querySelectorAll(`#${id} a`)).toHaveLength(0));
-  expect(home.querySelectorAll("#news li")).toHaveLength(portfolio.news.length);
+  expect(home.querySelectorAll("#news li")).toHaveLength(Math.min(5, portfolio.news.length));
+  expect(home.querySelector("#news li")?.textContent).toContain(portfolio.news[0].text);
+});
+
+it("shows achievement counts in the sidebar", () => {
+  expect(achievementCounts().map(({ label, count }) => [label, count])).toEqual([
+    ["Conference", 2],
+    ["Awards", 7],
+    ["Projects", 3],
+  ]);
+  const stats = [...createHome().querySelectorAll(".home-sidebar .home-stat")];
+  expect(stats.map((stat) => stat.textContent)).toEqual(["Conference2", "Awards7", "Projects3"]);
+  expect(createHome().querySelectorAll(".home-sidebar .home-stats a")).toHaveLength(0);
 });

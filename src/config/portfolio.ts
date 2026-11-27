@@ -93,21 +93,16 @@ export const portfolio = {
   github: "https://github.com/nneans",
   labUrl: "https://pnubaelab.github.io/",
   about:
-    "Master's student in Industrial Data Engineering at Pusan National University, advised by Professor Hyerim Bae. My research focuses on process mining.",
+    "Master's student in Industrial Data Engineering at Pusan National University, advised by Professor Hyerim Bae. I work on process mining, time series forecasting, and data analytics across diverse domains, building models that turn operational data into reliable predictions.",
   aboutMe: [
     "HI👋👋, I'm Mingyun Kang. I'm a master's student in Industrial Data Engineering at BAE LAB, Pusan National University, advised by Professor Hyerim Bae.",
-    "My research focuses on process mining. This space is my digital workspace—documenting research notes, dev projects, travel photos, and other things I enjoy.",
+    "I work on process mining, time series forecasting, and data analytics across diverse domains, building models that turn operational data into reliable predictions. This space is my digital workspace—documenting research notes, dev projects, travel photos, and other things I enjoy.",
   ],
   introduction:
-    "I'm a master's student in Industrial Data Engineering at BAE LAB, Pusan National University, advised by Prof. Hyerim Bae. My research focuses on process mining: discovering, monitoring, and predicting process behavior from event data, the fine-grained records from which most operational data originate.",
-  interests: ["Predictive Process Monitoring", "Process Anomaly Detection", "Agentic AI for Process Mining"],
+    "I'm a master's student in Industrial Data Engineering at BAE LAB, Pusan National University, advised by Prof. Hyerim Bae. I work on process mining, time series forecasting, and data analytics across diverse domains, building models that turn operational data into reliable predictions.",
+  interests: ["Process Mining", "Time Series Forecasting", "Anomaly Detection", "Agentic AI for Data Analytics"],
   education: [
-    {
-      degree: "M.S. in Industrial Data Engineering",
-      school: "Pusan National University · BAE LAB",
-      period: "2026.08–Present",
-      note: "Advisor: Prof. Hyerim Bae",
-    },
+    { degree: "M.S. in Industrial Data Engineering", school: "Pusan National University · BAE LAB", period: "2026.08–Present" },
     { degree: "B.S. in Statistics", school: "Pusan National University", period: "2022.03–2026.08" },
   ],
   experience: [
@@ -118,6 +113,7 @@ export const portfolio = {
     },
   ],
   news: [
+    { date: "2026.12", text: "Received 최우수상 in the 2026 POSTECH OIBC 빅데이터 경진대회." },
     { date: "2026.11", text: "Presented PaCT at ICICIC 2026." },
     { date: "2026.08", text: "PaCHITA received the Best Paper Runner-up Award at ASPAI 2026." },
     { date: "2026.08", text: "Received 장려상 in the 2026년 보훈 공공데이터·AI 활용 아이디어 공모전." },
@@ -126,9 +122,20 @@ export const portfolio = {
   ],
   projects: [
     {
+      id: "oibc-solar",
+      title: "2026 POSTECH OIBC 빅데이터 경진대회",
+      entryTitle: "태양광 발전량 하루 전 예측",
+      description: "Day-ahead solar power generation forecasting for aggregated small-scale PV resources (VPP).",
+      period: "2026.12",
+      completedAt: "2026.12",
+      stack: ["Time Series", "Solar Power Forecasting"],
+      awardLabel: "최우수상",
+      links: [],
+    },
+    {
       id: "wind-power",
       title: "2025 B.D.A x 동서발전 x 60Hz 풍력 발전량 예측 공모전",
-      entryTitle: "풍력 발전량 예측",
+      entryTitle: "기상/환경 데이터를 활용한 하루 전 풍력 발전량 예측",
       description: "A time-aware weighted ensemble using LightGBM and XGBoost with physics-informed and lag features.",
       period: "2025.12",
       completedAt: "2025.12",
@@ -301,7 +308,7 @@ export const portfolio = {
       title: "PaCT: Patch-Based Multi-Channel Transformer for Predictive Process Monitoring",
       description:
         "PaCT is a Transformer-based predictive process monitoring method that uses patch-based multi-channel event-log representations to perform next-activity, remaining-trace, and remaining-runtime prediction.",
-      authors: "Mingyun Kang, Yongjae Lee, Kibeom Park, Hyerim Bae*",
+      authors: "Mingyun Kang, Yongjae Lee, Gibeom Park, Hyerim Bae*",
       status: "Presented at the 20th International Conference on Innovative Computing, Information and Control (ICICIC 2026)",
       period: "2026.07",
       completedAt: "2026.11",

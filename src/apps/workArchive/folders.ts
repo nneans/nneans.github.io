@@ -32,6 +32,7 @@ export const workArchiveFolders: WorkArchiveFolder[] = [
     label: "Competitions",
     description: "Competition entries and award-winning data projects.",
     projectIds: [
+      "oibc-solar",
       "veterans-hospital-analysis",
       "minimum-wage-impact-analysis",
       "wind-power",

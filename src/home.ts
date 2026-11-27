@@ -15,6 +15,7 @@ const sections = [
 type SectionId = (typeof sections)[number][0];
 
 const newestFirst = (a: Project, b: Project) => b.completedAt.localeCompare(a.completedAt);
+const awarded = () => portfolio.projects.filter((item) => item.awardLabel).sort(newestFirst);
 
 function archived(...folderIds: string[]): Project[] {
   const ids: string[] = [];
@@ -78,9 +79,20 @@ function section(content: HTMLElement, id: SectionId): HTMLElement {
   return node;
 }
 
+function awardTier(label: string): "grand" | "excellence" | "merit" | "paper" {
+  if (/최우수|대상/.test(label)) return "grand";
+  if (/우수/.test(label)) return "excellence";
+  if (/장려/.test(label)) return "merit";
+  return "paper";
+}
+
 function datedItem(date: string, ...content: (Node | string)[]): HTMLLIElement {
   const item = el("li");
-  item.append(el("em", "home-date", date), " ", ...content);
+  const body = el("span", "home-dated__body");
+  body.append(...content);
+  const row = el("span", "home-dated");
+  row.append(el("em", "home-date", date), body);
+  item.append(row);
   return item;
 }
 
@@ -99,9 +111,28 @@ function publication(project: Project): HTMLElement {
   const copy = el("div", "home-paper__copy");
   copy.append(el("h3", "", project.title));
   if (project.authors) copy.append(authorLine(project.authors));
-  if (project.status) copy.append(el("p", "home-paper__status", project.status));
+  const conference = project.status?.replace(/^(Presented|Accepted) at (the )?/, "").replace(/ · .*$/, "").replace(/ \([^)]*\)$/, "");
+  if (conference) copy.append(el("p", "home-paper__venue-name", conference));
   paper.append(copy);
   return paper;
+}
+
+export function achievementCounts(): { label: string; count: number }[] {
+  return [
+    { label: "Conference", count: portfolio.projects.filter((item) => item.venue).length },
+    { label: "Awards", count: awarded().length },
+    { label: "Projects", count: archived("industry-projects").length },
+  ];
+}
+
+function createStats(): HTMLElement {
+  const stats = el("div", "home-stats");
+  achievementCounts().forEach(({ label, count }) => {
+    const stat = el("div", "home-stat");
+    stat.append(el("span", "", label), el("strong", "home-stat__screen", count ? String(count) : "—"));
+    stats.append(stat);
+  });
+  return stats;
 }
 
 function createSidebar(): HTMLElement {
@@ -128,6 +159,7 @@ function createSidebar(): HTMLElement {
     el("p", "home-profile-school", "Pusan National University"),
     el("p", "home-profile-role", "Master's student, Industrial Data Engineering"),
     contacts,
+    createStats(),
   );
   return sidebar;
 }
@@ -172,7 +204,13 @@ function createContent(): HTMLElement {
 
   const news = section(content, "news");
   const newsList = el("ul");
-  portfolio.news.forEach((item) => newsList.append(datedItem(`${item.date}:`, item.text)));
+  const awardLabels = [...new Set(awarded().map((item) => item.awardLabel!))].sort((a, b) => b.length - a.length);
+  const awardPattern = new RegExp(`(${awardLabels.join("|")})`);
+  portfolio.news.slice(0, 5).forEach((item) => {
+    const parts = item.text.split(awardPattern).map((part, index) =>
+      index % 2 ? el("span", `home-award home-award--${awardTier(part)}`, part) : part);
+    newsList.append(datedItem(`${item.date}:`, ...parts));
+  });
   news.append(newsList);
 
   const publications = section(content, "publications");
@@ -180,19 +218,27 @@ function createContent(): HTMLElement {
     .forEach((item) => publications.append(publication(item)));
 
   const awards = section(content, "awards");
-  const awardList = el("ul");
-  archived("competitions").filter((item) => item.awardLabel).forEach((item) => {
-    const entry: (Node | string)[] = [el("strong", "", item.entryTitle || item.title)];
-    if (item.entryTitle) entry.push(", ", el("span", "home-muted", item.title));
-    awardList.append(datedItem(item.completedAt, ...entry, " ", el("span", "home-award", item.awardLabel!)));
+  const awardTable = el("table", "home-awards");
+  const awardRows = el("tbody");
+  awarded().forEach((item) => {
+    const row = el("tr");
+    const award = el("td");
+    award.append(el("span", `home-award home-award--${awardTier(item.awardLabel!)}`, item.awardLabel!.replace(/ Award$/, "").replace(" Runner-up", "\nRunner-up")));
+    const what = el("td");
+    what.append(el("strong", "", item.venue ?? item.title));
+    const entry = item.venue ? item.title : item.entryTitle;
+    if (entry) what.append(el("span", "home-muted home-awards__entry", entry));
+    row.append(el("td", "home-date", item.completedAt), award, what);
+    awardRows.append(row);
   });
-  awards.append(awardList);
+  awardTable.append(awardRows);
+  awards.append(awardTable);
 
   const projects = section(content, "projects");
   const projectList = el("ul");
   archived("industry-projects").forEach((item) => {
     const entry: (Node | string)[] = [el("strong", "", item.title)];
-    if (item.partner) entry.push(", ", el("span", "home-muted", item.partner));
+    if (item.partner) entry.push(", ", el("span", "home-muted home-nowrap", item.partner));
     projectList.append(datedItem(item.period, ...entry));
   });
   projects.append(projectList);
@@ -209,11 +255,6 @@ function createContent(): HTMLElement {
   portfolio.education.forEach((item) => {
     const entry = el("li");
     entry.append(el("strong", "", item.degree), `, ${item.school} (${item.period})`);
-    if (item.note) {
-      const detail = el("ul");
-      detail.append(el("li", "", item.note));
-      entry.append(detail);
-    }
     educationList.append(entry);
   });
   education.append(educationList);
