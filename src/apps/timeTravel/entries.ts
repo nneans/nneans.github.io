@@ -20,6 +20,20 @@ export interface TimeTravelEntry {
 
 export const timeTravelEntries: TimeTravelEntry[] = [
   {
+    id: "icicic-2026",
+    location: "Chongqing",
+    country: "China",
+    category: "Conference",
+    photos: [{
+      src: "/assets/time-travel/2026-11-22-icicic-presentation.webp",
+      alt: "Presenting PaCT on stage at ICICIC 2026 in Chongqing",
+      date: "2026.11.22",
+      title: "PaCT Presentation at ICICIC 2026",
+      description: "Presenting PaCT at the 20th International Conference on Innovative Computing, Information and Control.",
+      layout: "wide",
+    }],
+  },
+  {
     id: "fukuoka-2026",
 
     location: "Fukuoka",

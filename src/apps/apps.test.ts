@@ -145,22 +145,22 @@ describe("interactive application registry", () => {
       "2026",
       "2025",
     ]);
-    expect(app.querySelectorAll(".time-travel-gallery-card")).toHaveLength(40);
-    expect(app.querySelectorAll(".time-travel-gallery-card--wide")).toHaveLength(11);
+    expect(app.querySelectorAll(".time-travel-gallery-card")).toHaveLength(41);
+    expect(app.querySelectorAll(".time-travel-gallery-card--wide")).toHaveLength(12);
     expect(app.querySelectorAll(".time-travel-gallery-card--large")).toHaveLength(1);
     expect(app.querySelectorAll(".time-travel-gallery-card--tall")).toHaveLength(26);
     expect(
       [...app.querySelectorAll<HTMLElement>(".time-travel-year-section:first-child .time-travel-photo-row:first-child .time-travel-gallery-card")]
         .map((card) => card.dataset.entryId),
-    ).toEqual(["fukuoka-2026", "fukuoka-2026", "fukuoka-2026"]);
+    ).toEqual(["icicic-2026", "fukuoka-2026", "fukuoka-2026"]);
     expect(
       [...app.querySelectorAll<HTMLElement>(".time-travel-year-section:first-child .time-travel-photo-row:nth-child(2) .time-travel-gallery-card")]
         .map((card) => card.dataset.entryId),
-    ).toEqual(["fukuoka-2026", "fukuoka-2026", "veterans-data-award-2026"]);
+    ).toEqual(["fukuoka-2026", "fukuoka-2026", "fukuoka-2026"]);
     expect(
       [...app.querySelectorAll<HTMLElement>(".time-travel-year-section:first-child .time-travel-photo-row:nth-child(3) .time-travel-gallery-card")]
         .map((card) => card.dataset.entryId),
-    ).toEqual(["aspai-2026", "aspai-2026", "graduation-address-2026"]);
+    ).toEqual(["veterans-data-award-2026", "aspai-2026", "aspai-2026"]);
     expect(app.querySelector<HTMLElement>('[data-entry-id="mukho-2026"] .time-travel-card-overlay strong')?.textContent).toBe(
       "2026.01.30",
     );
