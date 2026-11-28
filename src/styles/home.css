@@ -134,12 +134,12 @@ body.home-mode {
 .home-dated .home-date { flex-shrink: 0; }
 .home-dated__body { min-width: 0; word-break: keep-all; }
 .home-awards { width: 100%; border-collapse: collapse; }
-.home-awards td { padding: 7px 0; vertical-align: top; }
+.home-awards td { padding: 7px 0; vertical-align: top; word-break: keep-all; }
 .home-awards tr + tr td { border-top: 1px solid var(--surface-light); }
 .home-awards td:first-child { width: 1%; padding-right: 14px; white-space: nowrap; }
 .home-awards td:nth-child(2) { width: 1%; padding-right: 14px; }
 .home-awards__entry { display: block; font-size: 13px; }
-.home-award { display: inline-block; white-space: pre; }
+.home-awards .home-award { display: inline-block; white-space: pre; }
 .home-award--grand { color: #b0121c; }
 .home-award--excellence { color: #1a46a0; }
 .home-award--merit { color: #1f6e38; }
@@ -202,5 +202,7 @@ body.home-mode {
   .home-awards tr + tr { border-top: 1px solid var(--surface-light); }
   .home-awards td, .home-awards tr + tr td { width: auto; padding: 0; border: 0; }
   .home-awards td:last-child { grid-column: 1 / -1; }
+  .home-awards td:nth-child(2) { width: auto; }
+  .home-awards .home-award { white-space: nowrap; }
   .home-footer { margin: 0 16px 20px; overflow-wrap: anywhere; }
 }
